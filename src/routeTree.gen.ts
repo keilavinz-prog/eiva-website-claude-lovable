@@ -10,11 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
+import { Route as ProyectosIndexRouteImport } from './routes/proyectos.index'
+import { Route as ProyectosSlugRouteImport } from './routes/proyectos.$slug'
+import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
+import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
+  id: '/sobre-nosotros',
+  path: '/sobre-nosotros',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StyleGuideRoute = StyleGuideRouteImport.update({
@@ -22,31 +38,100 @@ const StyleGuideRoute = StyleGuideRouteImport.update({
   path: '/style-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProyectosIndexRoute = ProyectosIndexRouteImport.update({
+  id: '/proyectos/',
+  path: '/proyectos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProyectosSlugRoute = ProyectosSlugRouteImport.update({
+  id: '/proyectos/$slug',
+  path: '/proyectos/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
+  id: '/servicios/',
+  path: '/servicios/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosSlugRoute = ServiciosSlugRouteImport.update({
+  id: '/servicios/$slug',
+  path: '/servicios/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contacto': typeof ContactoRoute
+  '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/proyectos/$slug': typeof ProyectosSlugRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
+  '/proyectos/': typeof ProyectosIndexRoute
+  '/servicios/': typeof ServiciosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contacto': typeof ContactoRoute
+  '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/proyectos/$slug': typeof ProyectosSlugRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
+  '/proyectos': typeof ProyectosIndexRoute
+  '/servicios': typeof ServiciosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contacto': typeof ContactoRoute
+  '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/proyectos/$slug': typeof ProyectosSlugRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
+  '/proyectos/': typeof ProyectosIndexRoute
+  '/servicios/': typeof ServiciosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/style-guide'
+  fullPaths:
+    | '/'
+    | '/contacto'
+    | '/sobre-nosotros'
+    | '/style-guide'
+    | '/proyectos/$slug'
+    | '/servicios/$slug'
+    | '/proyectos/'
+    | '/servicios/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/style-guide'
-  id: '__root__' | '/' | '/style-guide'
+  to:
+    | '/'
+    | '/contacto'
+    | '/sobre-nosotros'
+    | '/style-guide'
+    | '/proyectos/$slug'
+    | '/servicios/$slug'
+    | '/proyectos'
+    | '/servicios'
+  id:
+    | '__root__'
+    | '/'
+    | '/contacto'
+    | '/sobre-nosotros'
+    | '/style-guide'
+    | '/proyectos/$slug'
+    | '/servicios/$slug'
+    | '/proyectos/'
+    | '/servicios/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactoRoute: typeof ContactoRoute
+  SobreNosotrosRoute: typeof SobreNosotrosRoute
   StyleGuideRoute: typeof StyleGuideRoute
+  ProyectosSlugRoute: typeof ProyectosSlugRoute
+  ServiciosSlugRoute: typeof ServiciosSlugRoute
+  ProyectosIndexRoute: typeof ProyectosIndexRoute
+  ServiciosIndexRoute: typeof ServiciosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +143,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre-nosotros': {
+      id: '/sobre-nosotros'
+      path: '/sobre-nosotros'
+      fullPath: '/sobre-nosotros'
+      preLoaderRoute: typeof SobreNosotrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/style-guide': {
       id: '/style-guide'
       path: '/style-guide'
@@ -65,12 +164,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StyleGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/proyectos/': {
+      id: '/proyectos/'
+      path: '/proyectos'
+      fullPath: '/proyectos/'
+      preLoaderRoute: typeof ProyectosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proyectos/$slug': {
+      id: '/proyectos/$slug'
+      path: '/proyectos/$slug'
+      fullPath: '/proyectos/$slug'
+      preLoaderRoute: typeof ProyectosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios/': {
+      id: '/servicios/'
+      path: '/servicios'
+      fullPath: '/servicios/'
+      preLoaderRoute: typeof ServiciosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios/$slug': {
+      id: '/servicios/$slug'
+      path: '/servicios/$slug'
+      fullPath: '/servicios/$slug'
+      preLoaderRoute: typeof ServiciosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactoRoute: ContactoRoute,
+  SobreNosotrosRoute: SobreNosotrosRoute,
   StyleGuideRoute: StyleGuideRoute,
+  ProyectosSlugRoute: ProyectosSlugRoute,
+  ServiciosSlugRoute: ServiciosSlugRoute,
+  ProyectosIndexRoute: ProyectosIndexRoute,
+  ServiciosIndexRoute: ServiciosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

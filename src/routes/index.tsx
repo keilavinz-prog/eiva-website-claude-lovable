@@ -39,7 +39,7 @@ function HomePage() {
         <FeaturedServices services={services} />
         <FeaturedProjects projects={projects} />
         <Testimonials testimonials={testimonials} />
-        <FinalCta phone={company.phone} />
+        <FinalCta />
       </main>
       <Footer company={company} />
     </div>

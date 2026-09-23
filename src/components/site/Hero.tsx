@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { HeroVideo } from "./HeroVideo";
 import { EnergyLines } from "./EnergyLines";
 import { HERO_VIDEOS } from "@/lib/media";
@@ -25,12 +26,12 @@ export function Hero({ company }: { company: CompanyInfo }) {
             {company.slogan}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <a href="#contacto" className="btn-primary px-7 py-3.5 text-base">
+            <Link to="/contacto" className="btn-primary px-7 py-3.5 text-base">
               Solicitar Presupuesto
-            </a>
-            <a href="#proyectos" className="btn-secondary px-7 py-3.5 text-base backdrop-blur">
+            </Link>
+            <Link to="/proyectos" className="btn-secondary px-7 py-3.5 text-base backdrop-blur">
               Ver Proyectos
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 
 export const NAV_LINKS = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Sobre Nosotros", href: "#nosotros" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Inicio", to: "/" },
+  { label: "Servicios", to: "/servicios" },
+  { label: "Proyectos", to: "/proyectos" },
+  { label: "Sobre Nosotros", to: "/sobre-nosotros" },
+  { label: "Contacto", to: "/contacto" },
 ] as const;
 
 export function Header() {
@@ -28,29 +29,31 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
-        <a href="#inicio" className="shrink-0" onClick={() => setOpen(false)}>
+        <Link to="/" className="shrink-0" onClick={() => setOpen(false)}>
           <Logo />
-        </a>
+        </Link>
 
         <nav aria-label="Navegación principal" className="hidden lg:block">
           <ul className="flex items-center gap-8 text-sm">
             {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  activeOptions={{ exact: link.to === "/" }}
                   className="text-text-muted transition-colors duration-200 hover:text-text"
+                  activeProps={{ className: "text-text font-medium" }}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
 
         <div className="flex items-center gap-3">
-          <a href="#contacto" className="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">
+          <Link to="/contacto" className="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">
             Pedir Presupuesto
-          </a>
+          </Link>
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-text lg:hidden"
@@ -72,24 +75,26 @@ export function Header() {
         >
           <ul className="mx-auto flex max-w-7xl flex-col px-5 py-4 sm:px-8">
             {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  activeOptions={{ exact: link.to === "/" }}
                   onClick={() => setOpen(false)}
                   className="block py-3 text-base text-text-muted transition-colors hover:text-text"
+                  activeProps={{ className: "text-text font-medium" }}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li className="pt-3 sm:hidden">
-              <a
-                href="#contacto"
+              <Link
+                to="/contacto"
                 onClick={() => setOpen(false)}
                 className="btn-primary w-full px-5 py-3 text-sm"
               >
                 Pedir Presupuesto
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

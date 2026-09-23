@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Clock, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
 import { NAV_LINKS } from "./Header";
@@ -27,7 +28,7 @@ export function Footer({ company }: { company: CompanyInfo }) {
   ].filter((c) => c.value);
 
   return (
-    <footer id="contacto" className="border-t border-line bg-surface">
+    <footer className="border-t border-line bg-surface">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <Logo className="text-2xl" />
@@ -69,10 +70,10 @@ export function Footer({ company }: { company: CompanyInfo }) {
           <h2 className="font-mono text-xs text-electric">Enlaces rápidos</h2>
           <ul className="mt-5 space-y-3 text-sm">
             {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a href={link.href} className="text-text-muted transition-colors hover:text-text">
+              <li key={link.to}>
+                <Link to={link.to} className="text-text-muted transition-colors hover:text-text">
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

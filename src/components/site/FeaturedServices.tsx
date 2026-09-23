@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -25,17 +26,23 @@ export function FeaturedServices({ services }: { services: Service[] }) {
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-text-muted">
                   {s.short_description}
                 </p>
-                <a
-                  href="#"
+                <Link
+                  to="/servicios/$slug"
+                  params={{ slug: s.slug }}
                   className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-electric hover:underline"
                   aria-label={`Ver más sobre ${s.title}`}
                 >
                   Ver más
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                </Link>
               </article>
             </Reveal>
           ))}
+        </div>
+        <div className="mt-10">
+          <Link to="/servicios" className="btn-secondary px-6 py-3 text-sm">
+            Ver todos los servicios
+          </Link>
         </div>
       </div>
     </section>

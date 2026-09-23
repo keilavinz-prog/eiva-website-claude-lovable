@@ -289,6 +289,16 @@
   animation: energy-flow 7s linear infinite;
 }
 
+/* Barra de progreso de los clips del hero */
+@keyframes hero-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 @keyframes glow-breathe {
   0%,
   100% {

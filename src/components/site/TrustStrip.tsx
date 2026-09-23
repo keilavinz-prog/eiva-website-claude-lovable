@@ -1,4 +1,6 @@
 import { Reveal } from "./Reveal";
+import { VideoBackground } from "./VideoBackground";
+import { TRUST_VIDEO } from "@/lib/media";
 
 export function TrustStrip({ foundedYear }: { foundedYear: number | null }) {
   const years = new Date().getFullYear() - (foundedYear ?? 1998);
@@ -13,9 +15,10 @@ export function TrustStrip({ foundedYear }: { foundedYear: number | null }) {
     <section
       id="nosotros"
       aria-label="Datos de confianza"
-      className="border-y border-line bg-surface"
+      className="relative isolate overflow-hidden border-y border-line"
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-2 lg:grid-cols-4">
+      <VideoBackground video={TRUST_VIDEO} overlay="bg-canvas/80" />
+      <div className="mx-auto grid max-w-7xl grid-cols-2 py-6 sm:py-12 lg:grid-cols-4">
         {metrics.map((m, i) => (
           <Reveal
             key={m.label}

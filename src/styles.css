@@ -9,6 +9,8 @@
  * Fuente única de verdad de los tokens. Los componentes usan SOLO
  * estas variables / utilidades de Tailwind derivadas de ellas.
  * La web es siempre oscura: :root y .dark comparten valores.
+ * Nota: el fondo base se expone como "canvas" (bg-canvas) para no
+ * chocar con la utilidad de tamaño de texto "text-base".
  */
 
 @theme inline {
@@ -30,7 +32,7 @@
   --shadow-glow-strong: var(--shadow-token-glow-strong);
 
   /* Colores de marca */
-  --color-base: var(--eeiva-bg);
+  --color-canvas: var(--eeiva-bg);
   --color-surface: var(--eeiva-surface);
   --color-surface-elevated: var(--eeiva-surface-elevated);
   --color-line: var(--eeiva-border);

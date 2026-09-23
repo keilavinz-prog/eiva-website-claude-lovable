@@ -6,7 +6,7 @@ export function Hero({ company }: { company: CompanyInfo }) {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-base pt-16"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-canvas pt-16"
     >
       <EnergyLines />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-24 sm:px-8">

@@ -19,7 +19,7 @@ function Stars({ rating }: { rating: number }) {
 
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   return (
-    <section id="opiniones" className="border-t border-line bg-base py-24 sm:py-32">
+    <section id="opiniones" className="border-t border-line bg-canvas py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <SectionHeading kicker="// opiniones" title="Lo que dicen nuestros clientes" />

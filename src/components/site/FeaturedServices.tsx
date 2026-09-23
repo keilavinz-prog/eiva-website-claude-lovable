@@ -6,7 +6,7 @@ import type { Service } from "@/lib/home-data";
 
 export function FeaturedServices({ services }: { services: Service[] }) {
   return (
-    <section id="servicios" className="bg-base py-24 sm:py-32">
+    <section id="servicios" className="bg-canvas py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <SectionHeading kicker="// servicios" title="Servicios destacados" />

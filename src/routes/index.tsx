@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   const { company, services, projects, testimonials } = Route.useLoaderData();
   return (
-    <div className="min-h-screen bg-base text-text">
+    <div className="min-h-screen bg-canvas text-text">
       <Header />
       <main>
         <Hero company={company} />

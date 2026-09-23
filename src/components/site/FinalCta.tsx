@@ -3,7 +3,7 @@ import { Reveal } from "./Reveal";
 export function FinalCta({ phone }: { phone: string | null }) {
   const href = phone ? `tel:${phone.replace(/\s+/g, "")}` : "#contacto";
   return (
-    <section className="relative isolate overflow-hidden border-t border-line bg-gradient-to-b from-surface to-base py-24 sm:py-32">
+    <section className="relative isolate overflow-hidden border-t border-line bg-gradient-to-b from-surface to-canvas py-24 sm:py-32">
       <div
         aria-hidden="true"
         className="glow-breathe absolute top-1/2 left-1/2 -z-10 h-80 w-[40rem] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-electric/20 blur-3xl"

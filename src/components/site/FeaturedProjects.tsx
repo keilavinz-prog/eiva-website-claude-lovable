@@ -56,7 +56,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
                     }
                     alt={p.title}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-base/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent" />
                   <span className="badge-amber absolute top-4 left-4 backdrop-blur">
                     {p.category}
                   </span>

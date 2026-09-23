@@ -14,7 +14,368 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          calendar_event_id: string | null
+          client_id: string | null
+          created_at: string
+          email: string
+          id: string
+          meet_link: string | null
+          meeting_type: string
+          name: string
+          phone: string | null
+          preferred_date: string
+          preferred_time: string
+          service_id: string | null
+          status: string
+        }
+        Insert: {
+          calendar_event_id?: string | null
+          client_id?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          meet_link?: string | null
+          meeting_type?: string
+          name: string
+          phone?: string | null
+          preferred_date: string
+          preferred_time: string
+          service_id?: string | null
+          status?: string
+        }
+        Update: {
+          calendar_event_id?: string | null
+          client_id?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          meet_link?: string | null
+          meeting_type?: string
+          name?: string
+          phone?: string | null
+          preferred_date?: string
+          preferred_time?: string
+          service_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_info: {
+        Row: {
+          address: string | null
+          cif: string | null
+          created_at: string
+          email: string | null
+          founded_year: number | null
+          id: number
+          name: string
+          phone: string | null
+          schedule: string | null
+          slogan: string
+          whatsapp: string | null
+        }
+        Insert: {
+          address?: string | null
+          cif?: string | null
+          created_at?: string
+          email?: string | null
+          founded_year?: number | null
+          id: number
+          name?: string
+          phone?: string | null
+          schedule?: string | null
+          slogan?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string | null
+          cif?: string | null
+          created_at?: string
+          email?: string | null
+          founded_year?: number | null
+          id?: number
+          name?: string
+          phone?: string | null
+          schedule?: string | null
+          slogan?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      contact_requests: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          service_id: string | null
+          source: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          service_id?: string | null
+          source?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          service_id?: string | null
+          source?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_requests_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          role: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id: string
+          phone?: string | null
+          role?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          role?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          category: string
+          client_name: string | null
+          completion_date: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          gallery_urls: string[] | null
+          id: string
+          image_url: string | null
+          location: string | null
+          power_detail: string | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          category: string
+          client_name?: string | null
+          completion_date?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          gallery_urls?: string[] | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          power_detail?: string | null
+          slug: string
+          title: string
+        }
+        Update: {
+          category?: string
+          client_name?: string | null
+          completion_date?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          gallery_urls?: string[] | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          power_detail?: string | null
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      providers: {
+        Row: {
+          company_name: string
+          contact_name: string | null
+          created_at: string
+          email: string | null
+          id: string
+          phone: string | null
+          service_category: string | null
+          status: string
+        }
+        Insert: {
+          company_name: string
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone?: string | null
+          service_category?: string | null
+          status?: string
+        }
+        Update: {
+          company_name?: string
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone?: string | null
+          service_category?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          category: string | null
+          created_at: string
+          featured: boolean
+          full_description: string | null
+          icon: string
+          id: string
+          order_index: number
+          short_description: string
+          slug: string
+          title: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          featured?: boolean
+          full_description?: string | null
+          icon: string
+          id?: string
+          order_index?: number
+          short_description: string
+          slug: string
+          title: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          featured?: boolean
+          full_description?: string | null
+          icon?: string
+          id?: string
+          order_index?: number
+          short_description?: string
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          bio: string | null
+          created_at: string
+          full_name: string
+          id: string
+          order_index: number
+          photo_url: string | null
+          role_title: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          full_name: string
+          id?: string
+          order_index?: number
+          photo_url?: string | null
+          role_title: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          order_index?: number
+          photo_url?: string | null
+          role_title?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          author_name: string
+          avatar_url: string | null
+          content: string
+          created_at: string
+          featured: boolean
+          id: string
+          rating: number
+          role_context: string | null
+        }
+        Insert: {
+          author_name: string
+          avatar_url?: string | null
+          content: string
+          created_at?: string
+          featured?: boolean
+          id?: string
+          rating?: number
+          role_context?: string | null
+        }
+        Update: {
+          author_name?: string
+          avatar_url?: string | null
+          content?: string
+          created_at?: string
+          featured?: boolean
+          id?: string
+          rating?: number
+          role_context?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

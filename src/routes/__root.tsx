@@ -77,23 +77,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Plantilla web básica" },
+      { title: "EEIVA Instalaciones Eléctricas S.L." },
       {
         name: "description",
         content:
-          "Plantilla web básica de una sola página, en español, con estructura neutra y textos de relleno.",
+          "Instalaciones eléctricas, boletines CIE, domótica, recarga de vehículo eléctrico y energía solar en Valencia.",
       },
-      { property: "og:title", content: "Plantilla web básica" },
-      {
-        property: "og:description",
-        content:
-          "Plantilla web básica de una sola página, en español, con estructura neutra y textos de relleno.",
-      },
+      { name: "theme-color", content: "#0A0E14" },
+      { property: "og:title", content: "EEIVA Instalaciones Eléctricas S.L." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
@@ -109,7 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className="dark">
       <head>
         <HeadContent />
       </head>

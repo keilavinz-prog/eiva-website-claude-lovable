@@ -1,4 +1,5 @@
 import { HeroVideo } from "./HeroVideo";
+import { EnergyLines } from "./EnergyLines";
 import { HERO_VIDEOS } from "@/lib/media";
 import type { CompanyInfo } from "@/lib/home-data";
 
@@ -7,9 +8,10 @@ export function Hero({ company }: { company: CompanyInfo }) {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-canvas pt-16"
+      className="theme-space relative isolate flex min-h-[100svh] items-center overflow-hidden bg-canvas pt-16"
     >
       <HeroVideo videos={HERO_VIDEOS} />
+      <EnergyLines />
       <div className="relative mx-auto w-full max-w-7xl px-5 pt-24 pb-36 sm:px-8">
         <div className="max-w-3xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-text/15 bg-canvas/50 px-3 py-1 font-mono text-xs text-text backdrop-blur">

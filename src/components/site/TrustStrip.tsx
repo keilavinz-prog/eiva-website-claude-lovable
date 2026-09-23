@@ -1,5 +1,6 @@
 import { Reveal } from "./Reveal";
 import { VideoBackground } from "./VideoBackground";
+import { EnergyLines } from "./EnergyLines";
 import { TRUST_VIDEO } from "@/lib/media";
 
 export function TrustStrip({ foundedYear }: { foundedYear: number | null }) {
@@ -15,10 +16,11 @@ export function TrustStrip({ foundedYear }: { foundedYear: number | null }) {
     <section
       id="nosotros"
       aria-label="Datos de confianza"
-      className="relative isolate overflow-hidden border-y border-line"
+      className="theme-space relative isolate overflow-hidden border-y border-line bg-canvas"
     >
       <VideoBackground video={TRUST_VIDEO} overlay="bg-canvas/80" />
-      <div className="mx-auto grid max-w-7xl grid-cols-2 py-6 sm:py-12 lg:grid-cols-4">
+      <EnergyLines fade={false} />
+      <div className="relative mx-auto grid max-w-7xl grid-cols-2 py-6 sm:py-12 lg:grid-cols-4">
         {metrics.map((m, i) => (
           <Reveal
             key={m.label}
@@ -27,7 +29,9 @@ export function TrustStrip({ foundedYear }: { foundedYear: number | null }) {
               i > 1 ? "border-t border-line lg:border-t-0" : ""
             } ${i === 2 ? "lg:border-l" : ""}`}
           >
-            <p className="font-mono text-3xl font-medium text-electric sm:text-4xl">{m.value}</p>
+            <p className="text-glow font-mono text-3xl font-medium text-electric sm:text-4xl">
+              {m.value}
+            </p>
             <p className="mt-2 font-mono text-xs text-text-muted sm:text-sm">{m.label}</p>
           </Reveal>
         ))}

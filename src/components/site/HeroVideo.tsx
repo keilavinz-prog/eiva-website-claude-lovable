@@ -60,7 +60,7 @@ export function HeroVideo({ videos }: { videos: BackgroundVideo[] }) {
         </video>
       ))}
       {/* Capas para legibilidad del texto */}
-      <div className="absolute inset-0 bg-gradient-to-r from-canvas/90 via-canvas/55 to-canvas/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-canvas/95 via-canvas/65 to-canvas/35" />
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-canvas" />
 
       {/* Indicador de clips */}

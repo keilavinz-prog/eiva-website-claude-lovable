@@ -9,7 +9,8 @@
  * Fuente única de verdad de los tokens. Los componentes usan SOLO
  * estas variables / utilidades de Tailwind derivadas de ellas.
  * Morado #4430A1 · Gris #5F5F68 · Amarillo #F2BA02.
- * Tema oscuro por defecto; las secciones de contenido usan .theme-light.
+ * Tema oscuro por defecto; las secciones de contenido usan .theme-light
+ * y las secciones con vídeo (hero y métricas) usan .theme-space.
  */
 
 @theme inline {
@@ -37,7 +38,7 @@
   --color-brand-yellow: #f2ba02;
   --color-ink: #14122b;
 
-  /* Colores semánticos — cambian según el tema de la sección (oscuro / .theme-light) */
+  /* Colores semánticos — cambian según el tema de la sección */
   --color-canvas: var(--eeiva-bg);
   --color-surface: var(--eeiva-surface);
   --color-surface-elevated: var(--eeiva-surface-elevated);
@@ -91,7 +92,7 @@
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Tema OSCURO de marca (hero con vídeo, métricas, cabecera, pie) */
+/* Tema OSCURO de marca (cabecera, pie) */
 :root,
 .dark {
   color-scheme: dark;
@@ -114,6 +115,8 @@
   --eeiva-logo-purple: #8e7ef0;
   --eeiva-logo-gray: #a7a7b2;
   --eeiva-glow: 122 102 224;
+  --eeiva-pulse: #f2ba02;
+  --eeiva-pulse-alt: #8e7ef0;
 
   /* Radios */
   --radius: 12px;
@@ -172,6 +175,23 @@
   --eeiva-glow: 68 48 161;
   --shadow-token-elevated: 0 1px 2px rgb(28 26 46 / 0.04), 0 10px 28px -14px rgb(28 26 46 / 0.18);
   --ring: #4430a1;
+  color: var(--eeiva-text);
+}
+
+/* Tema ESPACIAL (secciones con vídeo: hero y métricas) — casi negro, rejilla y líneas de energía */
+.theme-space {
+  color-scheme: dark;
+  --eeiva-bg: #0a0e14;
+  --eeiva-surface: #12161f;
+  --eeiva-surface-elevated: #1a1f2b;
+  --eeiva-border: #232936;
+  --eeiva-accent: #f2ba02;
+  --eeiva-text: #f5f7fa;
+  --eeiva-text-muted: #94a3b8;
+  --eeiva-grid: #1a1f2b;
+  --eeiva-glow: 122 102 224;
+  --eeiva-pulse: #f2ba02;
+  --eeiva-pulse-alt: #8e7ef0;
   color: var(--eeiva-text);
 }
 
@@ -334,6 +354,13 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Brillo de texto (cifras de la franja de métricas) */
+.text-glow {
+  text-shadow:
+    0 0 18px rgb(242 186 2 / 0.45),
+    0 0 2px rgb(242 186 2 / 0.6);
 }
 
 /* Líneas de energía del hero */

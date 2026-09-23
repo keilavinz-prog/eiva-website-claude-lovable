@@ -5,12 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * EEIVA — Sistema de diseño DARK-TECH (Fase 1)
+ * EEIVA — Sistema de diseño con la paleta del logo
  * Fuente única de verdad de los tokens. Los componentes usan SOLO
  * estas variables / utilidades de Tailwind derivadas de ellas.
- * La web es siempre oscura: :root y .dark comparten valores.
- * Nota: el fondo base se expone como "canvas" (bg-canvas) para no
- * chocar con la utilidad de tamaño de texto "text-base".
+ * Morado #4430A1 · Gris #5F5F68 · Amarillo #F2BA02.
+ * Tema oscuro por defecto; las secciones de contenido usan .theme-light.
  */
 
 @theme inline {
@@ -31,17 +30,26 @@
   --shadow-glow: var(--shadow-token-glow);
   --shadow-glow-strong: var(--shadow-token-glow-strong);
 
-  /* Colores de marca */
+  /* Colores de marca (logo EEIVA) — fijos */
+  --color-brand: #4430a1;
+  --color-brand-dark: #2e1f75;
+  --color-brand-gray: #5f5f68;
+  --color-brand-yellow: #f2ba02;
+  --color-ink: #14122b;
+
+  /* Colores semánticos — cambian según el tema de la sección (oscuro / .theme-light) */
   --color-canvas: var(--eeiva-bg);
   --color-surface: var(--eeiva-surface);
   --color-surface-elevated: var(--eeiva-surface-elevated);
   --color-line: var(--eeiva-border);
-  --color-electric: var(--eeiva-cyan);
-  --color-amber: var(--eeiva-amber);
+  --color-electric: var(--eeiva-accent);
+  --color-amber: var(--eeiva-yellow);
   --color-success: var(--eeiva-success);
   --color-danger: var(--eeiva-danger);
   --color-text: var(--eeiva-text);
   --color-text-muted: var(--eeiva-text-muted);
+  --color-logo-purple: var(--eeiva-logo-purple);
+  --color-logo-gray: var(--eeiva-logo-gray);
 
   /* Mapeo semántico para componentes shadcn/ui */
   --color-background: var(--background);
@@ -65,40 +73,47 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
   --color-placeholder: var(--eeiva-surface-elevated);
-  --color-chart-1: var(--eeiva-cyan);
-  --color-chart-2: var(--eeiva-amber);
-  --color-chart-3: var(--eeiva-success);
-  --color-chart-4: var(--eeiva-danger);
-  --color-chart-5: var(--eeiva-text-muted);
+  --color-chart-1: #4430a1;
+  --color-chart-2: #f2ba02;
+  --color-chart-3: #5f5f68;
+  --color-chart-4: var(--eeiva-success);
+  --color-chart-5: var(--eeiva-danger);
   --color-sidebar: var(--eeiva-surface);
   --color-sidebar-foreground: var(--eeiva-text);
-  --color-sidebar-primary: var(--eeiva-cyan);
-  --color-sidebar-primary-foreground: var(--eeiva-bg);
+  --color-sidebar-primary: #4430a1;
+  --color-sidebar-primary-foreground: #ffffff;
   --color-sidebar-accent: var(--eeiva-surface-elevated);
   --color-sidebar-accent-foreground: var(--eeiva-text);
   --color-sidebar-border: var(--eeiva-border);
-  --color-sidebar-ring: var(--eeiva-cyan);
+  --color-sidebar-ring: var(--eeiva-accent);
 
   /* Motion */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Tema OSCURO de marca (hero con vídeo, métricas, cabecera, pie) */
 :root,
 .dark {
   color-scheme: dark;
 
-  /* Paleta base */
-  --eeiva-bg: #0a0e14;
-  --eeiva-surface: #12161f;
-  --eeiva-surface-elevated: #1a1f2b;
-  --eeiva-border: #232936;
-  --eeiva-cyan: #00d9ff;
-  --eeiva-amber: #ffb800;
-  --eeiva-success: #00e676;
+  /* Paleta de marca */
+  --eeiva-purple: #4430a1;
+  --eeiva-gray: #5f5f68;
+  --eeiva-yellow: #f2ba02;
+
+  --eeiva-bg: #14122b;
+  --eeiva-surface: #1c1936;
+  --eeiva-surface-elevated: #26224a;
+  --eeiva-border: #332e5c;
+  --eeiva-accent: #f2ba02;
+  --eeiva-success: #00c853;
   --eeiva-danger: #ff3b5c;
-  --eeiva-text: #f5f7fa;
-  --eeiva-text-muted: #94a3b8;
-  --eeiva-grid: #1a1f2b;
+  --eeiva-text: #f7f6fb;
+  --eeiva-text-muted: #b3afcb;
+  --eeiva-grid: #1f1c3c;
+  --eeiva-logo-purple: #8e7ef0;
+  --eeiva-logo-gray: #a7a7b2;
+  --eeiva-glow: 122 102 224;
 
   /* Radios */
   --radius: 12px;
@@ -108,9 +123,12 @@
   --radius-token-full: 999px;
 
   /* Sombras */
-  --shadow-token-elevated: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
-  --shadow-token-glow: 0 0 0 1px rgb(0 217 255 / 0.25), 0 0 24px rgb(0 217 255 / 0.25);
-  --shadow-token-glow-strong: 0 0 0 1px rgb(0 217 255 / 0.45), 0 0 36px rgb(0 217 255 / 0.35);
+  --shadow-token-elevated:
+    0 1px 0 rgb(255 255 255 / 0.03) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
+  --shadow-token-glow:
+    0 0 0 1px rgb(var(--eeiva-glow) / 0.3), 0 0 24px rgb(var(--eeiva-glow) / 0.35);
+  --shadow-token-glow-strong:
+    0 0 0 1px rgb(var(--eeiva-glow) / 0.5), 0 0 36px rgb(var(--eeiva-glow) / 0.45);
 
   /* Motion */
   --motion-fast: 200ms;
@@ -123,8 +141,8 @@
   --card-foreground: var(--eeiva-text);
   --popover: var(--eeiva-surface-elevated);
   --popover-foreground: var(--eeiva-text);
-  --primary: var(--eeiva-cyan);
-  --primary-foreground: var(--eeiva-bg);
+  --primary: var(--eeiva-purple);
+  --primary-foreground: #ffffff;
   --secondary: var(--eeiva-surface-elevated);
   --secondary-foreground: var(--eeiva-text);
   --muted: var(--eeiva-surface-elevated);
@@ -132,10 +150,29 @@
   --accent: var(--eeiva-surface-elevated);
   --accent-foreground: var(--eeiva-text);
   --destructive: var(--eeiva-danger);
-  --destructive-foreground: var(--eeiva-text);
+  --destructive-foreground: #ffffff;
   --border: var(--eeiva-border);
   --input: var(--eeiva-border);
-  --ring: var(--eeiva-cyan);
+  --ring: var(--eeiva-accent);
+}
+
+/* Tema CLARO de marca (secciones de contenido) */
+.theme-light {
+  color-scheme: light;
+  --eeiva-bg: #ffffff;
+  --eeiva-surface: #f6f5fb;
+  --eeiva-surface-elevated: #eeecf8;
+  --eeiva-border: #e2dff0;
+  --eeiva-accent: #4430a1;
+  --eeiva-text: #1c1a2e;
+  --eeiva-text-muted: #5f5f68;
+  --eeiva-grid: #f0eef8;
+  --eeiva-logo-purple: #4430a1;
+  --eeiva-logo-gray: #5f5f68;
+  --eeiva-glow: 68 48 161;
+  --shadow-token-elevated: 0 1px 2px rgb(28 26 46 / 0.04), 0 10px 28px -14px rgb(28 26 46 / 0.18);
+  --ring: #4430a1;
+  color: var(--eeiva-text);
 }
 
 @layer base {
@@ -166,12 +203,12 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--eeiva-cyan);
+    outline: 2px solid var(--eeiva-accent);
     outline-offset: 3px;
   }
 
   ::selection {
-    background: rgb(0 217 255 / 0.3);
+    background: rgb(68 48 161 / 0.35);
     color: var(--eeiva-text);
   }
 }
@@ -194,17 +231,42 @@
     justify-content: center;
     gap: 0.5rem;
     border-radius: var(--radius-token-full);
-    background: var(--eeiva-cyan);
-    color: var(--eeiva-bg);
+    background: var(--eeiva-purple);
+    color: #ffffff;
     font-weight: 600;
     box-shadow: var(--shadow-token-glow);
     transition:
       transform var(--motion-fast) var(--ease-out-soft),
-      box-shadow var(--motion-base) var(--ease-out-soft);
+      box-shadow var(--motion-base) var(--ease-out-soft),
+      background-color var(--motion-base) var(--ease-out-soft);
   }
   .btn-primary:hover {
     transform: scale(1.02);
+    background: #5238c4;
     box-shadow: var(--shadow-token-glow-strong);
+  }
+
+  .btn-accent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-token-full);
+    background: var(--eeiva-yellow);
+    color: #1c1a2e;
+    font-weight: 600;
+    box-shadow:
+      0 0 0 1px rgb(242 186 2 / 0.4),
+      0 0 28px rgb(242 186 2 / 0.35);
+    transition:
+      transform var(--motion-fast) var(--ease-out-soft),
+      box-shadow var(--motion-base) var(--ease-out-soft);
+  }
+  .btn-accent:hover {
+    transform: scale(1.02);
+    box-shadow:
+      0 0 0 1px rgb(242 186 2 / 0.6),
+      0 0 40px rgb(242 186 2 / 0.5);
   }
 
   .btn-secondary {
@@ -214,7 +276,7 @@
     gap: 0.5rem;
     border-radius: var(--radius-token-full);
     border: 1px solid var(--eeiva-border);
-    background: rgb(18 22 31 / 0.6);
+    background: color-mix(in oklab, var(--eeiva-surface) 60%, transparent);
     color: var(--eeiva-text);
     font-weight: 500;
     transition:
@@ -224,7 +286,7 @@
   }
   .btn-secondary:hover {
     transform: scale(1.02);
-    border-color: rgb(0 217 255 / 0.6);
+    border-color: var(--eeiva-accent);
     box-shadow: var(--shadow-token-glow);
   }
 
@@ -241,23 +303,22 @@
   }
   .card-tech-interactive:hover {
     transform: scale(1.02);
-    border-color: rgb(0 217 255 / 0.45);
+    border-color: rgb(var(--eeiva-glow) / 0.6);
     box-shadow: var(--shadow-token-glow);
   }
 
-  /* Badge ámbar */
+  /* Badge amarillo de marca */
   .badge-amber {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
     border-radius: var(--radius-token-full);
-    border: 1px solid rgb(255 184 0 / 0.35);
-    background: rgb(255 184 0 / 0.1);
-    color: var(--eeiva-amber);
+    background: var(--eeiva-yellow);
+    color: #1c1a2e;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     font-weight: 500;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     padding: 0.25rem 0.625rem;
   }
 
@@ -289,7 +350,6 @@
   animation: energy-flow 7s linear infinite;
 }
 
-/* Barra de progreso de los clips del hero */
 @keyframes hero-progress {
   from {
     width: 0%;
@@ -326,6 +386,7 @@
     transition: none;
   }
   .btn-primary:hover,
+  .btn-accent:hover,
   .btn-secondary:hover,
   .card-tech-interactive:hover {
     transform: none;

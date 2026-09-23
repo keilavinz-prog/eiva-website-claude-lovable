@@ -1,11 +1,15 @@
-/** Logotipo textual: EEIVA con la V en cian eléctrico. */
+/** Logotipo textual EEIVA con los colores del logo oficial (se adapta a fondo claro/oscuro). */
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`font-display text-xl font-bold tracking-tight text-text ${className}`}
+      className={`font-display text-xl font-bold tracking-tight ${className}`}
       aria-label="EEIVA"
     >
-      EEI<span className="text-electric [text-shadow:0_0_14px_rgb(0_217_255/0.55)]">V</span>A
+      <span className="text-logo-purple">E</span>
+      <span className="text-logo-gray">E</span>
+      <span className="text-brand-yellow">I</span>
+      <span className="text-logo-gray">V</span>
+      <span className="text-logo-purple">A</span>
     </span>
   );
 }

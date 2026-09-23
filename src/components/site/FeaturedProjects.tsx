@@ -38,7 +38,10 @@ function ProjectImage({ src, alt }: { src: string; alt: string }) {
 
 export function FeaturedProjects({ projects }: { projects: Project[] }) {
   return (
-    <section id="proyectos" className="bg-blueprint border-t border-line py-24 sm:py-32">
+    <section
+      id="proyectos"
+      className="theme-light bg-blueprint border-t border-line py-24 sm:py-32"
+    >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <SectionHeading kicker="// proyectos" title="Proyectos destacados" />
@@ -56,7 +59,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
                     }
                     alt={p.title}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
                   <span className="badge-amber absolute top-4 left-4 backdrop-blur">
                     {p.category}
                   </span>

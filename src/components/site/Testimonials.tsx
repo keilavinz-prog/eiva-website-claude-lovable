@@ -19,7 +19,7 @@ function Stars({ rating }: { rating: number }) {
 
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   return (
-    <section id="opiniones" className="border-t border-line bg-canvas py-24 sm:py-32">
+    <section id="opiniones" className="theme-light border-t border-line bg-surface py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <SectionHeading kicker="// opiniones" title="Lo que dicen nuestros clientes" />
@@ -27,7 +27,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <Reveal key={t.id} delay={i * 100}>
-              <figure className="card-tech flex h-full flex-col p-7">
+              <figure className="card-tech flex h-full flex-col bg-canvas p-7">
                 <Stars rating={t.rating} />
                 <blockquote className="mt-5 flex-1 text-base leading-relaxed text-text">
                   “{t.content}”

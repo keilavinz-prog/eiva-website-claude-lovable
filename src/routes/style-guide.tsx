@@ -11,16 +11,16 @@ export const Route = createFileRoute("/style-guide")({
 });
 
 const COLORS = [
-  { name: "Fondo base", token: "--eeiva-bg", hex: "#0A0E14" },
-  { name: "Superficie", token: "--eeiva-surface", hex: "#12161F" },
-  { name: "Superficie elevada", token: "--eeiva-surface-elevated", hex: "#1A1F2B" },
-  { name: "Borde sutil", token: "--eeiva-border", hex: "#232936" },
-  { name: "Acento primario", token: "--eeiva-cyan", hex: "#00D9FF" },
-  { name: "Acento secundario", token: "--eeiva-amber", hex: "#FFB800" },
-  { name: "Éxito", token: "--eeiva-success", hex: "#00E676" },
+  { name: "Morado (marca)", token: "--eeiva-purple", hex: "#4430A1" },
+  { name: "Gris (marca)", token: "--eeiva-gray", hex: "#5F5F68" },
+  { name: "Amarillo (marca)", token: "--eeiva-yellow", hex: "#F2BA02" },
+  { name: "Fondo oscuro", token: "--eeiva-bg", hex: "#14122B" },
+  { name: "Superficie oscura", token: "--eeiva-surface", hex: "#1C1936" },
+  { name: "Borde oscuro", token: "--eeiva-border", hex: "#332E5C" },
+  { name: "Texto claro", token: "--eeiva-text", hex: "#F7F6FB" },
+  { name: "Texto secundario", token: "--eeiva-text-muted", hex: "#B3AFCB" },
+  { name: "Éxito", token: "--eeiva-success", hex: "#00C853" },
   { name: "Peligro", token: "--eeiva-danger", hex: "#FF3B5C" },
-  { name: "Texto primario", token: "--eeiva-text", hex: "#F5F7FA" },
-  { name: "Texto secundario", token: "--eeiva-text-muted", hex: "#94A3B8" },
 ];
 
 const RADII = [
@@ -46,7 +46,7 @@ function StyleGuide() {
         <Logo className="text-3xl" />
         <h1 className="mt-6 text-4xl font-bold">Guía de estilo</h1>
         <p className="mt-3 max-w-xl text-text-muted">
-          Verificación visual de los tokens del sistema de diseño DARK-TECH. Uso interno.
+          Verificación visual de los tokens con la paleta del logo EEIVA. Uso interno.
         </p>
 
         <Block title="Paleta">
@@ -100,6 +100,9 @@ function StyleGuide() {
             <button type="button" className="btn-secondary px-7 py-3.5">
               Ver Proyectos
             </button>
+            <button type="button" className="btn-accent px-7 py-3.5">
+              Contactar ahora
+            </button>
             <span className="badge-amber">Industrial</span>
           </div>
         </Block>
@@ -113,11 +116,29 @@ function StyleGuide() {
             <div className="card-tech card-tech-interactive p-6">
               <Zap className="h-6 w-6 text-electric" />
               <p className="mt-3 font-display font-semibold">Tarjeta interactiva</p>
-              <p className="mt-2 text-sm text-text-muted">Pasa el ratón: scale + glow cian.</p>
+              <p className="mt-2 text-sm text-text-muted">Pasa el ratón: scale + brillo morado.</p>
             </div>
             <div className="rounded-md border border-line bg-surface-elevated p-6 shadow-elevated">
               <p className="font-display font-semibold">Superficie elevada</p>
               <p className="mt-2 text-sm text-text-muted">Para modales y popovers.</p>
+            </div>
+          </div>
+        </Block>
+
+        <Block title="Sección clara (.theme-light)">
+          <div className="theme-light rounded-lg bg-canvas p-8">
+            <Logo className="text-2xl" />
+            <p className="mt-4 font-display text-2xl font-semibold text-text">
+              Servicios destacados
+            </p>
+            <p className="mt-2 text-text-muted">Texto secundario en gris de marca.</p>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <button type="button" className="btn-primary px-6 py-3">
+                Solicitar Presupuesto
+              </button>
+              <button type="button" className="btn-secondary px-6 py-3">
+                Ver Proyectos
+              </button>
             </div>
           </div>
         </Block>

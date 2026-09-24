@@ -95,7 +95,7 @@ function StyleGuide() {
         <Block title="Botones">
           <div className="flex flex-wrap items-center gap-4">
             <button type="button" className="btn-primary px-7 py-3.5">
-              Solicitar Presupuesto
+              Solicitar consulta
             </button>
             <button type="button" className="btn-secondary px-7 py-3.5">
               Ver Proyectos
@@ -134,7 +134,7 @@ function StyleGuide() {
             <p className="mt-2 text-text-muted">Texto secundario en gris de marca.</p>
             <div className="mt-6 flex flex-wrap gap-4">
               <button type="button" className="btn-primary px-6 py-3">
-                Solicitar Presupuesto
+                Solicitar consulta
               </button>
               <button type="button" className="btn-secondary px-6 py-3">
                 Ver Proyectos

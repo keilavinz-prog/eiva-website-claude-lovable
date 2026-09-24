@@ -104,12 +104,11 @@ function SobreNosotros() {
             className="max-w-[68ch] space-y-6 text-lg leading-relaxed text-text-muted"
           >
             <p>
-              {company.name} cuenta con un equipo humano altamente cualificado y con el
-              equipamiento necesario para realizar trabajos a nivel provincial, nacional e
-              internacional. Nuestros profesionales se mantienen en un proceso continuo de
-              formación y actualización especializada en el sector, lo que nos ha permitido
-              crecer, realizar múltiples trabajos y convertirnos en una empresa eléctrica de
-              referencia.
+              {company.name} cuenta con un equipo humano altamente cualificado y con el equipamiento
+              necesario para realizar trabajos a nivel provincial, nacional e internacional.
+              Nuestros profesionales se mantienen en un proceso continuo de formación y
+              actualización especializada en el sector, lo que nos ha permitido crecer, realizar
+              múltiples trabajos y convertirnos en una empresa eléctrica de referencia.
             </p>
             <p>
               Nuestra filosofía aporta a cada proyecto un valor añadido: alta calidad y fiabilidad.

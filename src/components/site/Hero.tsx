@@ -5,7 +5,6 @@ import { HERO_VIDEOS } from "@/lib/media";
 import type { CompanyInfo } from "@/lib/home-data";
 
 export function Hero({ company }: { company: CompanyInfo }) {
-  const year = company.founded_year ?? 1998;
   return (
     <section
       id="inicio"
@@ -20,17 +19,17 @@ export function Hero({ company }: { company: CompanyInfo }) {
             {company.name}
           </p>
           <h1 className="mt-6 text-4xl leading-[1.05] font-bold text-text [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl lg:text-7xl">
-            Instalaciones eléctricas de precisión desde {year}
+            Soluciones integrales en ingeniería eléctrica
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-text/85 sm:text-xl">
             {company.slogan}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <Link to="/contacto" className="btn-primary px-7 py-3.5 text-base">
-              Solicitar Presupuesto
+              Solicitar consulta
             </Link>
-            <Link to="/proyectos" className="btn-secondary px-7 py-3.5 text-base backdrop-blur">
-              Ver Proyectos
+            <Link to="/servicios" className="btn-secondary px-7 py-3.5 text-base backdrop-blur">
+              Ver áreas de trabajo
             </Link>
           </div>
         </div>

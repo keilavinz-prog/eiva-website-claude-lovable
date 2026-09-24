@@ -86,6 +86,7 @@ export function pickRelatedProjects(service: Service, projects: Project[]): Proj
   return pool.slice(0, 3);
 }
 
-export function yearsSince(foundedYear: number | null): number {
-  return new Date().getFullYear() - (foundedYear ?? 1998);
+/** Años de experiencia: calculados si hay año de fundación; si no, "+25" (dato de eeiva.es). */
+export function experienceLabel(foundedYear: number | null): string {
+  return foundedYear ? String(new Date().getFullYear() - foundedYear) : "+25";
 }

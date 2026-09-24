@@ -1,13 +1,21 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Facebook, Instagram, Mail, MapPin, Phone, Twitter } from "lucide-react";
 import { Logo } from "./Logo";
 import { NAV_LINKS } from "./Header";
 import type { CompanyInfo } from "@/lib/home-data";
 
 const SOCIALS = [
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "Facebook", href: "#", Icon: Facebook },
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/eeivainstalaciones",
+    Icon: Instagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=100066451961767",
+    Icon: Facebook,
+  },
+  { label: "X (Twitter)", href: "https://twitter.com/eeivainstalaci1", Icon: Twitter },
 ];
 
 export function Footer({ company }: { company: CompanyInfo }) {
@@ -39,6 +47,8 @@ export function Footer({ company }: { company: CompanyInfo }) {
                 <a
                   href={href}
                   aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-text-muted transition-all duration-200 hover:border-electric/60 hover:text-electric hover:shadow-glow"
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />

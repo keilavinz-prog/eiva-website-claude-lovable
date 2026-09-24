@@ -9,17 +9,6 @@ import { ProjectCard } from "@/components/site/ProjectCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { PageSkeleton } from "@/components/site/Skeletons";
 
-const CATEGORIES = [
-  "Todos",
-  "Industrial",
-  "Residencial",
-  "Hostelería",
-  "Energía Solar",
-  "Comercial",
-  "Residencial Premium",
-  "Movilidad Eléctrica",
-] as const;
-
 export const Route = createFileRoute("/proyectos/")({
   loader: async () => {
     const [company, projects] = await Promise.all([fetchCompany(), fetchProjects()]);
@@ -30,7 +19,8 @@ export const Route = createFileRoute("/proyectos/")({
       { title: "Proyectos | EEIVA" },
       {
         name: "description",
-        content: "Más de 500 instalaciones eléctricas ejecutadas en toda la Comunidad Valenciana.",
+        content:
+          "Proyectos de ingeniería eléctrica de EEIVA a nivel provincial, nacional e internacional.",
       },
     ],
   }),
@@ -42,6 +32,7 @@ export const Route = createFileRoute("/proyectos/")({
 function ProyectosPage() {
   const { company, projects } = Route.useLoaderData();
   const [filter, setFilter] = useState<string>("Todos");
+  const categories = ["Todos", ...Array.from(new Set(projects.map((p) => p.category)))];
   const visible = filter === "Todos" ? projects : projects.filter((p) => p.category === filter);
 
   return (
@@ -50,16 +41,18 @@ function ProyectosPage() {
         breadcrumb={<Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Proyectos" }]} />}
         kicker="// proyectos"
         title="Proyectos Ejecutados"
-        subtitle="Más de 500 instalaciones en toda la Comunidad Valenciana"
+        subtitle="Trabajos a nivel provincial, nacional e internacional"
       />
       <section className="theme-light bg-blueprint py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <FilterChips
-            label="Filtrar proyectos por categoría"
-            options={CATEGORIES}
-            value={filter}
-            onChange={setFilter}
-          />
+          {projects.length > 0 ? (
+            <FilterChips
+              label="Filtrar proyectos por categoría"
+              options={categories}
+              value={filter}
+              onChange={setFilter}
+            />
+          ) : null}
           <div key={filter} className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visible.map((p, i) => (
               <div
@@ -73,7 +66,13 @@ function ProyectosPage() {
           </div>
           {visible.length === 0 ? (
             <div className="mt-10">
-              <EmptyState message="No hay proyectos en esta categoría todavía." />
+              <EmptyState
+                message={
+                  projects.length === 0
+                    ? "Estamos preparando nuestra galería de proyectos. Muy pronto podrás ver aquí nuestros trabajos."
+                    : "No hay proyectos en esta categoría todavía."
+                }
+              />
             </div>
           ) : null}
         </div>

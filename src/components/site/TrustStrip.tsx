@@ -2,14 +2,14 @@ import { Reveal } from "./Reveal";
 import { VideoBackground } from "./VideoBackground";
 import { EnergyLines } from "./EnergyLines";
 import { TRUST_VIDEO } from "@/lib/media";
+import { experienceLabel } from "@/lib/site-data";
 
 export function TrustStrip({ foundedYear }: { foundedYear: number | null }) {
-  const years = new Date().getFullYear() - (foundedYear ?? 1998);
   const metrics = [
-    { value: `${years}`, label: "años de experiencia" },
-    { value: "+500", label: "proyectos ejecutados" },
-    { value: "98%", label: "clientes satisfechos" },
-    { value: "CIE", label: "certificación oficial" },
+    { value: experienceLabel(foundedYear), label: "años de experiencia" },
+    { value: "24/7", label: "asistencia en averías, 365 días" },
+    { value: "BT·MT·AT", label: "baja, media y alta tensión" },
+    { value: "Nac. + Int.", label: "trabajos provinciales, nacionales e internacionales" },
   ];
 
   return (

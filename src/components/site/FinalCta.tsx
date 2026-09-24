@@ -3,9 +3,9 @@ import { CtaBand } from "./CtaBand";
 
 export function FinalCta() {
   return (
-    <CtaBand title="¿Necesitas un electricista de confianza?">
+    <CtaBand title="¿Tienes preguntas? ¡Háblanos!">
       <Link to="/contacto" className="btn-accent px-8 py-4 text-base">
-        Contactar ahora
+        Solicitar consulta
       </Link>
     </CtaBand>
   );

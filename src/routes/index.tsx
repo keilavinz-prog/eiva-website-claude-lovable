@@ -12,12 +12,12 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   loader: () => fetchHomeData(),
   head: ({ loaderData }) => {
-    const name = loaderData?.company.name ?? "EEIVA Instalaciones Eléctricas S.L.";
+    const name = loaderData?.company.name ?? "Electrotecnia e Ingeniería Valencia S.L.";
     const description =
-      loaderData?.company.slogan ?? "Instalaciones eléctricas de precisión en Valencia.";
+      loaderData?.company.slogan ?? "Soluciones integrales en ingeniería eléctrica en Valencia.";
     return {
       meta: [
-        { title: `${name} | Instalaciones eléctricas en Valencia` },
+        { title: `${name} | Soluciones integrales en ingeniería eléctrica` },
         { name: "description", content: description },
         { property: "og:title", content: name },
         { property: "og:description", content: description },
@@ -37,8 +37,8 @@ function HomePage() {
         <Hero company={company} />
         <TrustStrip foundedYear={company.founded_year} />
         <FeaturedServices services={services} />
-        <FeaturedProjects projects={projects} />
-        <Testimonials testimonials={testimonials} />
+        {projects.length > 0 ? <FeaturedProjects projects={projects} /> : null}
+        {testimonials.length > 0 ? <Testimonials testimonials={testimonials} /> : null}
         <FinalCta />
       </main>
       <Footer company={company} />

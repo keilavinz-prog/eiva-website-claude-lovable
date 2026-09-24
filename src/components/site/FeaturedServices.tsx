@@ -10,7 +10,10 @@ export function FeaturedServices({ services }: { services: Service[] }) {
     <section id="servicios" className="theme-light bg-canvas py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <SectionHeading kicker="// servicios" title="Servicios destacados" />
+          <SectionHeading
+            kicker="// áreas de trabajo"
+            title="Soluciones integrales en ingeniería eléctrica"
+          />
         </Reveal>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, i) => (
@@ -41,7 +44,7 @@ export function FeaturedServices({ services }: { services: Service[] }) {
         </div>
         <div className="mt-10">
           <Link to="/servicios" className="btn-secondary px-6 py-3 text-sm">
-            Ver todos los servicios
+            Ver todas las áreas de trabajo
           </Link>
         </div>
       </div>

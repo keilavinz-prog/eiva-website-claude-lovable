@@ -5,9 +5,8 @@ import { Logo } from "./Logo";
 
 export const NAV_LINKS = [
   { label: "Inicio", to: "/" },
-  { label: "Servicios", to: "/servicios" },
-  { label: "Proyectos", to: "/proyectos" },
-  { label: "Sobre Nosotros", to: "/sobre-nosotros" },
+  { label: "Áreas de trabajo", to: "/servicios" },
+  { label: "Equipo EEIVA", to: "/sobre-nosotros" },
   { label: "Contacto", to: "/contacto" },
 ] as const;
 
@@ -52,7 +51,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <Link to="/contacto" className="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">
-            Pedir Presupuesto
+            Solicitar consulta
           </Link>
           <button
             type="button"
@@ -93,7 +92,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="btn-primary w-full px-5 py-3 text-sm"
               >
-                Pedir Presupuesto
+                Solicitar consulta
               </Link>
             </li>
           </ul>

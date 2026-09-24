@@ -9,18 +9,6 @@ import { ServiceCard } from "@/components/site/ServiceCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { PageSkeleton } from "@/components/site/Skeletons";
 
-const CATEGORIES = [
-  "Todos",
-  "Instalaciones",
-  "Certificación",
-  "Automatización",
-  "Movilidad",
-  "Energía",
-  "Climatización",
-  "Eficiencia",
-  "Telecomunicaciones",
-] as const;
-
 export const Route = createFileRoute("/servicios/")({
   loader: async () => {
     const [company, services] = await Promise.all([fetchCompany(), fetchServices()]);
@@ -28,11 +16,11 @@ export const Route = createFileRoute("/servicios/")({
   },
   head: () => ({
     meta: [
-      { title: "Servicios | EEIVA" },
+      { title: "Áreas de trabajo | EEIVA" },
       {
         name: "description",
         content:
-          "Soluciones eléctricas integrales para vivienda, comercio e industria en Valencia.",
+          "Áreas de trabajo de EEIVA: instalaciones eléctricas, energías renovables, automatización, telecomunicaciones, seguridad y eficiencia energética.",
       },
     ],
   }),
@@ -44,21 +32,27 @@ export const Route = createFileRoute("/servicios/")({
 function ServiciosPage() {
   const { company, services } = Route.useLoaderData();
   const [filter, setFilter] = useState<string>("Todos");
+  const categories = [
+    "Todos",
+    ...Array.from(new Set(services.map((s) => s.category).filter((c): c is string => Boolean(c)))),
+  ];
   const visible = filter === "Todos" ? services : services.filter((s) => s.category === filter);
 
   return (
     <PageShell company={company}>
       <PageHero
-        breadcrumb={<Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Servicios" }]} />}
-        kicker="// servicios"
-        title="Nuestros Servicios"
-        subtitle="Soluciones eléctricas integrales para vivienda, comercio e industria"
+        breadcrumb={
+          <Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Áreas de trabajo" }]} />
+        }
+        kicker="// áreas de trabajo"
+        title="Áreas de trabajo"
+        subtitle="Un departamento de ingeniería para resolver cualquier cuestión relacionada con el sector eléctrico"
       />
       <section className="theme-light bg-canvas py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <FilterChips
-            label="Filtrar servicios por categoría"
-            options={CATEGORIES}
+            label="Filtrar áreas de trabajo por categoría"
+            options={categories}
             value={filter}
             onChange={setFilter}
           />
@@ -78,7 +72,7 @@ function ServiciosPage() {
           </div>
           {visible.length === 0 ? (
             <div className="mt-10">
-              <EmptyState message="No hay servicios en esta categoría todavía." />
+              <EmptyState message="No hay áreas de trabajo en esta categoría todavía." />
             </div>
           ) : null}
         </div>

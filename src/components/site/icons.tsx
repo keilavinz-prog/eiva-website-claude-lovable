@@ -1,5 +1,11 @@
 import {
   BatteryCharging,
+  Cctv,
+  Cpu,
+  Leaf,
+  Network,
+  UtilityPole,
+  Wrench,
   FileCheck,
   House,
   Lightbulb,
@@ -21,6 +27,12 @@ const ICONS: Record<string, LucideIcon> = {
   wind: Wind,
   lightbulb: Lightbulb,
   wifi: Wifi,
+  "utility-pole": UtilityPole,
+  wrench: Wrench,
+  cpu: Cpu,
+  network: Network,
+  cctv: Cctv,
+  leaf: Leaf,
 };
 
 export function ServiceIcon({ name, className }: { name: string; className?: string }) {

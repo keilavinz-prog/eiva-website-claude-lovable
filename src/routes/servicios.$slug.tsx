@@ -49,7 +49,7 @@ function ServiceNotFound() {
         message="Puede que el enlace esté mal escrito o que el servicio ya no esté disponible."
       >
         <Link to="/servicios" className="btn-primary px-7 py-3.5">
-          Ver todos los servicios
+          Ver todas las áreas de trabajo
         </Link>
         <Link to="/" className="btn-secondary px-7 py-3.5">
           Volver al inicio
@@ -73,7 +73,7 @@ function ServicioDetalle() {
           <Breadcrumbs
             items={[
               { label: "Inicio", to: "/" },
-              { label: "Servicios", to: "/servicios" },
+              { label: "Áreas de trabajo", to: "/servicios" },
               { label: service.title },
             ]}
           />
@@ -124,7 +124,7 @@ function ServicioDetalle() {
           search={{ service_id: service.id }}
           className="btn-accent px-8 py-4 text-base"
         >
-          Solicitar presupuesto
+          Solicitar consulta
         </Link>
       </CtaBand>
     </PageShell>

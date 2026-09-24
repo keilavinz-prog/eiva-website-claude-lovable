@@ -76,14 +76,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "EEIVA Instalaciones Eléctricas S.L." },
+      { title: "EEIVA · Electrotecnia e Ingeniería Valencia" },
       {
         name: "description",
         content:
-          "Instalaciones eléctricas, boletines CIE, domótica, recarga de vehículo eléctrico y energía solar en Valencia.",
+          "Soluciones integrales en ingeniería eléctrica: instalaciones de baja, media y alta tensión, fotovoltaica, automatización, telecomunicaciones y mantenimiento 24 h en Valencia.",
       },
       { name: "theme-color", content: "#0A0E14" },
-      { property: "og:title", content: "EEIVA Instalaciones Eléctricas S.L." },
+      { property: "og:title", content: "EEIVA · Electrotecnia e Ingeniería Valencia" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

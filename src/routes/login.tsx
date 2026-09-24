@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoaderCircle } from "lucide-react";
-import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/auth.functions";
 import { DASHBOARD_BY_ROLE } from "@/lib/auth";
@@ -103,17 +102,9 @@ function LoginPage() {
           />
         </Field>
         <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={() =>
-              toast("Próximamente", {
-                description: "La recuperación de contraseña llegará pronto.",
-              })
-            }
-            className="text-sm text-electric hover:underline"
-          >
+          <Link to="/recuperar-contrasena" className="text-sm text-electric hover:underline">
             ¿Olvidaste tu contraseña?
-          </button>
+          </Link>
         </div>
         {formError ? <FormAlert>{formError}</FormAlert> : null}
         <button

@@ -1,5 +1,7 @@
 import {
+  Award,
   BatteryCharging,
+  ShieldCheck,
   Cctv,
   Cpu,
   Leaf,
@@ -33,6 +35,8 @@ const ICONS: Record<string, LucideIcon> = {
   network: Network,
   cctv: Cctv,
   leaf: Leaf,
+  "shield-check": ShieldCheck,
+  award: Award,
 };
 
 export function ServiceIcon({ name, className }: { name: string; className?: string }) {

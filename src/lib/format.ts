@@ -20,3 +20,15 @@ export function readingMinutes(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
+
+/** Fecha y hora en español (zona horaria de Madrid), p. ej. "24 sept 2026, 10:30". */
+export function formatDateTime(value: string): string {
+  return new Date(value).toLocaleString("es-ES", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Madrid",
+  });
+}

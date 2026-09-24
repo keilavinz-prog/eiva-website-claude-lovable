@@ -1,13 +1,25 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, LayoutDashboard, LogOut, Menu, X } from "lucide-react";
+import { ArrowLeft, LayoutDashboard, LogOut, Menu, X, type LucideIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/site/Logo";
 import { RoleBadge } from "./RoleBadge";
 import { DASHBOARD_CONFIG } from "./dashboard-config";
 import { initials, type SessionProfile } from "@/lib/auth";
 
-function SidebarContent({ profile, onLogout }: { profile: SessionProfile; onLogout: () => void }) {
+export type ShellNavItem = { label: string; to: string; Icon: LucideIcon; exact?: boolean };
+
+function SidebarContent({
+  profile,
+  onLogout,
+  nav,
+  onNavigate,
+}: {
+  profile: SessionProfile;
+  onLogout: () => void;
+  nav?: ShellNavItem[] | undefined;
+  onNavigate?: (() => void) | undefined;
+}) {
   const { items } = DASHBOARD_CONFIG[profile.role];
   return (
     <div className="flex h-full flex-col">
@@ -27,25 +39,43 @@ function SidebarContent({ profile, onLogout }: { profile: SessionProfile; onLogo
         </div>
       </div>
 
-      <nav aria-label="Panel" className="mt-6 flex-1 space-y-1 px-3">
-        <span
-          aria-current="page"
-          className="flex items-center gap-3 rounded-md bg-surface-elevated px-3 py-2.5 text-sm font-medium text-text"
-        >
-          <LayoutDashboard className="h-4 w-4 text-electric" aria-hidden="true" />
-          Inicio del panel
-        </span>
-        {items.map(({ title, Icon }) => (
-          <span
-            key={title}
-            aria-disabled="true"
-            className="flex cursor-not-allowed items-center gap-3 rounded-md px-3 py-2.5 text-sm text-text-muted/70"
-          >
-            <Icon className="h-4 w-4" aria-hidden="true" />
-            <span className="flex-1">{title}</span>
-            <span className="font-mono text-[0.625rem]">Pronto</span>
-          </span>
-        ))}
+      <nav aria-label="Panel" className="mt-6 flex-1 space-y-1 overflow-y-auto px-3">
+        {nav ? (
+          nav.map(({ label, to, Icon, exact }) => (
+            <Link
+              key={to}
+              to={to}
+              onClick={onNavigate}
+              activeOptions={{ exact: Boolean(exact) }}
+              className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-text-muted transition-colors hover:bg-surface-elevated hover:text-text"
+              activeProps={{ className: "bg-surface-elevated font-medium text-text" }}
+            >
+              <Icon className="h-4 w-4" aria-hidden="true" />
+              {label}
+            </Link>
+          ))
+        ) : (
+          <>
+            <span
+              aria-current="page"
+              className="flex items-center gap-3 rounded-md bg-surface-elevated px-3 py-2.5 text-sm font-medium text-text"
+            >
+              <LayoutDashboard className="h-4 w-4 text-electric" aria-hidden="true" />
+              Inicio del panel
+            </span>
+            {items.map(({ title, Icon }) => (
+              <span
+                key={title}
+                aria-disabled="true"
+                className="flex cursor-not-allowed items-center gap-3 rounded-md px-3 py-2.5 text-sm text-text-muted/70"
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                <span className="flex-1">{title}</span>
+                <span className="font-mono text-[0.625rem]">Pronto</span>
+              </span>
+            ))}
+          </>
+        )}
       </nav>
 
       <div className="space-y-1 border-t border-line p-3">
@@ -73,9 +103,11 @@ function SidebarContent({ profile, onLogout }: { profile: SessionProfile; onLogo
 export function DashboardShell({
   profile,
   children,
+  nav,
 }: {
   profile: SessionProfile;
   children: ReactNode;
+  nav?: ShellNavItem[] | undefined;
 }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -95,8 +127,8 @@ export function DashboardShell({
   return (
     <div className="min-h-screen bg-canvas text-text">
       {/* Barra lateral fija (escritorio) */}
-      <aside className="theme-space bg-blueprint fixed inset-y-0 left-0 hidden w-72 border-r border-line lg:block">
-        <SidebarContent profile={profile} onLogout={logout} />
+      <aside className="theme-space bg-blueprint fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-line lg:block">
+        <SidebarContent profile={profile} onLogout={logout} nav={nav} />
       </aside>
 
       {/* Barra superior (móvil) */}
@@ -138,7 +170,12 @@ export function DashboardShell({
             >
               <X className="h-5 w-5" />
             </button>
-            <SidebarContent profile={profile} onLogout={logout} />
+            <SidebarContent
+              profile={profile}
+              onLogout={logout}
+              nav={nav}
+              onNavigate={() => setOpen(false)}
+            />
           </aside>
         </div>
       ) : null}

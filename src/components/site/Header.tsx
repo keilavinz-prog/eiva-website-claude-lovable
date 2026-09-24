@@ -9,6 +9,7 @@ export const NAV_LINKS = [
   { label: "Servicios", to: "/servicios" },
   { label: "Áreas de trabajo", to: "/proyectos" },
   { label: "Equipo EEIVA", to: "/sobre-nosotros" },
+  { label: "Blog", to: "/blog" },
   { label: "Contacto", to: "/contacto" },
 ] as const;
 
@@ -35,7 +36,7 @@ export function Header() {
         </Link>
 
         <nav aria-label="Navegación principal" className="hidden lg:block">
-          <ul className="flex items-center gap-8 text-sm">
+          <ul className="flex items-center gap-6 text-sm xl:gap-8">
             {NAV_LINKS.map((link) => (
               <li key={link.to}>
                 <Link

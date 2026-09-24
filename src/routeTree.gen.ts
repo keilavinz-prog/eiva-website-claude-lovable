@@ -16,6 +16,8 @@ import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ClienteDashboardRouteImport } from './routes/cliente.dashboard'
 import { Route as EmpleadoDashboardRouteImport } from './routes/empleado.dashboard'
 import { Route as ProveedorDashboardRouteImport } from './routes/proveedor.dashboard'
@@ -57,6 +59,16 @@ const StyleGuideRoute = StyleGuideRouteImport.update({
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/admin/dashboard',
   path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteDashboardRoute = ClienteDashboardRouteImport.update({
@@ -103,11 +115,13 @@ export interface FileRoutesByFullPath {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
   '/empleado/dashboard': typeof EmpleadoDashboardRoute
   '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/proyectos/': typeof ProyectosIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
 }
@@ -119,11 +133,13 @@ export interface FileRoutesByTo {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
   '/empleado/dashboard': typeof EmpleadoDashboardRoute
   '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/proyectos': typeof ProyectosIndexRoute
   '/servicios': typeof ServiciosIndexRoute
 }
@@ -136,11 +152,13 @@ export interface FileRoutesById {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
   '/empleado/dashboard': typeof EmpleadoDashboardRoute
   '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/proyectos/': typeof ProyectosIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
 }
@@ -154,11 +172,13 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/style-guide'
     | '/admin/dashboard'
+    | '/blog/$slug'
     | '/cliente/dashboard'
     | '/empleado/dashboard'
     | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
+    | '/blog/'
     | '/proyectos/'
     | '/servicios/'
   fileRoutesByTo: FileRoutesByTo
@@ -170,11 +190,13 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/style-guide'
     | '/admin/dashboard'
+    | '/blog/$slug'
     | '/cliente/dashboard'
     | '/empleado/dashboard'
     | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
+    | '/blog'
     | '/proyectos'
     | '/servicios'
   id:
@@ -186,11 +208,13 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/style-guide'
     | '/admin/dashboard'
+    | '/blog/$slug'
     | '/cliente/dashboard'
     | '/empleado/dashboard'
     | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
+    | '/blog/'
     | '/proyectos/'
     | '/servicios/'
   fileRoutesById: FileRoutesById
@@ -203,11 +227,13 @@ export interface RootRouteChildren {
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   StyleGuideRoute: typeof StyleGuideRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   ClienteDashboardRoute: typeof ClienteDashboardRoute
   EmpleadoDashboardRoute: typeof EmpleadoDashboardRoute
   ProveedorDashboardRoute: typeof ProveedorDashboardRoute
   ProyectosSlugRoute: typeof ProyectosSlugRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ProyectosIndexRoute: typeof ProyectosIndexRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
 }
@@ -261,6 +287,20 @@ declare module '@tanstack/react-router' {
       path: '/admin/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente/dashboard': {
@@ -323,11 +363,13 @@ const rootRouteChildren: RootRouteChildren = {
   SobreNosotrosRoute: SobreNosotrosRoute,
   StyleGuideRoute: StyleGuideRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  BlogSlugRoute: BlogSlugRoute,
   ClienteDashboardRoute: ClienteDashboardRoute,
   EmpleadoDashboardRoute: EmpleadoDashboardRoute,
   ProveedorDashboardRoute: ProveedorDashboardRoute,
   ProyectosSlugRoute: ProyectosSlugRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ProyectosIndexRoute: ProyectosIndexRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,
 }

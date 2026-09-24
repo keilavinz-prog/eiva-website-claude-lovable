@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 
-type Crumb = { label: string; to?: "/" | "/servicios" | "/proyectos" };
+type Crumb = { label: string; to?: "/" | "/servicios" | "/proyectos" | "/blog" };
 
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
   return (

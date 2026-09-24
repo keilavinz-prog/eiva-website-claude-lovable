@@ -10,12 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminCitasRouteImport } from './routes/admin.citas'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminSolicitudesRouteImport } from './routes/admin.solicitudes'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ClienteDashboardRouteImport } from './routes/cliente.dashboard'
@@ -25,10 +29,30 @@ import { Route as ProyectosIndexRouteImport } from './routes/proyectos.index'
 import { Route as ProyectosSlugRouteImport } from './routes/proyectos.$slug'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
 import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
+import { Route as AdminEquipoIndexRouteImport } from './routes/admin.equipo.index'
+import { Route as AdminEquipoNuevoRouteImport } from './routes/admin.equipo.nuevo'
+import { Route as AdminProveedoresIndexRouteImport } from './routes/admin.proveedores.index'
+import { Route as AdminProveedoresNuevoRouteImport } from './routes/admin.proveedores.nuevo'
+import { Route as AdminProyectosIndexRouteImport } from './routes/admin.proyectos.index'
+import { Route as AdminProyectosNuevoRouteImport } from './routes/admin.proyectos.nuevo'
+import { Route as AdminServiciosIndexRouteImport } from './routes/admin.servicios.index'
+import { Route as AdminServiciosNuevoRouteImport } from './routes/admin.servicios.nuevo'
+import { Route as AdminTestimoniosIndexRouteImport } from './routes/admin.testimonios.index'
+import { Route as AdminTestimoniosNuevoRouteImport } from './routes/admin.testimonios.nuevo'
+import { Route as AdminEquipoIdEditarRouteImport } from './routes/admin.equipo.$id.editar'
+import { Route as AdminProveedoresIdEditarRouteImport } from './routes/admin.proveedores.$id.editar'
+import { Route as AdminProyectosIdEditarRouteImport } from './routes/admin.proyectos.$id.editar'
+import { Route as AdminServiciosIdEditarRouteImport } from './routes/admin.servicios.$id.editar'
+import { Route as AdminTestimoniosIdEditarRouteImport } from './routes/admin.testimonios.$id.editar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -56,10 +80,25 @@ const StyleGuideRoute = StyleGuideRouteImport.update({
   path: '/style-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCitasRoute = AdminCitasRouteImport.update({
+  id: '/citas',
+  path: '/citas',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
-  getParentRoute: () => rootRouteImport,
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSolicitudesRoute = AdminSolicitudesRouteImport.update({
+  id: '/solicitudes',
+  path: '/solicitudes',
+  getParentRoute: () => AdminRoute,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
@@ -106,24 +145,120 @@ const ServiciosSlugRoute = ServiciosSlugRouteImport.update({
   path: '/servicios/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminEquipoIndexRoute = AdminEquipoIndexRouteImport.update({
+  id: '/equipo/',
+  path: '/equipo/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEquipoNuevoRoute = AdminEquipoNuevoRouteImport.update({
+  id: '/equipo/nuevo',
+  path: '/equipo/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProveedoresIndexRoute = AdminProveedoresIndexRouteImport.update({
+  id: '/proveedores/',
+  path: '/proveedores/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProveedoresNuevoRoute = AdminProveedoresNuevoRouteImport.update({
+  id: '/proveedores/nuevo',
+  path: '/proveedores/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProyectosIndexRoute = AdminProyectosIndexRouteImport.update({
+  id: '/proyectos/',
+  path: '/proyectos/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProyectosNuevoRoute = AdminProyectosNuevoRouteImport.update({
+  id: '/proyectos/nuevo',
+  path: '/proyectos/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServiciosIndexRoute = AdminServiciosIndexRouteImport.update({
+  id: '/servicios/',
+  path: '/servicios/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServiciosNuevoRoute = AdminServiciosNuevoRouteImport.update({
+  id: '/servicios/nuevo',
+  path: '/servicios/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTestimoniosIndexRoute = AdminTestimoniosIndexRouteImport.update({
+  id: '/testimonios/',
+  path: '/testimonios/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTestimoniosNuevoRoute = AdminTestimoniosNuevoRouteImport.update({
+  id: '/testimonios/nuevo',
+  path: '/testimonios/nuevo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEquipoIdEditarRoute = AdminEquipoIdEditarRouteImport.update({
+  id: '/equipo/$id/editar',
+  path: '/equipo/$id/editar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProveedoresIdEditarRoute =
+  AdminProveedoresIdEditarRouteImport.update({
+    id: '/proveedores/$id/editar',
+    path: '/proveedores/$id/editar',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminProyectosIdEditarRoute = AdminProyectosIdEditarRouteImport.update({
+  id: '/proyectos/$id/editar',
+  path: '/proyectos/$id/editar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServiciosIdEditarRoute = AdminServiciosIdEditarRouteImport.update({
+  id: '/servicios/$id/editar',
+  path: '/servicios/$id/editar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTestimoniosIdEditarRoute =
+  AdminTestimoniosIdEditarRouteImport.update({
+    id: '/testimonios/$id/editar',
+    path: '/testimonios/$id/editar',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
   '/registro': typeof RegistroRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/admin/citas': typeof AdminCitasRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/solicitudes': typeof AdminSolicitudesRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
   '/empleado/dashboard': typeof EmpleadoDashboardRoute
   '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/proyectos/': typeof ProyectosIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
+  '/admin/equipo/nuevo': typeof AdminEquipoNuevoRoute
+  '/admin/proveedores/nuevo': typeof AdminProveedoresNuevoRoute
+  '/admin/proyectos/nuevo': typeof AdminProyectosNuevoRoute
+  '/admin/servicios/nuevo': typeof AdminServiciosNuevoRoute
+  '/admin/testimonios/nuevo': typeof AdminTestimoniosNuevoRoute
+  '/admin/equipo/': typeof AdminEquipoIndexRoute
+  '/admin/proveedores/': typeof AdminProveedoresIndexRoute
+  '/admin/proyectos/': typeof AdminProyectosIndexRoute
+  '/admin/servicios/': typeof AdminServiciosIndexRoute
+  '/admin/testimonios/': typeof AdminTestimoniosIndexRoute
+  '/admin/equipo/$id/editar': typeof AdminEquipoIdEditarRoute
+  '/admin/proveedores/$id/editar': typeof AdminProveedoresIdEditarRoute
+  '/admin/proyectos/$id/editar': typeof AdminProyectosIdEditarRoute
+  '/admin/servicios/$id/editar': typeof AdminServiciosIdEditarRoute
+  '/admin/testimonios/$id/editar': typeof AdminTestimoniosIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,55 +267,111 @@ export interface FileRoutesByTo {
   '/registro': typeof RegistroRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/admin/citas': typeof AdminCitasRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/solicitudes': typeof AdminSolicitudesRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
   '/empleado/dashboard': typeof EmpleadoDashboardRoute
   '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/proyectos': typeof ProyectosIndexRoute
   '/servicios': typeof ServiciosIndexRoute
+  '/admin/equipo/nuevo': typeof AdminEquipoNuevoRoute
+  '/admin/proveedores/nuevo': typeof AdminProveedoresNuevoRoute
+  '/admin/proyectos/nuevo': typeof AdminProyectosNuevoRoute
+  '/admin/servicios/nuevo': typeof AdminServiciosNuevoRoute
+  '/admin/testimonios/nuevo': typeof AdminTestimoniosNuevoRoute
+  '/admin/equipo': typeof AdminEquipoIndexRoute
+  '/admin/proveedores': typeof AdminProveedoresIndexRoute
+  '/admin/proyectos': typeof AdminProyectosIndexRoute
+  '/admin/servicios': typeof AdminServiciosIndexRoute
+  '/admin/testimonios': typeof AdminTestimoniosIndexRoute
+  '/admin/equipo/$id/editar': typeof AdminEquipoIdEditarRoute
+  '/admin/proveedores/$id/editar': typeof AdminProveedoresIdEditarRoute
+  '/admin/proyectos/$id/editar': typeof AdminProyectosIdEditarRoute
+  '/admin/servicios/$id/editar': typeof AdminServiciosIdEditarRoute
+  '/admin/testimonios/$id/editar': typeof AdminTestimoniosIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
   '/registro': typeof RegistroRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/admin/citas': typeof AdminCitasRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/solicitudes': typeof AdminSolicitudesRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
   '/empleado/dashboard': typeof EmpleadoDashboardRoute
   '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/proyectos/': typeof ProyectosIndexRoute
   '/servicios/': typeof ServiciosIndexRoute
+  '/admin/equipo/nuevo': typeof AdminEquipoNuevoRoute
+  '/admin/proveedores/nuevo': typeof AdminProveedoresNuevoRoute
+  '/admin/proyectos/nuevo': typeof AdminProyectosNuevoRoute
+  '/admin/servicios/nuevo': typeof AdminServiciosNuevoRoute
+  '/admin/testimonios/nuevo': typeof AdminTestimoniosNuevoRoute
+  '/admin/equipo/': typeof AdminEquipoIndexRoute
+  '/admin/proveedores/': typeof AdminProveedoresIndexRoute
+  '/admin/proyectos/': typeof AdminProyectosIndexRoute
+  '/admin/servicios/': typeof AdminServiciosIndexRoute
+  '/admin/testimonios/': typeof AdminTestimoniosIndexRoute
+  '/admin/equipo/$id/editar': typeof AdminEquipoIdEditarRoute
+  '/admin/proveedores/$id/editar': typeof AdminProveedoresIdEditarRoute
+  '/admin/proyectos/$id/editar': typeof AdminProyectosIdEditarRoute
+  '/admin/servicios/$id/editar': typeof AdminServiciosIdEditarRoute
+  '/admin/testimonios/$id/editar': typeof AdminTestimoniosIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/contacto'
     | '/login'
     | '/registro'
     | '/sobre-nosotros'
     | '/style-guide'
+    | '/admin/citas'
     | '/admin/dashboard'
+    | '/admin/solicitudes'
     | '/blog/$slug'
     | '/cliente/dashboard'
     | '/empleado/dashboard'
     | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
+    | '/admin/'
     | '/blog/'
     | '/proyectos/'
     | '/servicios/'
+    | '/admin/equipo/nuevo'
+    | '/admin/proveedores/nuevo'
+    | '/admin/proyectos/nuevo'
+    | '/admin/servicios/nuevo'
+    | '/admin/testimonios/nuevo'
+    | '/admin/equipo/'
+    | '/admin/proveedores/'
+    | '/admin/proyectos/'
+    | '/admin/servicios/'
+    | '/admin/testimonios/'
+    | '/admin/equipo/$id/editar'
+    | '/admin/proveedores/$id/editar'
+    | '/admin/proyectos/$id/editar'
+    | '/admin/servicios/$id/editar'
+    | '/admin/testimonios/$id/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,44 +380,81 @@ export interface FileRouteTypes {
     | '/registro'
     | '/sobre-nosotros'
     | '/style-guide'
+    | '/admin/citas'
     | '/admin/dashboard'
+    | '/admin/solicitudes'
     | '/blog/$slug'
     | '/cliente/dashboard'
     | '/empleado/dashboard'
     | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
+    | '/admin'
     | '/blog'
     | '/proyectos'
     | '/servicios'
+    | '/admin/equipo/nuevo'
+    | '/admin/proveedores/nuevo'
+    | '/admin/proyectos/nuevo'
+    | '/admin/servicios/nuevo'
+    | '/admin/testimonios/nuevo'
+    | '/admin/equipo'
+    | '/admin/proveedores'
+    | '/admin/proyectos'
+    | '/admin/servicios'
+    | '/admin/testimonios'
+    | '/admin/equipo/$id/editar'
+    | '/admin/proveedores/$id/editar'
+    | '/admin/proyectos/$id/editar'
+    | '/admin/servicios/$id/editar'
+    | '/admin/testimonios/$id/editar'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/contacto'
     | '/login'
     | '/registro'
     | '/sobre-nosotros'
     | '/style-guide'
+    | '/admin/citas'
     | '/admin/dashboard'
+    | '/admin/solicitudes'
     | '/blog/$slug'
     | '/cliente/dashboard'
     | '/empleado/dashboard'
     | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
+    | '/admin/'
     | '/blog/'
     | '/proyectos/'
     | '/servicios/'
+    | '/admin/equipo/nuevo'
+    | '/admin/proveedores/nuevo'
+    | '/admin/proyectos/nuevo'
+    | '/admin/servicios/nuevo'
+    | '/admin/testimonios/nuevo'
+    | '/admin/equipo/'
+    | '/admin/proveedores/'
+    | '/admin/proyectos/'
+    | '/admin/servicios/'
+    | '/admin/testimonios/'
+    | '/admin/equipo/$id/editar'
+    | '/admin/proveedores/$id/editar'
+    | '/admin/proyectos/$id/editar'
+    | '/admin/servicios/$id/editar'
+    | '/admin/testimonios/$id/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContactoRoute: typeof ContactoRoute
   LoginRoute: typeof LoginRoute
   RegistroRoute: typeof RegistroRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   StyleGuideRoute: typeof StyleGuideRoute
-  AdminDashboardRoute: typeof AdminDashboardRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ClienteDashboardRoute: typeof ClienteDashboardRoute
   EmpleadoDashboardRoute: typeof EmpleadoDashboardRoute
@@ -245,6 +473,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -282,12 +517,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StyleGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/citas': {
+      id: '/admin/citas'
+      path: '/citas'
+      fullPath: '/admin/citas'
+      preLoaderRoute: typeof AdminCitasRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/dashboard': {
       id: '/admin/dashboard'
-      path: '/admin/dashboard'
+      path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/solicitudes': {
+      id: '/admin/solicitudes'
+      path: '/solicitudes'
+      fullPath: '/admin/solicitudes'
+      preLoaderRoute: typeof AdminSolicitudesRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/blog/': {
       id: '/blog/'
@@ -352,17 +608,168 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServiciosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/equipo/': {
+      id: '/admin/equipo/'
+      path: '/equipo'
+      fullPath: '/admin/equipo/'
+      preLoaderRoute: typeof AdminEquipoIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/equipo/nuevo': {
+      id: '/admin/equipo/nuevo'
+      path: '/equipo/nuevo'
+      fullPath: '/admin/equipo/nuevo'
+      preLoaderRoute: typeof AdminEquipoNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proveedores/': {
+      id: '/admin/proveedores/'
+      path: '/proveedores'
+      fullPath: '/admin/proveedores/'
+      preLoaderRoute: typeof AdminProveedoresIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proveedores/nuevo': {
+      id: '/admin/proveedores/nuevo'
+      path: '/proveedores/nuevo'
+      fullPath: '/admin/proveedores/nuevo'
+      preLoaderRoute: typeof AdminProveedoresNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proyectos/': {
+      id: '/admin/proyectos/'
+      path: '/proyectos'
+      fullPath: '/admin/proyectos/'
+      preLoaderRoute: typeof AdminProyectosIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proyectos/nuevo': {
+      id: '/admin/proyectos/nuevo'
+      path: '/proyectos/nuevo'
+      fullPath: '/admin/proyectos/nuevo'
+      preLoaderRoute: typeof AdminProyectosNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/servicios/': {
+      id: '/admin/servicios/'
+      path: '/servicios'
+      fullPath: '/admin/servicios/'
+      preLoaderRoute: typeof AdminServiciosIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/servicios/nuevo': {
+      id: '/admin/servicios/nuevo'
+      path: '/servicios/nuevo'
+      fullPath: '/admin/servicios/nuevo'
+      preLoaderRoute: typeof AdminServiciosNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/testimonios/': {
+      id: '/admin/testimonios/'
+      path: '/testimonios'
+      fullPath: '/admin/testimonios/'
+      preLoaderRoute: typeof AdminTestimoniosIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/testimonios/nuevo': {
+      id: '/admin/testimonios/nuevo'
+      path: '/testimonios/nuevo'
+      fullPath: '/admin/testimonios/nuevo'
+      preLoaderRoute: typeof AdminTestimoniosNuevoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/equipo/$id/editar': {
+      id: '/admin/equipo/$id/editar'
+      path: '/equipo/$id/editar'
+      fullPath: '/admin/equipo/$id/editar'
+      preLoaderRoute: typeof AdminEquipoIdEditarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proveedores/$id/editar': {
+      id: '/admin/proveedores/$id/editar'
+      path: '/proveedores/$id/editar'
+      fullPath: '/admin/proveedores/$id/editar'
+      preLoaderRoute: typeof AdminProveedoresIdEditarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/proyectos/$id/editar': {
+      id: '/admin/proyectos/$id/editar'
+      path: '/proyectos/$id/editar'
+      fullPath: '/admin/proyectos/$id/editar'
+      preLoaderRoute: typeof AdminProyectosIdEditarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/servicios/$id/editar': {
+      id: '/admin/servicios/$id/editar'
+      path: '/servicios/$id/editar'
+      fullPath: '/admin/servicios/$id/editar'
+      preLoaderRoute: typeof AdminServiciosIdEditarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/testimonios/$id/editar': {
+      id: '/admin/testimonios/$id/editar'
+      path: '/testimonios/$id/editar'
+      fullPath: '/admin/testimonios/$id/editar'
+      preLoaderRoute: typeof AdminTestimoniosIdEditarRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminCitasRoute: typeof AdminCitasRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminSolicitudesRoute: typeof AdminSolicitudesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminEquipoNuevoRoute: typeof AdminEquipoNuevoRoute
+  AdminProveedoresNuevoRoute: typeof AdminProveedoresNuevoRoute
+  AdminProyectosNuevoRoute: typeof AdminProyectosNuevoRoute
+  AdminServiciosNuevoRoute: typeof AdminServiciosNuevoRoute
+  AdminTestimoniosNuevoRoute: typeof AdminTestimoniosNuevoRoute
+  AdminEquipoIndexRoute: typeof AdminEquipoIndexRoute
+  AdminProveedoresIndexRoute: typeof AdminProveedoresIndexRoute
+  AdminProyectosIndexRoute: typeof AdminProyectosIndexRoute
+  AdminServiciosIndexRoute: typeof AdminServiciosIndexRoute
+  AdminTestimoniosIndexRoute: typeof AdminTestimoniosIndexRoute
+  AdminEquipoIdEditarRoute: typeof AdminEquipoIdEditarRoute
+  AdminProveedoresIdEditarRoute: typeof AdminProveedoresIdEditarRoute
+  AdminProyectosIdEditarRoute: typeof AdminProyectosIdEditarRoute
+  AdminServiciosIdEditarRoute: typeof AdminServiciosIdEditarRoute
+  AdminTestimoniosIdEditarRoute: typeof AdminTestimoniosIdEditarRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminCitasRoute: AdminCitasRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminSolicitudesRoute: AdminSolicitudesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminEquipoNuevoRoute: AdminEquipoNuevoRoute,
+  AdminProveedoresNuevoRoute: AdminProveedoresNuevoRoute,
+  AdminProyectosNuevoRoute: AdminProyectosNuevoRoute,
+  AdminServiciosNuevoRoute: AdminServiciosNuevoRoute,
+  AdminTestimoniosNuevoRoute: AdminTestimoniosNuevoRoute,
+  AdminEquipoIndexRoute: AdminEquipoIndexRoute,
+  AdminProveedoresIndexRoute: AdminProveedoresIndexRoute,
+  AdminProyectosIndexRoute: AdminProyectosIndexRoute,
+  AdminServiciosIndexRoute: AdminServiciosIndexRoute,
+  AdminTestimoniosIndexRoute: AdminTestimoniosIndexRoute,
+  AdminEquipoIdEditarRoute: AdminEquipoIdEditarRoute,
+  AdminProveedoresIdEditarRoute: AdminProveedoresIdEditarRoute,
+  AdminProyectosIdEditarRoute: AdminProyectosIdEditarRoute,
+  AdminServiciosIdEditarRoute: AdminServiciosIdEditarRoute,
+  AdminTestimoniosIdEditarRoute: AdminTestimoniosIdEditarRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContactoRoute: ContactoRoute,
   LoginRoute: LoginRoute,
   RegistroRoute: RegistroRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   StyleGuideRoute: StyleGuideRoute,
-  AdminDashboardRoute: AdminDashboardRoute,
   BlogSlugRoute: BlogSlugRoute,
   ClienteDashboardRoute: ClienteDashboardRoute,
   EmpleadoDashboardRoute: EmpleadoDashboardRoute,

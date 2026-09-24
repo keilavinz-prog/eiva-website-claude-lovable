@@ -6,7 +6,7 @@ import { z } from "zod";
 import { LoaderCircle, MailCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/auth.functions";
-import { DASHBOARD_BY_ROLE, ROLES, ROLE_LABEL } from "@/lib/auth";
+import { DASHBOARD_BY_ROLE } from "@/lib/auth";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { Field, FormAlert, inputClass } from "@/components/auth/fields";
 
@@ -23,7 +23,6 @@ const schema = z
       .min(8, "La contraseña debe tener al menos 8 caracteres.")
       .regex(/\d/, "La contraseña debe incluir al menos un número."),
     confirm: z.string().min(1, "Repite la contraseña."),
-    role: z.enum(ROLES),
   })
   .refine((v) => v.password === v.confirm, {
     path: ["confirm"],
@@ -50,7 +49,7 @@ function RegistroPage() {
     formState: { errors },
   } = useForm<Values>({
     resolver: zodResolver(schema),
-    defaultValues: { full_name: "", email: "", password: "", confirm: "", role: "cliente" },
+    defaultValues: { full_name: "", email: "", password: "", confirm: "" },
   });
 
   async function onSubmit(values: Values) {
@@ -60,8 +59,9 @@ function RegistroPage() {
       email: values.email,
       password: values.password,
       options: {
-        // El trigger handle_new_user usa estos datos para crear el perfil
-        data: { full_name: values.full_name, role: values.role },
+        // El trigger handle_new_user crea el perfil SIEMPRE con rol "cliente".
+        // Los roles admin / empleado / proveedor solo los asigna un administrador.
+        data: { full_name: values.full_name },
         emailRedirectTo: `${window.location.origin}/login`,
       },
     });
@@ -94,7 +94,7 @@ function RegistroPage() {
 
     const profile = await getMyProfile().catch(() => null);
     setSending(false);
-    await navigate({ to: DASHBOARD_BY_ROLE[profile?.role ?? values.role] });
+    await navigate({ to: DASHBOARD_BY_ROLE[profile?.role ?? "cliente"] });
   }
 
   if (pendingEmail) {
@@ -181,22 +181,6 @@ function RegistroPage() {
             className={inputClass}
             {...register("confirm")}
           />
-        </Field>
-
-        {/*
-          ⚠️ SOLO PARA ESTA DEMO: el selector de rol permite elegir cualquier rol al registrarse.
-          En producción real este selector se ELIMINARÍA (todo registro público sería "cliente")
-          y los roles admin / empleado / proveedor se asignarían solo por invitación de un admin.
-          Debe resolverse antes de dar funciones reales al panel de administración (Fase 4).
-        */}
-        <Field id="role" label="Rol (solo demo)" error={errors.role?.message}>
-          <select id="role" className={inputClass} {...register("role")}>
-            {ROLES.map((r) => (
-              <option key={r} value={r}>
-                {ROLE_LABEL[r]}
-              </option>
-            ))}
-          </select>
         </Field>
 
         {formError ? <FormAlert>{formError}</FormAlert> : null}

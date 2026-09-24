@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { AccountMenu, MobileAccountLinks } from "./AccountMenu";
 
 export const NAV_LINKS = [
   { label: "Inicio", to: "/" },
@@ -54,6 +55,7 @@ export function Header() {
           <Link to="/contacto" className="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">
             Solicitar consulta
           </Link>
+          <AccountMenu />
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-text lg:hidden"
@@ -96,6 +98,7 @@ export function Header() {
                 Solicitar consulta
               </Link>
             </li>
+            <MobileAccountLinks onNavigate={() => setOpen(false)} />
           </ul>
         </nav>
       ) : null}

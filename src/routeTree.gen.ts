@@ -11,8 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as ClienteDashboardRouteImport } from './routes/cliente.dashboard'
+import { Route as EmpleadoDashboardRouteImport } from './routes/empleado.dashboard'
+import { Route as ProveedorDashboardRouteImport } from './routes/proveedor.dashboard'
 import { Route as ProyectosIndexRouteImport } from './routes/proyectos.index'
 import { Route as ProyectosSlugRouteImport } from './routes/proyectos.$slug'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
@@ -28,6 +34,16 @@ const ContactoRoute = ContactoRouteImport.update({
   path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistroRoute = RegistroRouteImport.update({
+  id: '/registro',
+  path: '/registro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
   id: '/sobre-nosotros',
   path: '/sobre-nosotros',
@@ -36,6 +52,26 @@ const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
 const StyleGuideRoute = StyleGuideRouteImport.update({
   id: '/style-guide',
   path: '/style-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClienteDashboardRoute = ClienteDashboardRouteImport.update({
+  id: '/cliente/dashboard',
+  path: '/cliente/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpleadoDashboardRoute = EmpleadoDashboardRouteImport.update({
+  id: '/empleado/dashboard',
+  path: '/empleado/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProveedorDashboardRoute = ProveedorDashboardRouteImport.update({
+  id: '/proveedor/dashboard',
+  path: '/proveedor/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProyectosIndexRoute = ProyectosIndexRouteImport.update({
@@ -62,8 +98,14 @@ const ServiciosSlugRoute = ServiciosSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/login': typeof LoginRoute
+  '/registro': typeof RegistroRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/cliente/dashboard': typeof ClienteDashboardRoute
+  '/empleado/dashboard': typeof EmpleadoDashboardRoute
+  '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/proyectos/': typeof ProyectosIndexRoute
@@ -72,8 +114,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/login': typeof LoginRoute
+  '/registro': typeof RegistroRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/cliente/dashboard': typeof ClienteDashboardRoute
+  '/empleado/dashboard': typeof EmpleadoDashboardRoute
+  '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/proyectos': typeof ProyectosIndexRoute
@@ -83,8 +131,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/login': typeof LoginRoute
+  '/registro': typeof RegistroRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/cliente/dashboard': typeof ClienteDashboardRoute
+  '/empleado/dashboard': typeof EmpleadoDashboardRoute
+  '/proveedor/dashboard': typeof ProveedorDashboardRoute
   '/proyectos/$slug': typeof ProyectosSlugRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/proyectos/': typeof ProyectosIndexRoute
@@ -95,8 +149,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contacto'
+    | '/login'
+    | '/registro'
     | '/sobre-nosotros'
     | '/style-guide'
+    | '/admin/dashboard'
+    | '/cliente/dashboard'
+    | '/empleado/dashboard'
+    | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
     | '/proyectos/'
@@ -105,8 +165,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contacto'
+    | '/login'
+    | '/registro'
     | '/sobre-nosotros'
     | '/style-guide'
+    | '/admin/dashboard'
+    | '/cliente/dashboard'
+    | '/empleado/dashboard'
+    | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
     | '/proyectos'
@@ -115,8 +181,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contacto'
+    | '/login'
+    | '/registro'
     | '/sobre-nosotros'
     | '/style-guide'
+    | '/admin/dashboard'
+    | '/cliente/dashboard'
+    | '/empleado/dashboard'
+    | '/proveedor/dashboard'
     | '/proyectos/$slug'
     | '/servicios/$slug'
     | '/proyectos/'
@@ -126,8 +198,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactoRoute: typeof ContactoRoute
+  LoginRoute: typeof LoginRoute
+  RegistroRoute: typeof RegistroRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   StyleGuideRoute: typeof StyleGuideRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  ClienteDashboardRoute: typeof ClienteDashboardRoute
+  EmpleadoDashboardRoute: typeof EmpleadoDashboardRoute
+  ProveedorDashboardRoute: typeof ProveedorDashboardRoute
   ProyectosSlugRoute: typeof ProyectosSlugRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
   ProyectosIndexRoute: typeof ProyectosIndexRoute
@@ -150,6 +228,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registro': {
+      id: '/registro'
+      path: '/registro'
+      fullPath: '/registro'
+      preLoaderRoute: typeof RegistroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sobre-nosotros': {
       id: '/sobre-nosotros'
       path: '/sobre-nosotros'
@@ -162,6 +254,34 @@ declare module '@tanstack/react-router' {
       path: '/style-guide'
       fullPath: '/style-guide'
       preLoaderRoute: typeof StyleGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/dashboard': {
+      id: '/cliente/dashboard'
+      path: '/cliente/dashboard'
+      fullPath: '/cliente/dashboard'
+      preLoaderRoute: typeof ClienteDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empleado/dashboard': {
+      id: '/empleado/dashboard'
+      path: '/empleado/dashboard'
+      fullPath: '/empleado/dashboard'
+      preLoaderRoute: typeof EmpleadoDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proveedor/dashboard': {
+      id: '/proveedor/dashboard'
+      path: '/proveedor/dashboard'
+      fullPath: '/proveedor/dashboard'
+      preLoaderRoute: typeof ProveedorDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/proyectos/': {
@@ -198,8 +318,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactoRoute: ContactoRoute,
+  LoginRoute: LoginRoute,
+  RegistroRoute: RegistroRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   StyleGuideRoute: StyleGuideRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  ClienteDashboardRoute: ClienteDashboardRoute,
+  EmpleadoDashboardRoute: EmpleadoDashboardRoute,
+  ProveedorDashboardRoute: ProveedorDashboardRoute,
   ProyectosSlugRoute: ProyectosSlugRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
   ProyectosIndexRoute: ProyectosIndexRoute,

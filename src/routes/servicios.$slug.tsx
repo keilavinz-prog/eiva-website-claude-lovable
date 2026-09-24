@@ -16,6 +16,9 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { PageSkeleton } from "@/components/site/Skeletons";
 import { NotFoundPanel } from "@/components/site/NotFoundPanel";
 import { Header } from "@/components/site/Header";
+import { RichText } from "@/components/site/RichText";
+import { SafeImage } from "@/components/site/SafeImage";
+import { serviceImage } from "@/lib/images";
 
 export const Route = createFileRoute("/servicios/$slug")({
   loader: async ({ params }) => {
@@ -49,7 +52,7 @@ function ServiceNotFound() {
         message="Puede que el enlace esté mal escrito o que el servicio ya no esté disponible."
       >
         <Link to="/servicios" className="btn-primary px-7 py-3.5">
-          Ver todas las áreas de trabajo
+          Ver todos los servicios
         </Link>
         <Link to="/" className="btn-secondary px-7 py-3.5">
           Volver al inicio
@@ -61,10 +64,7 @@ function ServiceNotFound() {
 
 function ServicioDetalle() {
   const { company, service, related } = Route.useLoaderData();
-  const paragraphs = (service.full_description ?? service.short_description)
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean);
+  const image = serviceImage(service.slug);
 
   return (
     <PageShell company={company}>
@@ -73,7 +73,7 @@ function ServicioDetalle() {
           <Breadcrumbs
             items={[
               { label: "Inicio", to: "/" },
-              { label: "Áreas de trabajo", to: "/servicios" },
+              { label: "Servicios", to: "/servicios" },
               { label: service.title },
             ]}
           />
@@ -91,13 +91,26 @@ function ServicioDetalle() {
 
       <section className="theme-light bg-canvas py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <Reveal className="max-w-[68ch] space-y-6 text-lg leading-relaxed text-text-muted">
-            {paragraphs.map((p, i) => (
-              <p key={i} className={i === 0 ? "text-xl text-text" : undefined}>
-                {p}
-              </p>
-            ))}
-          </Reveal>
+          <div
+            className={
+              image ? "grid gap-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]" : "max-w-[68ch]"
+            }
+          >
+            <Reveal className="max-w-[68ch]">
+              <RichText text={service.full_description ?? service.short_description} lead />
+            </Reveal>
+            {image ? (
+              <Reveal delay={100} className="lg:sticky lg:top-24 lg:self-start">
+                <div className="card-tech overflow-hidden">
+                  <SafeImage
+                    src={image}
+                    alt={service.title}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </div>
+              </Reveal>
+            ) : null}
+          </div>
         </div>
       </section>
 
@@ -105,7 +118,7 @@ function ServicioDetalle() {
         <section className="theme-light bg-blueprint border-t border-line py-16 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <Reveal>
-              <SectionHeading kicker="// proyectos" title="Proyectos relacionados" />
+              <SectionHeading kicker="// áreas de trabajo" title="Áreas de trabajo relacionadas" />
             </Reveal>
             <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {related.map((p, i) => (

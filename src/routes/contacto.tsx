@@ -22,7 +22,8 @@ export const Route = createFileRoute("/contacto")({
       { title: "Contacto | EEIVA" },
       {
         name: "description",
-        content: "Pide presupuesto para tu instalación eléctrica. Te respondemos en menos de 24h.",
+        content:
+          "Contacta con los expertos en ingeniería eléctrica de EEIVA. Teléfono activo 24 h, 365 días del año.",
       },
     ],
   }),
@@ -44,7 +45,7 @@ function ContactoPage() {
       <PageHero
         breadcrumb={<Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Contacto" }]} />}
         kicker="// contacto"
-        title="Hablemos de tu proyecto"
+        title="¿Tienes preguntas? ¡Háblanos!"
         subtitle={
           <span className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-base">
             {company.phone ? (

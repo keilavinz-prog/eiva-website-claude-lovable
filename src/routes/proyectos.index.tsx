@@ -16,11 +16,11 @@ export const Route = createFileRoute("/proyectos/")({
   },
   head: () => ({
     meta: [
-      { title: "Proyectos | EEIVA" },
+      { title: "Áreas de trabajo | EEIVA" },
       {
         name: "description",
         content:
-          "Proyectos de ingeniería eléctrica de EEIVA a nivel provincial, nacional e internacional.",
+          "Áreas de trabajo de EEIVA: baja y alta tensión, alumbrado, fotovoltaica, eficiencia energética, telecomunicaciones, redes, seguridad y climatización.",
       },
     ],
   }),
@@ -38,16 +38,18 @@ function ProyectosPage() {
   return (
     <PageShell company={company}>
       <PageHero
-        breadcrumb={<Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Proyectos" }]} />}
-        kicker="// proyectos"
-        title="Proyectos Ejecutados"
-        subtitle="Trabajos a nivel provincial, nacional e internacional"
+        breadcrumb={
+          <Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Áreas de trabajo" }]} />
+        }
+        kicker="// áreas de trabajo"
+        title="Áreas de trabajo"
+        subtitle="Un departamento de ingeniería para resolver cualquier cuestión relacionada con el sector eléctrico, a nivel provincial, nacional e internacional"
       />
       <section className="theme-light bg-blueprint py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           {projects.length > 0 ? (
             <FilterChips
-              label="Filtrar proyectos por categoría"
+              label="Filtrar áreas de trabajo por categoría"
               options={categories}
               value={filter}
               onChange={setFilter}
@@ -69,8 +71,8 @@ function ProyectosPage() {
               <EmptyState
                 message={
                   projects.length === 0
-                    ? "Estamos preparando nuestra galería de proyectos. Muy pronto podrás ver aquí nuestros trabajos."
-                    : "No hay proyectos en esta categoría todavía."
+                    ? "Muy pronto podrás ver aquí nuestras áreas de trabajo."
+                    : "No hay áreas de trabajo en esta categoría todavía."
                 }
               />
             </div>

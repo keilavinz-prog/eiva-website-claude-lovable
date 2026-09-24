@@ -42,3 +42,17 @@ export function teamPhoto(member: TeamMember, index: number): string {
     PORTRAIT_PLACEHOLDERS[0]
   );
 }
+
+/** Imágenes de cada servicio (tomadas de eeiva.es). */
+const SERVICE_IMAGES: Record<string, string> = {
+  "revision-mantenimiento-instalaciones-electricas":
+    "https://eeiva.es/wp-content/uploads/2020/04/maintenance-engineers-2021-08-26-16-53-14-utc.jpg",
+  "ingenieria-automatizacion-control":
+    "https://eeiva.es/wp-content/uploads/2020/04/maintenance-engineer-solar-energy-systems-enginee-2022-11-14-08-55-20-utc.jpg",
+  "legalizacion-gestion-proyectos-ingenieria":
+    "https://eeiva.es/wp-content/uploads/2020/04/a-man-signs-a-contrac-legal-or-business-agreement-2022-11-11-23-30-25-utc-1.jpg",
+};
+
+export function serviceImage(slug: string): string | null {
+  return SERVICE_IMAGES[slug] ?? null;
+}

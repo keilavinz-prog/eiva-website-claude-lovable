@@ -68,14 +68,9 @@ export async function fetchTeam(): Promise<TeamMember[]> {
 
 /** Categorías de proyecto afines a cada categoría de servicio. */
 const RELATED_PROJECT_CATEGORIES: Record<string, string[]> = {
-  Instalaciones: ["Industrial", "Comercial", "Hostelería"],
-  Certificación: ["Residencial", "Hostelería"],
-  Automatización: ["Residencial Premium"],
-  Movilidad: ["Movilidad Eléctrica"],
-  Energía: ["Energía Solar"],
-  Climatización: ["Hostelería", "Comercial"],
-  Eficiencia: ["Industrial", "Comercial"],
-  Telecomunicaciones: ["Comercial"],
+  Mantenimiento: ["Instalaciones eléctricas", "Climatización"],
+  Automatización: ["Instalaciones eléctricas", "Telecomunicaciones y redes", "Seguridad"],
+  Ingeniería: ["Energía y eficiencia", "Instalaciones eléctricas"],
 };
 
 /** 2-3 proyectos relacionados con un servicio; si no hay coincidencias, proyectos destacados. */

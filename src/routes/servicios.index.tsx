@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { fetchCompany, fetchServices } from "@/lib/site-data";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
@@ -16,11 +16,11 @@ export const Route = createFileRoute("/servicios/")({
   },
   head: () => ({
     meta: [
-      { title: "Áreas de trabajo | EEIVA" },
+      { title: "Servicios | EEIVA" },
       {
         name: "description",
         content:
-          "Áreas de trabajo de EEIVA: instalaciones eléctricas, energías renovables, automatización, telecomunicaciones, seguridad y eficiencia energética.",
+          "Servicios de EEIVA: revisión y mantenimiento de instalaciones eléctricas, ingeniería de automatización y control, y legalización y gestión de proyectos.",
       },
     ],
   }),
@@ -41,25 +41,20 @@ function ServiciosPage() {
   return (
     <PageShell company={company}>
       <PageHero
-        breadcrumb={
-          <Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Áreas de trabajo" }]} />
-        }
-        kicker="// áreas de trabajo"
-        title="Áreas de trabajo"
-        subtitle="Un departamento de ingeniería para resolver cualquier cuestión relacionada con el sector eléctrico"
+        breadcrumb={<Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Servicios" }]} />}
+        kicker="// servicios"
+        title="Nuestros servicios"
+        subtitle="Soluciones integrales en ingeniería eléctrica: diseño, automatización y seguridad para proyectos eléctricos"
       />
       <section className="theme-light bg-canvas py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <FilterChips
-            label="Filtrar áreas de trabajo por categoría"
+            label="Filtrar servicios por categoría"
             options={categories}
             value={filter}
             onChange={setFilter}
           />
-          <div
-            key={filter}
-            className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-          >
+          <div key={filter} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((s, i) => (
               <div
                 key={s.id}
@@ -72,9 +67,26 @@ function ServiciosPage() {
           </div>
           {visible.length === 0 ? (
             <div className="mt-10">
-              <EmptyState message="No hay áreas de trabajo en esta categoría todavía." />
+              <EmptyState message="No hay servicios en esta categoría todavía." />
             </div>
           ) : null}
+        </div>
+      </section>
+      <section className="theme-light border-t border-line bg-surface py-16 sm:py-20">
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="font-mono text-xs text-electric">// áreas de trabajo</p>
+            <h2 className="mt-3 text-2xl font-bold text-text sm:text-3xl">
+              Baja y alta tensión, renovables, telecomunicaciones, seguridad, climatización y más
+            </h2>
+            <p className="mt-3 text-text-muted">
+              Descubre las 9 áreas en las que trabajamos a nivel provincial, nacional e
+              internacional, con asistencia en averías las 24 horas, los 365 días del año.
+            </p>
+          </div>
+          <Link to="/proyectos" className="btn-primary shrink-0 px-7 py-3.5">
+            Ver áreas de trabajo
+          </Link>
         </div>
       </section>
     </PageShell>

@@ -5,7 +5,8 @@ import { Logo } from "./Logo";
 
 export const NAV_LINKS = [
   { label: "Inicio", to: "/" },
-  { label: "Áreas de trabajo", to: "/servicios" },
+  { label: "Servicios", to: "/servicios" },
+  { label: "Áreas de trabajo", to: "/proyectos" },
   { label: "Equipo EEIVA", to: "/sobre-nosotros" },
   { label: "Contacto", to: "/contacto" },
 ] as const;

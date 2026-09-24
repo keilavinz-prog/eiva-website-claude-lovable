@@ -11,11 +11,11 @@ export function FeaturedServices({ services }: { services: Service[] }) {
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <SectionHeading
-            kicker="// áreas de trabajo"
+            kicker="// servicios"
             title="Soluciones integrales en ingeniería eléctrica"
           />
         </Reveal>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
             <Reveal key={s.id} delay={i * 80}>
               <article className="card-tech card-tech-interactive flex h-full flex-col p-6">
@@ -44,7 +44,7 @@ export function FeaturedServices({ services }: { services: Service[] }) {
         </div>
         <div className="mt-10">
           <Link to="/servicios" className="btn-secondary px-6 py-3 text-sm">
-            Ver todas las áreas de trabajo
+            Ver todos los servicios
           </Link>
         </div>
       </div>

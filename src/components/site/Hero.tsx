@@ -28,7 +28,7 @@ export function Hero({ company }: { company: CompanyInfo }) {
             <Link to="/contacto" className="btn-primary px-7 py-3.5 text-base">
               Solicitar consulta
             </Link>
-            <Link to="/servicios" className="btn-secondary px-7 py-3.5 text-base backdrop-blur">
+            <Link to="/proyectos" className="btn-secondary px-7 py-3.5 text-base backdrop-blur">
               Ver áreas de trabajo
             </Link>
           </div>

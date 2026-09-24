@@ -11,6 +11,7 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { PageSkeleton } from "@/components/site/Skeletons";
 import { NotFoundPanel } from "@/components/site/NotFoundPanel";
 import { Header } from "@/components/site/Header";
+import { RichText } from "@/components/site/RichText";
 import { formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/proyectos/$slug")({
@@ -21,13 +22,13 @@ export const Route = createFileRoute("/proyectos/$slug")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.project.title} | Proyectos EEIVA` },
+          { title: `${loaderData.project.title} | EEIVA` },
           {
             name: "description",
             content: (loaderData.project.description ?? loaderData.project.title).slice(0, 155),
           },
         ]
-      : [{ title: "Proyecto no encontrado | EEIVA" }],
+      : [{ title: "Área de trabajo no encontrada | EEIVA" }],
   }),
   pendingComponent: () => <PageSkeleton variant="detail" />,
   pendingMs: 150,
@@ -40,11 +41,11 @@ function ProjectNotFound() {
     <div className="min-h-screen bg-canvas">
       <Header />
       <NotFoundPanel
-        title="Este proyecto no existe"
-        message="Puede que el enlace esté mal escrito o que el proyecto ya no esté publicado."
+        title="Esta área de trabajo no existe"
+        message="Puede que el enlace esté mal escrito o que la página ya no esté publicada."
       >
         <Link to="/proyectos" className="btn-primary px-7 py-3.5">
-          Ver todos los proyectos
+          Ver todas las áreas de trabajo
         </Link>
         <Link to="/" className="btn-secondary px-7 py-3.5">
           Volver al inicio
@@ -69,10 +70,6 @@ function ProyectoDetalle() {
   const { company, project } = Route.useLoaderData();
   const images = projectImages(project);
   const date = formatDate(project.completion_date);
-  const paragraphs = (project.description ?? "")
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean);
 
   return (
     <PageShell company={company}>
@@ -81,7 +78,7 @@ function ProyectoDetalle() {
           <Breadcrumbs
             items={[
               { label: "Inicio", to: "/" },
-              { label: "Proyectos", to: "/proyectos" },
+              { label: "Áreas de trabajo", to: "/proyectos" },
               { label: project.title },
             ]}
           />
@@ -98,25 +95,25 @@ function ProyectoDetalle() {
         <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div>
             <Gallery images={images} title={project.title} />
-            {paragraphs.length > 0 ? (
-              <Reveal className="mt-10 max-w-[68ch] space-y-5 text-lg leading-relaxed text-text-muted">
-                {paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
+            {project.description ? (
+              <Reveal className="mt-10 max-w-[68ch]">
+                <RichText text={project.description} lead />
               </Reveal>
             ) : null}
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <div className="card-tech p-6">
-              <p className="font-mono text-xs text-electric">// ficha técnica</p>
+              <p className="font-mono text-xs text-electric">// ficha</p>
               <dl className="mt-2">
                 {project.client_name ? (
                   <SpecRow label="Cliente">{project.client_name}</SpecRow>
                 ) : null}
                 {project.location ? <SpecRow label="Ubicación">{project.location}</SpecRow> : null}
                 <SpecRow label="Categoría">{project.category}</SpecRow>
-                <SpecRow label="Fecha finalización">{date ?? "—"}</SpecRow>
+                {date ? <SpecRow label="Fecha finalización">{date}</SpecRow> : null}
+                <SpecRow label="Asistencia en averías">24 h · 365 días</SpecRow>
+                <SpecRow label="Ámbito">Provincial, nacional e internacional</SpecRow>
                 {project.power_detail ? (
                   <SpecRow label="Potencia">
                     <span className="font-semibold text-electric">{project.power_detail}</span>
@@ -128,9 +125,9 @@ function ProyectoDetalle() {
         </div>
       </section>
 
-      <CtaBand title="¿Quieres un proyecto similar?">
+      <CtaBand title="¿Necesitas una solución en esta área?">
         <Link to="/contacto" className="btn-accent px-8 py-4 text-base">
-          Contactar ahora
+          Solicitar consulta
         </Link>
       </CtaBand>
     </PageShell>

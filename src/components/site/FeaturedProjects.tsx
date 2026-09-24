@@ -12,7 +12,10 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <SectionHeading kicker="// proyectos" title="Proyectos destacados" />
+          <SectionHeading kicker="// áreas de trabajo" title="Áreas de trabajo">
+            Un departamento de ingeniería para resolver cualquier cuestión relacionada con el sector
+            eléctrico.
+          </SectionHeading>
         </Reveal>
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
           {projects.map((p, i) => (
@@ -23,7 +26,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
         </div>
         <div className="mt-10">
           <Link to="/proyectos" className="btn-secondary px-6 py-3 text-sm">
-            Ver todos los proyectos
+            Ver todas las áreas de trabajo
           </Link>
         </div>
       </div>

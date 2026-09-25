@@ -33,7 +33,11 @@ export function initials(name: string): string {
 
 /** Solo acepta rutas internas ("/algo"), para evitar redirecciones a otros dominios. */
 export function safeRedirect(value: unknown): string | undefined {
-  return typeof value === "string" && value.startsWith("/") && !value.startsWith("//")
+  // "//dominio" y "/\dominio" los navegadores los tratan como otro dominio: se rechazan
+  return typeof value === "string" &&
+    value.startsWith("/") &&
+    !value.startsWith("//") &&
+    !value.includes("\\")
     ? value
     : undefined;
 }

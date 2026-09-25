@@ -7,7 +7,13 @@ import { AssignSelect } from "../AssignSelect";
 import { MeetingTypeBadge } from "@/components/booking/AppointmentCard";
 import { MeetingLinks } from "@/components/booking/MeetingLinks";
 import { attachLinksAfterConfirm } from "@/lib/meeting-links";
-import { listAppointments, setAppointmentStatus, type AppointmentRow } from "@/lib/admin/api";
+import {
+  getAppointment,
+  listAppointments,
+  setAppointmentStatus,
+  type AppointmentRow,
+} from "@/lib/admin/api";
+import { useLiveRows } from "@/lib/live-rows";
 import { APPOINTMENT_STATUSES, STATUS_LABEL } from "@/lib/admin/constants";
 
 function formatDay(date: string) {
@@ -22,6 +28,8 @@ export function AppointmentsList() {
   const qc = useQueryClient();
   const key = ["admin", "appointments"];
   const query = useQuery({ queryKey: key, queryFn: listAppointments });
+  // Tiempo real: filas nuevas arriba (resaltadas) y cambios de otras sesiones en vivo
+  const fresh = useLiveRows<AppointmentRow>("admin-citas", "appointments", key, getAppointment);
 
   const status = useMutation({
     mutationFn: ({ id, value }: { id: string; value: string }) => setAppointmentStatus(id, value),
@@ -128,6 +136,7 @@ export function AppointmentsList() {
   return (
     <AdminPage kicker="// gestión" title="Citas" description="Citas solicitadas por clientes.">
       <DataTable
+        rowClassName={(r) => (fresh.has(r.id) ? "rt-fresh" : undefined)}
         columns={columns}
         rows={query.data}
         isLoading={query.isLoading}

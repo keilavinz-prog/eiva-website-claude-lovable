@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Info, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { attachLinksAfterConfirm } from "@/lib/meeting-links";
+import { useFreshIds, useTableChanges } from "@/lib/realtime";
+import { getAppointment, getRequest } from "@/lib/admin/api";
 import {
   Sheet,
   SheetContent,
@@ -85,6 +87,32 @@ export function EmployeeHome({ profile }: { profile: SessionProfile }) {
       status === "confirmada" ? attachLinksAfterConfirm(qc, aKey, id) : Promise.resolve(),
   );
   const rStatus = useStatusMutation<AssignedRequest>(rKey, setAssignedRequestStatus);
+
+  // Tiempo real: el canal solo entrega filas que el empleado puede leer (RLS), y además
+  // se filtra aquí por assigned_to = yo antes de tocar la lista.
+  const { fresh, mark } = useFreshIds();
+  useTableChanges(`empleado-${profile.id}`, ["appointments", "contact_requests"], async (c) => {
+    if (c.row["assigned_to"] !== profile.id) return;
+    const id = String(c.row["id"]);
+    const key = c.table === "appointments" ? aKey : rKey;
+    const known = (qc.getQueryData<{ id: string }[]>(key) ?? []).some((r) => r.id === id);
+    if (known) {
+      qc.setQueryData<{ id: string; services?: unknown }[]>(key, (rows) =>
+        rows?.map((r) => (r.id === id ? { ...r, ...c.row, services: r.services } : r)),
+      );
+      return;
+    }
+    const full =
+      c.table === "appointments"
+        ? await getAppointment(id).catch(() => null)
+        : await getRequest(id).catch(() => null);
+    if (!full) return;
+    qc.setQueryData<{ id: string }[]>(key, (rows) =>
+      rows?.some((r) => r.id === id) ? rows : [full, ...(rows ?? [])],
+    );
+    mark(id);
+    toast(`Nueva tarea asignada: ${full.name} · ${full.services?.title ?? "General"}`);
+  });
   const [openId, setOpenId] = useState<string | null>(null);
   const open = requests.data?.find((r) => r.id === openId) ?? null;
 
@@ -115,6 +143,7 @@ export function EmployeeHome({ profile }: { profile: SessionProfile }) {
                 <AppointmentCard
                   key={a.id}
                   appointment={a}
+                  highlight={fresh.has(a.id)}
                   extra={
                     <p className="mt-1 text-sm text-text-muted">
                       {a.name} · {a.email}
@@ -156,7 +185,12 @@ export function EmployeeHome({ profile }: { profile: SessionProfile }) {
               <Empty />
             ) : (
               requests.data?.map((r) => (
-                <div key={r.id} className="rounded-md border border-line bg-surface p-4">
+                <div
+                  key={r.id}
+                  className={`rounded-md border border-line bg-surface p-4 ${
+                    fresh.has(r.id) ? "rt-fresh-card" : ""
+                  }`}
+                >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="font-medium text-text">{r.name}</p>

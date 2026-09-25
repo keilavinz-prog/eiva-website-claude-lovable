@@ -119,3 +119,20 @@ export async function countAppointments(): Promise<number> {
   if (error) throw new Error(friendlyError(error));
   return count ?? 0;
 }
+
+export type Employee = { id: string; full_name: string; email: string };
+
+/** Perfiles con rol empleado (para el selector "Asignar a"). */
+export async function listEmployees(): Promise<Employee[]> {
+  return run<Employee[]>(
+    db.from("profiles").select("id, full_name, email").eq("role", "empleado").order("full_name"),
+  );
+}
+
+export async function assignTo(
+  table: "contact_requests" | "appointments",
+  id: string,
+  userId: string | null,
+) {
+  return run<null>(db.from(table).update({ assigned_to: userId }).eq("id", id));
+}

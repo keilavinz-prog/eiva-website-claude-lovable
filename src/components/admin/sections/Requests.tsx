@@ -14,6 +14,7 @@ import { inputClass } from "@/components/auth/fields";
 import { AdminPage } from "../AdminPage";
 import { DataTable, type Column } from "../DataTable";
 import { StatusBadge } from "../StatusBadge";
+import { AssignSelect } from "../AssignSelect";
 import { listRequests, setRequestStatus, type RequestRow } from "@/lib/admin/api";
 import { REQUEST_STATUSES, STATUS_LABEL } from "@/lib/admin/constants";
 import { formatDateTime } from "@/lib/format";
@@ -68,6 +69,18 @@ export function RequestsList() {
       ),
     },
     { key: "status", header: "Estado", cell: (r) => <StatusBadge status={r.status} /> },
+    {
+      key: "assigned",
+      header: "Asignar a",
+      cell: (r) => (
+        <AssignSelect
+          table="contact_requests"
+          id={r.id}
+          value={r.assigned_to}
+          label={`Asignar la solicitud de ${r.name}`}
+        />
+      ),
+    },
   ];
 
   return (

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { LoaderCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/auth.functions";
-import { DASHBOARD_BY_ROLE } from "@/lib/auth";
+import { DASHBOARD_BY_ROLE, safeRedirect } from "@/lib/auth";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { Field, FormAlert, inputClass } from "@/components/auth/fields";
 
@@ -17,6 +17,10 @@ const schema = z.object({
 type Values = z.infer<typeof schema>;
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
+    const redirect = safeRedirect(search["redirect"]);
+    return redirect ? { redirect } : {};
+  },
   head: () => ({
     meta: [{ title: "Iniciar sesión | EEIVA" }, { name: "robots", content: "noindex" }],
   }),
@@ -25,6 +29,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const [sending, setSending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const {
@@ -61,7 +66,9 @@ function LoginPage() {
       setFormError("No encontramos tu perfil. Contacta con nosotros si el problema continúa.");
       return;
     }
-    await navigate({ to: DASHBOARD_BY_ROLE[profile.role] });
+    // Vuelve a donde estaba (p. ej. la reserva) o, si no, a su panel
+    if (redirect) await navigate({ href: redirect });
+    else await navigate({ to: DASHBOARD_BY_ROLE[profile.role] });
   }
 
   return (
@@ -71,7 +78,11 @@ function LoginPage() {
       footer={
         <>
           ¿No tienes cuenta?{" "}
-          <Link to="/registro" className="font-medium text-electric hover:underline">
+          <Link
+            to="/registro"
+            search={redirect ? { redirect } : {}}
+            className="font-medium text-electric hover:underline"
+          >
             Regístrate
           </Link>
         </>

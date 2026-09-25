@@ -13,8 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
+import { Route as RegistroRouteImport } from './routes/registro'
+import { Route as ReservarRouteImport } from './routes/reservar'
 import { Route as RestablecerContrasenaRouteImport } from './routes/restablecer-contrasena'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
@@ -67,14 +68,19 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
+  id: '/recuperar-contrasena',
+  path: '/recuperar-contrasena',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegistroRoute = RegistroRouteImport.update({
   id: '/registro',
   path: '/registro',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
-  id: '/recuperar-contrasena',
-  path: '/recuperar-contrasena',
+const ReservarRoute = ReservarRouteImport.update({
+  id: '/reservar',
+  path: '/reservar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RestablecerContrasenaRoute = RestablecerContrasenaRouteImport.update({
@@ -240,8 +246,9 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
-  '/registro': typeof RegistroRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
+  '/registro': typeof RegistroRoute
+  '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
@@ -278,8 +285,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
-  '/registro': typeof RegistroRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
+  '/registro': typeof RegistroRoute
+  '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
@@ -318,8 +326,9 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
-  '/registro': typeof RegistroRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
+  '/registro': typeof RegistroRoute
+  '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
@@ -359,8 +368,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contacto'
     | '/login'
-    | '/registro'
     | '/recuperar-contrasena'
+    | '/registro'
+    | '/reservar'
     | '/restablecer-contrasena'
     | '/sobre-nosotros'
     | '/style-guide'
@@ -397,8 +407,9 @@ export interface FileRouteTypes {
     | '/'
     | '/contacto'
     | '/login'
-    | '/registro'
     | '/recuperar-contrasena'
+    | '/registro'
+    | '/reservar'
     | '/restablecer-contrasena'
     | '/sobre-nosotros'
     | '/style-guide'
@@ -436,8 +447,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contacto'
     | '/login'
-    | '/registro'
     | '/recuperar-contrasena'
+    | '/registro'
+    | '/reservar'
     | '/restablecer-contrasena'
     | '/sobre-nosotros'
     | '/style-guide'
@@ -476,8 +488,9 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   ContactoRoute: typeof ContactoRoute
   LoginRoute: typeof LoginRoute
-  RegistroRoute: typeof RegistroRoute
   RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
+  RegistroRoute: typeof RegistroRoute
+  ReservarRoute: typeof ReservarRoute
   RestablecerContrasenaRoute: typeof RestablecerContrasenaRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   StyleGuideRoute: typeof StyleGuideRoute
@@ -522,6 +535,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recuperar-contrasena': {
+      id: '/recuperar-contrasena'
+      path: '/recuperar-contrasena'
+      fullPath: '/recuperar-contrasena'
+      preLoaderRoute: typeof RecuperarContrasenaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/registro': {
       id: '/registro'
       path: '/registro'
@@ -529,11 +549,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistroRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/recuperar-contrasena': {
-      id: '/recuperar-contrasena'
-      path: '/recuperar-contrasena'
-      fullPath: '/recuperar-contrasena'
-      preLoaderRoute: typeof RecuperarContrasenaRouteImport
+    '/reservar': {
+      id: '/reservar'
+      path: '/reservar'
+      fullPath: '/reservar'
+      preLoaderRoute: typeof ReservarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/restablecer-contrasena': {
@@ -807,8 +827,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   ContactoRoute: ContactoRoute,
   LoginRoute: LoginRoute,
-  RegistroRoute: RegistroRoute,
   RecuperarContrasenaRoute: RecuperarContrasenaRoute,
+  RegistroRoute: RegistroRoute,
+  ReservarRoute: ReservarRoute,
   RestablecerContrasenaRoute: RestablecerContrasenaRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   StyleGuideRoute: StyleGuideRoute,

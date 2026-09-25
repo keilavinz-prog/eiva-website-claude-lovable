@@ -6,7 +6,7 @@ import { z } from "zod";
 import { LoaderCircle, MailCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/auth.functions";
-import { DASHBOARD_BY_ROLE } from "@/lib/auth";
+import { DASHBOARD_BY_ROLE, safeRedirect } from "@/lib/auth";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { Field, FormAlert, inputClass } from "@/components/auth/fields";
 
@@ -31,6 +31,10 @@ const schema = z
 type Values = z.infer<typeof schema>;
 
 export const Route = createFileRoute("/registro")({
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
+    const redirect = safeRedirect(search["redirect"]);
+    return redirect ? { redirect } : {};
+  },
   head: () => ({
     meta: [{ title: "Crear cuenta | EEIVA" }, { name: "robots", content: "noindex" }],
   }),
@@ -39,6 +43,7 @@ export const Route = createFileRoute("/registro")({
 
 function RegistroPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const [sending, setSending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
@@ -62,7 +67,9 @@ function RegistroPage() {
         // El trigger handle_new_user crea el perfil SIEMPRE con rol "cliente".
         // Los roles admin / empleado / proveedor solo los asigna un administrador.
         data: { full_name: values.full_name },
-        emailRedirectTo: `${window.location.origin}/login`,
+        emailRedirectTo: `${window.location.origin}/login${
+          redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""
+        }`,
       },
     });
 
@@ -94,7 +101,8 @@ function RegistroPage() {
 
     const profile = await getMyProfile().catch(() => null);
     setSending(false);
-    await navigate({ to: DASHBOARD_BY_ROLE[profile?.role ?? "cliente"] });
+    if (redirect) await navigate({ href: redirect });
+    else await navigate({ to: DASHBOARD_BY_ROLE[profile?.role ?? "cliente"] });
   }
 
   if (pendingEmail) {
@@ -128,7 +136,11 @@ function RegistroPage() {
       footer={
         <>
           ¿Ya tienes cuenta?{" "}
-          <Link to="/login" className="font-medium text-electric hover:underline">
+          <Link
+            to="/login"
+            search={redirect ? { redirect } : {}}
+            className="font-medium text-electric hover:underline"
+          >
             Inicia sesión
           </Link>
         </>

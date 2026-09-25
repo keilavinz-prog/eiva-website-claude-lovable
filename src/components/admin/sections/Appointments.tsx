@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { AdminPage } from "../AdminPage";
 import { DataTable, type Column } from "../DataTable";
 import { StatusBadge } from "../StatusBadge";
+import { AssignSelect } from "../AssignSelect";
 import { listAppointments, setAppointmentStatus, type AppointmentRow } from "@/lib/admin/api";
 import { APPOINTMENT_STATUSES, STATUS_LABEL } from "@/lib/admin/constants";
 
@@ -73,6 +74,18 @@ export function AppointmentsList() {
             ))}
           </select>
         </div>
+      ),
+    },
+    {
+      key: "assigned",
+      header: "Asignar a",
+      cell: (a) => (
+        <AssignSelect
+          table="appointments"
+          id={a.id}
+          value={a.assigned_to}
+          label={`Asignar la cita de ${a.name}`}
+        />
       ),
     },
   ];

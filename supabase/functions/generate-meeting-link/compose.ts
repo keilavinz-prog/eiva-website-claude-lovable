@@ -67,11 +67,12 @@ export function composeLinks(appt: AppointmentForLinks, company: CompanyForLinks
     madridToUtc(appt.preferred_date, end),
   )}`;
 
-  // MARCADOR DE POSICIÓN: NO es una sala real de Google Meet. Crear salas reales requiere
-  // OAuth de Google Workspace (fuera de alcance). Sustituir por la integración real en el futuro.
+  // Sala real de Jitsi Meet: se crea al abrir el enlace, sin cuentas ni API. Se usa el id completo
+  // de la cita (sin guiones) para que el nombre de la sala no se pueda adivinar.
+  // Si en el futuro EEIVA conecta su cuenta de Google, aquí se sustituiría por Google Meet.
   const meet_link =
     appt.meeting_type === "videollamada"
-      ? `https://meet.google.com/eeiva-cita-${appt.id.slice(0, 8)}`
+      ? `https://meet.jit.si/EEIVA-Cita-${appt.id.replace(/-/g, "")}`
       : null;
 
   const typeLabel = TYPE_LABEL[appt.meeting_type] ?? "Cita";

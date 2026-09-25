@@ -1,5 +1,5 @@
 // Edge Function: genera el enlace "Añadir a Google Calendar" y, si es videollamada, el enlace
-// de reunión (marcador de posición) de una cita CONFIRMADA. Solo admin o el empleado asignado.
+// de la videollamada (Jitsi Meet) de una cita CONFIRMADA. Solo admin o el empleado asignado.
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { composeLinks } from "./compose.ts";
 

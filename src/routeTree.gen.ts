@@ -22,6 +22,7 @@ import { Route as StyleGuideRouteImport } from './routes/style-guide'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminCitasRouteImport } from './routes/admin.citas'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminMetricasRouteImport } from './routes/admin.metricas'
 import { Route as AdminSolicitudesRouteImport } from './routes/admin.solicitudes'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -111,6 +112,11 @@ const AdminCitasRoute = AdminCitasRouteImport.update({
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMetricasRoute = AdminMetricasRouteImport.update({
+  id: '/metricas',
+  path: '/metricas',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSolicitudesRoute = AdminSolicitudesRouteImport.update({
@@ -254,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/style-guide': typeof StyleGuideRoute
   '/admin/citas': typeof AdminCitasRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/metricas': typeof AdminMetricasRoute
   '/admin/solicitudes': typeof AdminSolicitudesRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
@@ -293,6 +300,7 @@ export interface FileRoutesByTo {
   '/style-guide': typeof StyleGuideRoute
   '/admin/citas': typeof AdminCitasRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/metricas': typeof AdminMetricasRoute
   '/admin/solicitudes': typeof AdminSolicitudesRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
@@ -334,6 +342,7 @@ export interface FileRoutesById {
   '/style-guide': typeof StyleGuideRoute
   '/admin/citas': typeof AdminCitasRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/metricas': typeof AdminMetricasRoute
   '/admin/solicitudes': typeof AdminSolicitudesRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cliente/dashboard': typeof ClienteDashboardRoute
@@ -376,6 +385,7 @@ export interface FileRouteTypes {
     | '/style-guide'
     | '/admin/citas'
     | '/admin/dashboard'
+    | '/admin/metricas'
     | '/admin/solicitudes'
     | '/blog/$slug'
     | '/cliente/dashboard'
@@ -415,6 +425,7 @@ export interface FileRouteTypes {
     | '/style-guide'
     | '/admin/citas'
     | '/admin/dashboard'
+    | '/admin/metricas'
     | '/admin/solicitudes'
     | '/blog/$slug'
     | '/cliente/dashboard'
@@ -455,6 +466,7 @@ export interface FileRouteTypes {
     | '/style-guide'
     | '/admin/citas'
     | '/admin/dashboard'
+    | '/admin/metricas'
     | '/admin/solicitudes'
     | '/blog/$slug'
     | '/cliente/dashboard'
@@ -596,6 +608,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/metricas': {
+      id: '/admin/metricas'
+      path: '/metricas'
+      fullPath: '/admin/metricas'
+      preLoaderRoute: typeof AdminMetricasRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/solicitudes': {
@@ -779,6 +798,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminCitasRoute: typeof AdminCitasRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminMetricasRoute: typeof AdminMetricasRoute
   AdminSolicitudesRoute: typeof AdminSolicitudesRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminEquipoNuevoRoute: typeof AdminEquipoNuevoRoute
@@ -801,6 +821,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCitasRoute: AdminCitasRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminMetricasRoute: AdminMetricasRoute,
   AdminSolicitudesRoute: AdminSolicitudesRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminEquipoNuevoRoute: AdminEquipoNuevoRoute,

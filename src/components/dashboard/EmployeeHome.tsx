@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Info, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
+import { attachLinksAfterConfirm } from "@/lib/meeting-links";
 import {
   Sheet,
   SheetContent,
@@ -31,6 +32,7 @@ const selectClass =
 function useStatusMutation<T extends { id: string; status: string }>(
   key: readonly unknown[],
   save: (id: string, status: string) => Promise<void>,
+  afterSave?: (id: string, status: string) => Promise<void>,
 ) {
   const qc = useQueryClient();
   return useMutation({
@@ -45,7 +47,10 @@ function useStatusMutation<T extends { id: string; status: string }>(
       qc.setQueryData(key, ctx?.prev);
       toast.error(e.message);
     },
-    onSuccess: (_d, v) => toast.success(`Estado: ${STATUS_LABEL[v.status] ?? v.status}`),
+    onSuccess: async (_d, v) => {
+      toast.success(`Estado: ${STATUS_LABEL[v.status] ?? v.status}`);
+      await afterSave?.(v.id, v.status);
+    },
   });
 }
 
@@ -71,7 +76,14 @@ export function EmployeeHome({ profile }: { profile: SessionProfile }) {
     queryFn: () => listAssignedAppointments(profile.id),
   });
   const requests = useQuery({ queryKey: rKey, queryFn: () => listAssignedRequests(profile.id) });
-  const aStatus = useStatusMutation<AssignedAppointment>(aKey, setAssignedAppointmentStatus);
+  const qc = useQueryClient();
+  // Fase 6: al confirmar una cita se generan sus enlaces de calendario / videollamada
+  const aStatus = useStatusMutation<AssignedAppointment>(
+    aKey,
+    setAssignedAppointmentStatus,
+    (id, status) =>
+      status === "confirmada" ? attachLinksAfterConfirm(qc, aKey, id) : Promise.resolve(),
+  );
   const rStatus = useStatusMutation<AssignedRequest>(rKey, setAssignedRequestStatus);
   const [openId, setOpenId] = useState<string | null>(null);
   const open = requests.data?.find((r) => r.id === openId) ?? null;

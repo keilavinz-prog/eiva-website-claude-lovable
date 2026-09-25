@@ -4,6 +4,9 @@ import { AdminPage } from "../AdminPage";
 import { DataTable, type Column } from "../DataTable";
 import { StatusBadge } from "../StatusBadge";
 import { AssignSelect } from "../AssignSelect";
+import { MeetingTypeBadge } from "@/components/booking/AppointmentCard";
+import { MeetingLinks } from "@/components/booking/MeetingLinks";
+import { attachLinksAfterConfirm } from "@/lib/meeting-links";
 import { listAppointments, setAppointmentStatus, type AppointmentRow } from "@/lib/admin/api";
 import { APPOINTMENT_STATUSES, STATUS_LABEL } from "@/lib/admin/constants";
 
@@ -34,12 +37,32 @@ export function AppointmentsList() {
       if (ctx?.prev) qc.setQueryData(key, ctx.prev);
       toast.error(e.message);
     },
-    onSuccess: (_d, v) => toast.success(`Cita marcada como «${STATUS_LABEL[v.value]}»`),
+    onSuccess: async (_d, v) => {
+      toast.success(`Cita marcada como «${STATUS_LABEL[v.value]}»`);
+      // Fase 6: al confirmar se generan los enlaces de calendario / videollamada
+      if (v.value === "confirmada") await attachLinksAfterConfirm(qc, key, v.id);
+    },
     onSettled: () => void qc.invalidateQueries({ queryKey: ["admin"] }),
   });
 
   const columns: Column<AppointmentRow>[] = [
-    { key: "name", header: "Nombre", cell: (a) => <span className="font-medium">{a.name}</span> },
+    {
+      key: "name",
+      header: "Nombre",
+      cell: (a) => (
+        <div>
+          <span className="font-medium">{a.name}</span>
+          {a.phone ? (
+            <a
+              href={`tel:${a.phone}`}
+              className="block font-mono text-xs text-text-muted hover:text-electric"
+            >
+              {a.phone}
+            </a>
+          ) : null}
+        </div>
+      ),
+    },
     { key: "service", header: "Servicio", cell: (a) => a.services?.title ?? "General" },
     {
       key: "when",
@@ -53,7 +76,7 @@ export function AppointmentsList() {
     {
       key: "type",
       header: "Tipo",
-      cell: (a) => (a.meeting_type === "videollamada" ? "Videollamada" : "Presencial"),
+      cell: (a) => <MeetingTypeBadge type={a.meeting_type} />,
     },
     {
       key: "status",
@@ -75,6 +98,18 @@ export function AppointmentsList() {
           </select>
         </div>
       ),
+    },
+    {
+      key: "links",
+      header: "Enlaces",
+      cell: (a) =>
+        a.status === "confirmada" && (a.calendar_event_id || a.meet_link) ? (
+          <div className="flex flex-col items-start gap-1.5">
+            <MeetingLinks calendarUrl={a.calendar_event_id} meetUrl={a.meet_link} />
+          </div>
+        ) : (
+          <span className="text-text-muted">—</span>
+        ),
     },
     {
       key: "assigned",

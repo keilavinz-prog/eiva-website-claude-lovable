@@ -82,6 +82,7 @@ export function ClientHome({ profile }: { profile: SessionProfile }) {
                 <AppointmentCard
                   key={a.id}
                   appointment={a}
+                  forClient
                   actions={
                     CANCELLABLE.includes(a.status) && !isTempId(a.id) ? (
                       <button

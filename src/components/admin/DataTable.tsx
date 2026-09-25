@@ -16,6 +16,7 @@ export function DataTable<T extends { id: string }>({
   error,
   empty,
   onRowClick,
+  rowClassName,
 }: {
   columns: Column<T>[];
   rows: T[] | undefined;
@@ -23,6 +24,7 @@ export function DataTable<T extends { id: string }>({
   error?: string | null;
   empty: ReactNode;
   onRowClick?: (row: T) => void;
+  rowClassName?: (row: T) => string | undefined;
 }) {
   if (error) {
     return (
@@ -74,7 +76,7 @@ export function DataTable<T extends { id: string }>({
                   onClick={onRowClick ? () => onRowClick(row) : undefined}
                   className={`border-b border-line transition-colors last:border-b-0 hover:bg-surface-elevated/60 ${
                     onRowClick ? "cursor-pointer" : ""
-                  }`}
+                  } ${rowClassName?.(row) ?? ""}`}
                 >
                   {columns.map((c) => (
                     <td

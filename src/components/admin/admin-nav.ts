@@ -1,5 +1,6 @@
 import {
   CalendarDays,
+  ChartColumn,
   FolderKanban,
   Inbox,
   LayoutDashboard,
@@ -19,4 +20,5 @@ export const ADMIN_NAV: ShellNavItem[] = [
   { label: "Proveedores", to: "/admin/proveedores", Icon: Truck },
   { label: "Solicitudes", to: "/admin/solicitudes", Icon: Inbox },
   { label: "Citas", to: "/admin/citas", Icon: CalendarDays },
+  { label: "Métricas", to: "/admin/metricas", Icon: ChartColumn },
 ];

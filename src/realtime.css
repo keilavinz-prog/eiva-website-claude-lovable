@@ -1,0 +1,49 @@
+/* Fase 7 · Resaltado de filas y tarjetas recién llegadas por tiempo real (1,5 s).
+   Se carga desde src/lib/realtime.ts. */
+@keyframes rt-fresh-bg {
+  from {
+    background-color: color-mix(in oklab, var(--color-logo-purple) 22%, transparent);
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+@keyframes rt-fresh-edge {
+  from {
+    box-shadow: inset 3px 0 0 var(--color-logo-purple);
+  }
+  to {
+    box-shadow: inset 3px 0 0 transparent;
+  }
+}
+@keyframes rt-fresh-card {
+  from {
+    border-color: var(--color-logo-purple);
+    box-shadow: 0 0 0 1px var(--color-logo-purple);
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+.rt-fresh > td {
+  animation: rt-fresh-bg 1.5s ease-out;
+}
+.rt-fresh > td:first-child {
+  animation:
+    rt-fresh-bg 1.5s ease-out,
+    rt-fresh-edge 1.5s ease-out;
+}
+.rt-fresh-card {
+  animation: rt-fresh-card 1.5s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rt-fresh > td,
+  .rt-fresh-card {
+    animation: none;
+  }
+}

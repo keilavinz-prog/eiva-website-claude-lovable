@@ -29,15 +29,20 @@ export function AppointmentCard({
   actions,
   extra,
   forClient = false,
+  highlight = false,
 }: {
   appointment: Appointment;
   actions?: ReactNode;
   extra?: ReactNode;
   forClient?: boolean;
+  highlight?: boolean;
 }) {
   const saving = isTempId(appointment.id);
   return (
-    <div className="rounded-md border border-line bg-surface p-4" aria-busy={saving}>
+    <div
+      className={`rounded-md border border-line bg-surface p-4 ${highlight ? "rt-fresh-card" : ""}`}
+      aria-busy={saving}
+    >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="font-medium text-text">

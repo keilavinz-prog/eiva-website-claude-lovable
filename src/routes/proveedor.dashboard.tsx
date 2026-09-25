@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { requireRole } from "@/lib/role-guard";
-import { RoleDashboard } from "@/components/dashboard/RoleDashboard";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
+import { ProviderHome } from "@/components/dashboard/ProviderHome";
+import { PROVIDER_NAV } from "@/components/dashboard/role-nav";
 import { PageSkeleton } from "@/components/site/Skeletons";
 
 export const Route = createFileRoute("/proveedor/dashboard")({
@@ -16,5 +18,9 @@ export const Route = createFileRoute("/proveedor/dashboard")({
 
 function ProveedorDashboard() {
   const { profile } = Route.useRouteContext();
-  return <RoleDashboard profile={profile} />;
+  return (
+    <DashboardShell profile={profile} nav={PROVIDER_NAV}>
+      <ProviderHome profile={profile} />
+    </DashboardShell>
+  );
 }

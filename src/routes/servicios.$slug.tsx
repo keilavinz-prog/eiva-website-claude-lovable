@@ -139,6 +139,13 @@ function ServicioDetalle() {
         >
           Solicitar consulta
         </Link>
+        <Link
+          to="/reservar"
+          search={{ servicio: service.slug }}
+          className="btn-secondary px-8 py-4 text-base"
+        >
+          Reservar cita
+        </Link>
       </CtaBand>
     </PageShell>
   );

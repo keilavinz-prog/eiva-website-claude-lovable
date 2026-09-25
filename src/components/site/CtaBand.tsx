@@ -11,7 +11,9 @@ export function CtaBand({ title, children }: { title: string; children: ReactNod
       />
       <Reveal className="mx-auto max-w-3xl px-5 text-center sm:px-8">
         <h2 className="text-3xl font-bold text-white sm:text-5xl">{title}</h2>
-        <div className="mt-10 flex justify-center">{children}</div>
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          {children}
+        </div>
       </Reveal>
     </section>
   );

@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { requireRole } from "@/lib/role-guard";
-import { RoleDashboard } from "@/components/dashboard/RoleDashboard";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
+import { EmployeeHome } from "@/components/dashboard/EmployeeHome";
+import { EMPLOYEE_NAV } from "@/components/dashboard/role-nav";
 import { PageSkeleton } from "@/components/site/Skeletons";
 
 export const Route = createFileRoute("/empleado/dashboard")({
@@ -16,5 +18,9 @@ export const Route = createFileRoute("/empleado/dashboard")({
 
 function EmpleadoDashboard() {
   const { profile } = Route.useRouteContext();
-  return <RoleDashboard profile={profile} />;
+  return (
+    <DashboardShell profile={profile} nav={EMPLOYEE_NAV}>
+      <EmployeeHome profile={profile} />
+    </DashboardShell>
+  );
 }

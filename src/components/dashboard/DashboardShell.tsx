@@ -1,13 +1,19 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, LayoutDashboard, LogOut, Menu, X, type LucideIcon } from "lucide-react";
+import { ArrowLeft, LogOut, Menu, X, type LucideIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/site/Logo";
 import { RoleBadge } from "./RoleBadge";
-import { DASHBOARD_CONFIG } from "./dashboard-config";
 import { initials, type SessionProfile } from "@/lib/auth";
 
-export type ShellNavItem = { label: string; to: string; Icon: LucideIcon; exact?: boolean };
+/** Entrada de la barra lateral. Con `soon` se muestra deshabilitada ("Pronto"). */
+export type ShellNavItem = {
+  label: string;
+  to: string;
+  Icon: LucideIcon;
+  exact?: boolean;
+  soon?: boolean;
+};
 
 function SidebarContent({
   profile,
@@ -17,10 +23,9 @@ function SidebarContent({
 }: {
   profile: SessionProfile;
   onLogout: () => void;
-  nav?: ShellNavItem[] | undefined;
+  nav: ShellNavItem[];
   onNavigate?: (() => void) | undefined;
 }) {
-  const { items } = DASHBOARD_CONFIG[profile.role];
   return (
     <div className="flex h-full flex-col">
       <Link to="/" className="px-6 pt-6">
@@ -40,8 +45,18 @@ function SidebarContent({
       </div>
 
       <nav aria-label="Panel" className="mt-6 flex-1 space-y-1 overflow-y-auto px-3">
-        {nav ? (
-          nav.map(({ label, to, Icon, exact }) => (
+        {nav.map(({ label, to, Icon, exact, soon }) =>
+          soon ? (
+            <span
+              key={to}
+              aria-disabled="true"
+              className="flex cursor-not-allowed items-center gap-3 rounded-md px-3 py-2.5 text-sm text-text-muted/70"
+            >
+              <Icon className="h-4 w-4" aria-hidden="true" />
+              <span className="flex-1">{label}</span>
+              <span className="font-mono text-[0.625rem]">Pronto</span>
+            </span>
+          ) : (
             <Link
               key={to}
               to={to}
@@ -53,28 +68,7 @@ function SidebarContent({
               <Icon className="h-4 w-4" aria-hidden="true" />
               {label}
             </Link>
-          ))
-        ) : (
-          <>
-            <span
-              aria-current="page"
-              className="flex items-center gap-3 rounded-md bg-surface-elevated px-3 py-2.5 text-sm font-medium text-text"
-            >
-              <LayoutDashboard className="h-4 w-4 text-electric" aria-hidden="true" />
-              Inicio del panel
-            </span>
-            {items.map(({ title, Icon }) => (
-              <span
-                key={title}
-                aria-disabled="true"
-                className="flex cursor-not-allowed items-center gap-3 rounded-md px-3 py-2.5 text-sm text-text-muted/70"
-              >
-                <Icon className="h-4 w-4" aria-hidden="true" />
-                <span className="flex-1">{title}</span>
-                <span className="font-mono text-[0.625rem]">Pronto</span>
-              </span>
-            ))}
-          </>
+          ),
         )}
       </nav>
 
@@ -107,7 +101,7 @@ export function DashboardShell({
 }: {
   profile: SessionProfile;
   children: ReactNode;
-  nav?: ShellNavItem[] | undefined;
+  nav: ShellNavItem[];
 }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);

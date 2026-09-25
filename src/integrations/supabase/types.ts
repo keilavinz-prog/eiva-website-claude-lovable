@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       appointments: {
         Row: {
+          assigned_to: string | null
           calendar_event_id: string | null
           client_id: string | null
           created_at: string
@@ -31,6 +32,7 @@ export type Database = {
           status: string
         }
         Insert: {
+          assigned_to?: string | null
           calendar_event_id?: string | null
           client_id?: string | null
           created_at?: string
@@ -46,6 +48,7 @@ export type Database = {
           status?: string
         }
         Update: {
+          assigned_to?: string | null
           calendar_event_id?: string | null
           client_id?: string | null
           created_at?: string
@@ -61,6 +64,13 @@ export type Database = {
           status?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "appointments_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "appointments_client_id_fkey"
             columns: ["client_id"]
@@ -166,6 +176,7 @@ export type Database = {
       }
       contact_requests: {
         Row: {
+          assigned_to: string | null
           created_at: string
           email: string
           id: string
@@ -177,6 +188,7 @@ export type Database = {
           status: string
         }
         Insert: {
+          assigned_to?: string | null
           created_at?: string
           email: string
           id?: string
@@ -188,6 +200,7 @@ export type Database = {
           status?: string
         }
         Update: {
+          assigned_to?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -199,6 +212,13 @@ export type Database = {
           status?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "contact_requests_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "contact_requests_service_id_fkey"
             columns: ["service_id"]
@@ -296,6 +316,7 @@ export type Database = {
           phone: string | null
           service_category: string | null
           status: string
+          user_id: string | null
         }
         Insert: {
           company_name: string
@@ -306,6 +327,7 @@ export type Database = {
           phone?: string | null
           service_category?: string | null
           status?: string
+          user_id?: string | null
         }
         Update: {
           company_name?: string
@@ -316,8 +338,17 @@ export type Database = {
           phone?: string | null
           service_category?: string | null
           status?: string
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "providers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       services: {
         Row: {
@@ -426,6 +457,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cancel_my_appointment: {
+        Args: { appointment_id: string }
+        Returns: boolean
+      }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      link_provider_account: {
+        Args: Record<PropertyKey, never>
+        Returns: Database["public"]["Tables"]["providers"]["Row"] | null
+      }
       submit_contact_request: {
         Args: {
           p_email: string

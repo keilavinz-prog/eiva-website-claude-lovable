@@ -469,6 +469,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Tables"]["providers"]["Row"] | null
       }
+      request_callback: {
+        Args: { p_name: string; p_phone: string; p_preferred_time: string }
+        Returns: string
+      }
       submit_contact_request: {
         Args: {
           p_email: string

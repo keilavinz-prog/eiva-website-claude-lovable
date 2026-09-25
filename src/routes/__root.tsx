@@ -12,6 +12,7 @@ import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
 import { Header } from "../components/site/Header";
+import { FloatingContact } from "../components/site/FloatingContact";
 import { NotFoundPanel } from "../components/site/NotFoundPanel";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -129,6 +130,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <FloatingContact />
       <Toaster theme="dark" position="bottom-center" richColors />
     </QueryClientProvider>
   );

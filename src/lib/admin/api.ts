@@ -112,6 +112,29 @@ export async function countNewRequests(): Promise<{ total: number; nuevas: numbe
   return { total: all.count ?? 0, nuevas: nuevas.count ?? 0 };
 }
 
+/** Una solicitud con el título de su servicio (para filas que llegan por tiempo real). */
+export async function getRequest(id: string): Promise<RequestRow | null> {
+  return run<RequestRow | null>(
+    db.from("contact_requests").select("*, services(title)").eq("id", id).maybeSingle(),
+  );
+}
+
+export async function getAppointment(id: string): Promise<AppointmentRow | null> {
+  return run<AppointmentRow | null>(
+    db.from("appointments").select("*, services(title)").eq("id", id).maybeSingle(),
+  );
+}
+
+export async function countAppointmentsSummary(): Promise<{ total: number; pendientes: number }> {
+  const [all, pend] = await Promise.all([
+    db.from("appointments").select("*", { count: "exact", head: true }),
+    db.from("appointments").select("*", { count: "exact", head: true }).eq("status", "pendiente"),
+  ]);
+  if (all.error) throw new Error(friendlyError(all.error));
+  if (pend.error) throw new Error(friendlyError(pend.error));
+  return { total: all.count ?? 0, pendientes: pend.count ?? 0 };
+}
+
 export async function countAppointments(): Promise<number> {
   const { count, error } = await db
     .from("appointments")

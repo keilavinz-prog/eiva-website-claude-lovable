@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTableChanges } from "@/lib/realtime";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { ADMIN_NAV } from "../admin-nav";
 import {
-  countAppointments,
+  countAppointmentsSummary,
   countNewRequests,
   projectsApi,
   providersApi,
@@ -42,7 +43,18 @@ export function AdminHome({ name }: { name: string }) {
   });
   const appointments = useQuery({
     queryKey: ["admin", "count", "appointments"],
-    queryFn: countAppointments,
+    queryFn: countAppointmentsSummary,
+  });
+
+  // Tiempo real: al entrar o cambiar una solicitud/cita, se refresca solo su contador
+  const qc = useQueryClient();
+  useTableChanges("admin-dashboard", ["contact_requests", "appointments"], (change) => {
+    void qc.invalidateQueries({
+      queryKey:
+        change.table === "contact_requests"
+          ? ["admin", "count", "requests"]
+          : ["admin", "count", "appointments"],
+    });
   });
 
   const cards = [
@@ -76,11 +88,14 @@ export function AdminHome({ name }: { name: string }) {
       count: requests.data?.total,
       label: (n: number) => plural(n, "solicitud", "solicitudes"),
       pending: requests.data?.nuevas ?? 0,
+      pendingLabel: ["nueva", "nuevas"] as const,
     },
     {
       to: "/admin/citas",
-      count: appointments.data,
+      count: appointments.data?.total,
       label: (n: number) => plural(n, "cita", "citas"),
+      pending: appointments.data?.pendientes ?? 0,
+      pendingLabel: ["pendiente", "pendientes"] as const,
     },
   ];
 
@@ -109,8 +124,10 @@ export function AdminHome({ name }: { name: string }) {
                   <span className="flex h-12 w-12 items-center justify-center rounded-md border border-line bg-surface-elevated text-electric">
                     <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
-                  {card.pending ? (
-                    <span className="badge-amber">{plural(card.pending, "nueva", "nuevas")}</span>
+                  {card.pending && card.pendingLabel ? (
+                    <span className="badge-amber" aria-live="polite">
+                      {plural(card.pending, card.pendingLabel[0], card.pendingLabel[1])}
+                    </span>
                   ) : null}
                 </div>
                 <h2 className="mt-5 text-lg font-semibold text-text">{label}</h2>

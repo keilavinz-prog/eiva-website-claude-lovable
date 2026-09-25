@@ -15,7 +15,8 @@ import { AdminPage } from "../AdminPage";
 import { DataTable, type Column } from "../DataTable";
 import { StatusBadge } from "../StatusBadge";
 import { AssignSelect } from "../AssignSelect";
-import { listRequests, setRequestStatus, type RequestRow } from "@/lib/admin/api";
+import { getRequest, listRequests, setRequestStatus, type RequestRow } from "@/lib/admin/api";
+import { useLiveRows } from "@/lib/live-rows";
 import { REQUEST_STATUSES, STATUS_LABEL } from "@/lib/admin/constants";
 import { formatDateTime } from "@/lib/format";
 
@@ -31,6 +32,8 @@ export function RequestsList() {
   const qc = useQueryClient();
   const key = ["admin", "contact_requests"];
   const query = useQuery({ queryKey: key, queryFn: listRequests });
+  // Tiempo real: filas nuevas arriba (resaltadas) y cambios de otras sesiones en vivo
+  const fresh = useLiveRows<RequestRow>("admin-solicitudes", "contact_requests", key, getRequest);
   const [filter, setFilter] = useState<string>("Todas");
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -97,6 +100,7 @@ export function RequestsList() {
       />
       <div className="mt-6">
         <DataTable
+          rowClassName={(r) => (fresh.has(r.id) ? "rt-fresh" : undefined)}
           columns={columns}
           rows={rows}
           isLoading={query.isLoading}

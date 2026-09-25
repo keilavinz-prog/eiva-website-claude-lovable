@@ -4,6 +4,7 @@ import { ArrowLeft, LogOut, Menu, X, type LucideIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/site/Logo";
 import { RoleBadge } from "./RoleBadge";
+import { RealtimeConnection, RealtimeDot } from "./RealtimeIndicator";
 import { initials, type SessionProfile } from "@/lib/auth";
 
 /** Entrada de la barra lateral. Con `soon` se muestra deshabilitada ("Pronto"). */
@@ -14,6 +15,11 @@ export type ShellNavItem = {
   exact?: boolean;
   soon?: boolean;
 };
+
+/** Solo admin y empleado trabajan con datos en tiempo real. */
+function hasRealtime(profile: SessionProfile) {
+  return profile.role === "admin" || profile.role === "empleado";
+}
 
 function SidebarContent({
   profile,
@@ -38,8 +44,9 @@ function SidebarContent({
         </span>
         <div className="min-w-0">
           <p className="truncate text-sm font-medium text-text">{profile.full_name}</p>
-          <div className="mt-1">
+          <div className="mt-1 flex items-center gap-2">
             <RoleBadge role={profile.role} />
+            {hasRealtime(profile) ? <RealtimeDot /> : null}
           </div>
         </div>
       </div>
@@ -120,6 +127,9 @@ export function DashboardShell({
 
   return (
     <div className="min-h-screen bg-canvas text-text">
+      {/* Canal ligero de tiempo real del panel (admin/empleado): alimenta el indicador */}
+      {hasRealtime(profile) ? <RealtimeConnection /> : null}
+
       {/* Barra lateral fija (escritorio) */}
       <aside className="theme-space bg-blueprint fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-line lg:block">
         <SidebarContent profile={profile} onLogout={logout} nav={nav} />
@@ -127,8 +137,9 @@ export function DashboardShell({
 
       {/* Barra superior (móvil) */}
       <header className="theme-space sticky top-0 z-40 flex h-16 items-center justify-between border-b border-line bg-canvas/90 px-5 backdrop-blur lg:hidden">
-        <Link to="/">
+        <Link to="/" className="flex items-center gap-2">
           <Logo />
+          {hasRealtime(profile) ? <RealtimeDot /> : null}
         </Link>
         <button
           type="button"

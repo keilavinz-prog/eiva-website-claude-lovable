@@ -25,6 +25,7 @@ import {
   type RequestForMetrics,
 } from "@/lib/metrics";
 import { AdminPage } from "../AdminPage";
+import { EmptyState } from "@/components/site/EmptyState";
 
 /** Mismos colores que los badges de estado (StatusBadge). */
 const STATUS_COLOR: Record<string, string> = {
@@ -80,9 +81,8 @@ function ChartCard({
         {loading ? (
           <div className="h-full animate-pulse rounded-md bg-surface-elevated" aria-busy="true" />
         ) : empty ? (
-          <div className="flex h-full flex-col items-center justify-center gap-3 rounded-md border border-dashed border-line px-6 text-center">
-            <ChartColumn className="h-8 w-8 text-electric" aria-hidden="true" />
-            <p className="text-sm text-text-muted">{empty}</p>
+          <div className="h-full rounded-md border border-dashed border-line">
+            <EmptyState compact icon={ChartColumn} message={empty} />
           </div>
         ) : (
           children
@@ -140,7 +140,7 @@ function Donut({ data }: { data: { status: string; value: number; pct: number }[
 
 function Stat({ label, value }: { label: string; value: string | null }) {
   return (
-    <div className="card-tech p-5">
+    <div className="card-tech card-tech-interactive p-5">
       <p className="font-mono text-xs text-text-muted uppercase">{label}</p>
       {value === null ? (
         <div className="mt-3 h-9 w-20 animate-pulse rounded bg-surface-elevated" />

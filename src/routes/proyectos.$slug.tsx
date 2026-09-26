@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { fetchCompany, fetchProjectBySlug } from "@/lib/site-data";
-import { projectImages } from "@/lib/images";
+import { projectImages, projectCover } from "@/lib/images";
+import { breadcrumbLd, ldScript, pageMeta } from "@/lib/seo";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
@@ -19,17 +20,30 @@ export const Route = createFileRoute("/proyectos/$slug")({
     const [company, project] = await Promise.all([fetchCompany(), fetchProjectBySlug(params.slug)]);
     return { company, project };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.project.title} | EEIVA` },
-          {
-            name: "description",
-            content: (loaderData.project.description ?? loaderData.project.title).slice(0, 155),
-          },
-        ]
-      : [{ title: "Área de trabajo no encontrada | EEIVA" }],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [{ title: "Área de trabajo no encontrada | EEIVA" }] };
+    const { project } = loaderData;
+    const title = `${project.title} | EEIVA`;
+    const description = (project.description ?? project.title).slice(0, 155);
+    const path = `/proyectos/${project.slug}`;
+    const og = pageMeta({
+      title,
+      description,
+      path,
+      image: projectCover(project),
+      type: "article",
+    });
+    const crumbs = [
+      { label: "Inicio", to: "/" },
+      { label: "Áreas de trabajo", to: "/proyectos" },
+      { label: project.title },
+    ];
+    return {
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+      scripts: [ldScript(breadcrumbLd(crumbs))],
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="detail" />,
   pendingMs: 150,
   notFoundComponent: ProjectNotFound,

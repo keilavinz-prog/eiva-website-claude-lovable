@@ -6,6 +6,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ContactForm } from "@/components/site/ContactForm";
 import { PageSkeleton } from "@/components/site/Skeletons";
+import { pageMeta } from "@/lib/seo";
 
 type ContactSearch = { service_id?: string | undefined };
 
@@ -17,16 +18,16 @@ export const Route = createFileRoute("/contacto")({
     const [company, services] = await Promise.all([fetchCompany(), fetchServices()]);
     return { company, services };
   },
-  head: () => ({
-    meta: [
-      { title: "Contacto | EEIVA" },
-      {
-        name: "description",
-        content:
-          "Contacta con los expertos en ingeniería eléctrica de EEIVA. Teléfono activo 24 h, 365 días del año.",
-      },
-    ],
-  }),
+  head: () => {
+    const title = "Contacto | Presupuesto Gratis EEIVA";
+    const description =
+      "Contacta con los expertos en ingeniería eléctrica de EEIVA. Teléfono activo 24 h, 365 días del año.";
+    const og = pageMeta({ title, description, path: "/contacto" });
+    return {
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="form" />,
   pendingMs: 150,
   component: ContactoPage,

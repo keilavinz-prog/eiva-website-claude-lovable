@@ -10,6 +10,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { SafeImage } from "@/components/site/SafeImage";
 import { TrustStrip } from "@/components/site/TrustStrip";
 import { PageSkeleton } from "@/components/site/Skeletons";
+import { pageMeta } from "@/lib/seo";
 
 const VALUES = [
   {
@@ -60,16 +61,16 @@ export const Route = createFileRoute("/sobre-nosotros")({
     const [company, team] = await Promise.all([fetchCompany(), fetchTeam()]);
     return { company, team };
   },
-  head: () => ({
-    meta: [
-      { title: "Equipo EEIVA | Electrotecnia e Ingeniería Valencia" },
-      {
-        name: "description",
-        content:
-          "Equipo de profesionales de la ingeniería eléctrica con más de 25 años de experiencia, a nivel provincial, nacional e internacional.",
-      },
-    ],
-  }),
+  head: () => {
+    const title = "Sobre EEIVA | Más de 25 años de experiencia";
+    const description =
+      "Equipo de profesionales de la ingeniería eléctrica con más de 25 años de experiencia, a nivel provincial, nacional e internacional.";
+    const og = pageMeta({ title, description, path: "/sobre-nosotros" });
+    return {
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="grid" />,
   pendingMs: 150,
   component: SobreNosotros,

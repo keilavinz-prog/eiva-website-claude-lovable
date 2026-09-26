@@ -8,22 +8,25 @@ import { FilterChips } from "@/components/site/FilterChips";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { PageSkeleton } from "@/components/site/Skeletons";
+import { breadcrumbLd, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/proyectos/")({
   loader: async () => {
     const [company, projects] = await Promise.all([fetchCompany(), fetchProjects()]);
     return { company, projects };
   },
-  head: () => ({
-    meta: [
-      { title: "Áreas de trabajo | EEIVA" },
-      {
-        name: "description",
-        content:
-          "Áreas de trabajo de EEIVA: baja y alta tensión, alumbrado, fotovoltaica, eficiencia energética, telecomunicaciones, redes, seguridad y climatización.",
-      },
-    ],
-  }),
+  head: () => {
+    const title = "Áreas de trabajo | EEIVA";
+    const description =
+      "Áreas de trabajo de EEIVA: baja y alta tensión, alumbrado, fotovoltaica, eficiencia energética, telecomunicaciones, redes, seguridad y climatización.";
+    const crumbs = [{ label: "Inicio", to: "/" }, { label: "Áreas de trabajo" }];
+    const og = pageMeta({ title, description, path: "/proyectos" });
+    return {
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+      scripts: [ldScript(breadcrumbLd(crumbs))],
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="grid" />,
   pendingMs: 150,
   component: ProyectosPage,

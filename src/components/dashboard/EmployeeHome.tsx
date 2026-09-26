@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Info, Mail, Phone } from "lucide-react";
+import { ClipboardList, Info, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { attachLinksAfterConfirm } from "@/lib/meeting-links";
 import { useFreshIds, useTableChanges } from "@/lib/realtime";
@@ -15,6 +15,8 @@ import {
 import { AppointmentCard } from "@/components/booking/AppointmentCard";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { DashboardWelcome } from "./DashboardWelcome";
+import { EmptyState } from "@/components/site/EmptyState";
+import { ListSkeleton as SharedListSkeleton } from "@/components/site/Skeletons";
 import {
   listAssignedAppointments,
   listAssignedRequests,
@@ -57,17 +59,11 @@ function useStatusMutation<T extends { id: string; status: string }>(
 }
 
 function Empty() {
-  return <p className="py-6 text-center text-text-muted">No tienes tareas asignadas todavía.</p>;
+  return <EmptyState compact icon={ClipboardList} message="No tienes tareas asignadas todavía." />;
 }
 
 function ListSkeleton() {
-  return (
-    <>
-      {Array.from({ length: 2 }, (_, i) => (
-        <div key={i} className="h-20 animate-pulse rounded-md bg-surface-elevated" />
-      ))}
-    </>
-  );
+  return <SharedListSkeleton />;
 }
 
 export function EmployeeHome({ profile }: { profile: SessionProfile }) {
@@ -229,7 +225,7 @@ export function EmployeeHome({ profile }: { profile: SessionProfile }) {
       </div>
 
       <Sheet open={Boolean(open)} onOpenChange={(v) => !v && setOpenId(null)}>
-        <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
+        <SheetContent className="w-full overflow-y-auto pb-[env(safe-area-inset-bottom,0px)] sm:max-w-lg">
           {open ? (
             <>
               <SheetHeader>

@@ -149,9 +149,10 @@ function PrivacyPage() {
 
       <LegalSection title="9. Cookies">
         <p>
-          Este sitio solo utiliza almacenamiento técnico necesario para su funcionamiento (la sesión
-          de usuario y tu preferencia sobre este aviso). No usamos cookies de analítica ni de
-          publicidad de terceros.
+          Este sitio solo utiliza almacenamiento técnico necesario para su funcionamiento: la sesión
+          de usuario, tu preferencia sobre este aviso y, si pierdes la conexión al enviar un
+          formulario, una copia temporal de ese envío guardada en tu propio dispositivo, que se
+          borra en cuanto se completa. No usamos cookies de analítica ni de publicidad de terceros.
         </p>
       </LegalSection>
     </LegalLayout>

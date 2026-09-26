@@ -19,6 +19,7 @@ import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-cont
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as ReservarRouteImport } from './routes/reservar'
 import { Route as RestablecerContrasenaRouteImport } from './routes/restablecer-contrasena'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -99,6 +100,11 @@ const ReservarRoute = ReservarRouteImport.update({
 const RestablecerContrasenaRoute = RestablecerContrasenaRouteImport.update({
   id: '/restablecer-contrasena',
   path: '/restablecer-contrasena',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
@@ -270,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/registro': typeof RegistroRoute
   '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
   '/admin/citas': typeof AdminCitasRoute
@@ -312,6 +319,7 @@ export interface FileRoutesByTo {
   '/registro': typeof RegistroRoute
   '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
   '/admin/citas': typeof AdminCitasRoute
@@ -356,6 +364,7 @@ export interface FileRoutesById {
   '/registro': typeof RegistroRoute
   '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/style-guide': typeof StyleGuideRoute
   '/admin/citas': typeof AdminCitasRoute
@@ -401,6 +410,7 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reservar'
     | '/restablecer-contrasena'
+    | '/sitemap.xml'
     | '/sobre-nosotros'
     | '/style-guide'
     | '/admin/citas'
@@ -443,6 +453,7 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reservar'
     | '/restablecer-contrasena'
+    | '/sitemap.xml'
     | '/sobre-nosotros'
     | '/style-guide'
     | '/admin/citas'
@@ -486,6 +497,7 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reservar'
     | '/restablecer-contrasena'
+    | '/sitemap.xml'
     | '/sobre-nosotros'
     | '/style-guide'
     | '/admin/citas'
@@ -530,6 +542,7 @@ export interface RootRouteChildren {
   RegistroRoute: typeof RegistroRoute
   ReservarRoute: typeof ReservarRoute
   RestablecerContrasenaRoute: typeof RestablecerContrasenaRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   StyleGuideRoute: typeof StyleGuideRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -613,6 +626,13 @@ declare module '@tanstack/react-router' {
       path: '/restablecer-contrasena'
       fullPath: '/restablecer-contrasena'
       preLoaderRoute: typeof RestablecerContrasenaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sobre-nosotros': {
@@ -894,6 +914,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegistroRoute: RegistroRoute,
   ReservarRoute: ReservarRoute,
   RestablecerContrasenaRoute: RestablecerContrasenaRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   StyleGuideRoute: StyleGuideRoute,
   BlogSlugRoute: BlogSlugRoute,

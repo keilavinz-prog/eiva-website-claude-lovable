@@ -3,6 +3,7 @@ import type { CompanyInfo } from "@/lib/site-data";
 import { PageShell } from "./PageShell";
 import { PageHero } from "./PageHero";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { Reveal } from "./Reveal";
 
 /** Estructura común de las páginas legales. */
 export function LegalLayout({
@@ -35,10 +36,10 @@ export function LegalLayout({
 
 export function LegalSection({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="space-y-3 leading-relaxed text-text-muted">
+    <Reveal as="section" fade className="space-y-3 leading-relaxed text-text-muted">
       <h2 className="text-xl font-semibold text-text">{title}</h2>
       {children}
-    </section>
+    </Reveal>
   );
 }
 

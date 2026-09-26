@@ -1,6 +1,6 @@
 import { STATUS_LABEL } from "@/lib/admin/constants";
 
-/** Colores por estado con los tokens de marca. "nuevo" y "completada" usan el morado claro (el cian ya no existe en la paleta). */
+/** Colores por estado con los tokens de marca. "nuevo" y "completada" usan el morado de estado --color-logo-purple (#8E7EF0), que sustituye al cian #00D9FF de la Fase 1. */
 const STYLE: Record<string, string> = {
   activo: "border-success/40 bg-success/15 text-success",
   confirmada: "border-success/40 bg-success/15 text-success",

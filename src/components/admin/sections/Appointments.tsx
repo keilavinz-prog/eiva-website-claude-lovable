@@ -141,7 +141,7 @@ export function AppointmentsList() {
         rows={query.data}
         isLoading={query.isLoading}
         error={query.error?.message ?? null}
-        empty="Todavía no hay citas — estarán disponibles cuando se active la reserva en la Fase 5."
+        empty="Todavía no hay citas registradas."
       />
     </AdminPage>
   );

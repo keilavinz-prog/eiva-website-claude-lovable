@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { ListSkeleton } from "@/components/site/Skeletons";
 import { Building2, Mail } from "lucide-react";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { DashboardWelcome } from "./DashboardWelcome";
@@ -32,11 +33,7 @@ export function ProviderHome({ profile }: { profile: SessionProfile }) {
 
       <section className="card-tech mt-10 max-w-3xl p-6 sm:p-8" aria-labelledby="mis-datos">
         {provider.isLoading ? (
-          <div className="space-y-4" aria-busy="true" aria-label="Cargando">
-            {Array.from({ length: 3 }, (_, i) => (
-              <div key={i} className="h-10 animate-pulse rounded bg-surface-elevated" />
-            ))}
-          </div>
+          <ListSkeleton rows={3} className="h-10" />
         ) : provider.error ? (
           <p role="alert" className="text-sm text-danger">
             {provider.error.message}

@@ -51,3 +51,20 @@ export function PageSkeleton({ variant = "grid" }: { variant?: "grid" | "detail"
     </div>
   );
 }
+
+/** Variante de fila de PageSkeleton: listas dentro de tarjetas (paneles, métricas). */
+export function ListSkeleton({
+  rows = 2,
+  className = "h-20",
+}: {
+  rows?: number;
+  className?: string;
+}) {
+  return (
+    <div className="space-y-3" aria-busy="true" aria-label="Cargando">
+      {Array.from({ length: rows }, (_, i) => (
+        <div key={i} className={`animate-pulse rounded-md bg-surface-elevated ${className}`} />
+      ))}
+    </div>
+  );
+}

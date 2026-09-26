@@ -11,6 +11,15 @@
  * Morado #4430A1 · Gris #5F5F68 · Amarillo #F2BA02.
  * Tema oscuro por defecto; las secciones de contenido usan .theme-light
  * y las secciones con vídeo (hero y métricas) usan .theme-space.
+ *
+ * ACENTOS VIGENTES (formalizado en la Fase 9). El cian #00D9FF de la Fase 1 ya NO se usa:
+ *  - Morado de marca  #4430A1  --eeiva-purple / --color-brand: botones primarios, CTA,
+ *    botón flotante de llamada y acento (--color-electric) de las secciones .theme-light.
+ *  - Morado de estado #8E7EF0  --eeiva-logo-purple / --color-logo-purple: badges "nuevo"
+ *    y "completada", resaltado de filas en tiempo real, barras de las gráficas y anillo de foco.
+ *  - Amarillo         #F2BA02  --eeiva-yellow / --color-amber: acento (--color-electric) en el
+ *    tema oscuro y .theme-space, badges ámbar y estados "pendiente" / "en proceso".
+ *  - Única excepción fuera de la paleta: verde WhatsApp #25D366 (solo su botón flotante).
  */
 
 @theme inline {
@@ -310,6 +319,23 @@
     box-shadow: var(--shadow-token-glow);
   }
 
+  /* Estado "pulsado" de los botones de acción (Fase 9) */
+  .btn-primary:active:not(:disabled),
+  .btn-accent:active:not(:disabled),
+  .btn-secondary:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  /* Foco de teclado con el mismo brillo que el hover */
+  .btn-primary:focus-visible,
+  .btn-accent:focus-visible,
+  .btn-secondary:focus-visible,
+  .card-tech-interactive:focus-visible {
+    outline: 2px solid var(--eeiva-logo-purple);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-token-glow);
+  }
+
   /* Tarjetas */
   .card-tech {
     border-radius: var(--radius-token-md);
@@ -353,6 +379,17 @@
   [data-reveal][data-visible="true"] {
     opacity: 1;
     transform: none;
+  }
+  /* Variante solo fundido (textos legales) */
+  [data-reveal="fade"] {
+    transform: none;
+  }
+
+  /* Al enfocar un campo, el navegador lo deja visible por encima de la cabecera fija y del teclado */
+  input,
+  textarea,
+  select {
+    scroll-margin-block: 6rem 2rem;
   }
 }
 
@@ -415,7 +452,10 @@
   .btn-primary:hover,
   .btn-accent:hover,
   .btn-secondary:hover,
-  .card-tech-interactive:hover {
+  .card-tech-interactive:hover,
+  .btn-primary:active,
+  .btn-accent:active,
+  .btn-secondary:active {
     transform: none;
   }
 }

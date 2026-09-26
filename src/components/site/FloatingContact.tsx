@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CircleCheck, LoaderCircle, MessageCircle, PhoneCall, X } from "lucide-react";
+import { CircleCheck, LoaderCircle, MessageCircle, PhoneCall, RotateCcw, X } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchCompany } from "@/lib/site-data";
 import {
@@ -17,6 +18,17 @@ import {
 import { Field, inputClass } from "@/components/auth/fields";
 import { ConsentCheckbox } from "./ConsentCheckbox";
 import { CONSENT_ERROR } from "@/lib/consent";
+import { OfflineNotice } from "./OfflineNotice";
+import {
+  OFFLINE_MESSAGE,
+  PENDING_KEYS,
+  clearPending,
+  isNetworkError,
+  isOffline,
+  readPending,
+  savePending,
+  useOnReconnect,
+} from "@/lib/offline";
 
 /** Zonas privadas donde no se muestran los widgets. */
 const PRIVATE_PREFIXES = ["/admin", "/cliente", "/empleado", "/proveedor"];
@@ -91,9 +103,60 @@ const callbackSchema = z.object({
 });
 type CallbackValues = z.infer<typeof callbackSchema>;
 
+const PENDING_KEY = PENDING_KEYS.callback;
+const SENT_EVENT = "eeiva:callback-pending-sent";
+let pendingInFlight = false;
+
+function sendCallback(v: CallbackValues) {
+  return supabase.rpc("request_callback", {
+    p_name: v.name,
+    p_phone: v.phone,
+    p_preferred_time: v.slot,
+    p_consent: v.consent,
+  });
+}
+
+/** Reenvía la solicitud guardada sin conexión. Devuelve true si se envió. */
+async function resendPendingCallback(): Promise<boolean> {
+  const saved = readPending<CallbackValues>(PENDING_KEY);
+  if (!saved || pendingInFlight || isOffline()) return false;
+  pendingInFlight = true;
+  try {
+    const { error } = await sendCallback(saved);
+    if (error) {
+      // Un error de validación no se arreglará reintentando: se descarta el pendiente
+      if (!isNetworkError(error)) clearPending(PENDING_KEY);
+      return false;
+    }
+    clearPending(PENDING_KEY);
+    window.dispatchEvent(new Event(SENT_EVENT));
+    return true;
+  } catch {
+    return false;
+  } finally {
+    pendingInFlight = false;
+  }
+}
+
 function CallbackPanel({ onClose }: { onClose: () => void }) {
   const [state, setState] = useState<"form" | "sending" | "done">("form");
   const [error, setError] = useState<{ message: string; retry: boolean } | null>(null);
+  const [pending, setPending] = useState<CallbackValues | null>(() =>
+    readPending<CallbackValues>(PENDING_KEY),
+  );
+  const [savedOffline, setSavedOffline] = useState(false);
+
+  // Si el reintento automático (al volver la conexión) lo envía con el panel abierto
+  useEffect(() => {
+    const onSent = () => {
+      setPending(null);
+      setSavedOffline(false);
+      setState("done");
+    };
+    window.addEventListener(SENT_EVENT, onSent);
+    return () => window.removeEventListener(SENT_EVENT, onSent);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -115,16 +178,26 @@ function CallbackPanel({ onClose }: { onClose: () => void }) {
     return () => window.clearTimeout(t);
   }, [state, reset, onClose]);
 
+  function keepForLater(v: CallbackValues) {
+    savePending(PENDING_KEY, v);
+    setPending(v);
+    setSavedOffline(true);
+    setState("form");
+  }
+
   async function onSubmit(v: CallbackValues) {
-    setState("sending");
     setError(null);
+    if (isOffline()) {
+      keepForLater(v);
+      return;
+    }
+    setState("sending");
     try {
-      const { error: rpcError } = await supabase.rpc("request_callback", {
-        p_name: v.name,
-        p_phone: v.phone,
-        p_preferred_time: v.slot,
-        p_consent: v.consent,
-      });
+      const { error: rpcError } = await sendCallback(v);
+      if (rpcError && isNetworkError(rpcError)) {
+        keepForLater(v);
+        return;
+      }
       if (rpcError) {
         // 22023 = validación del servidor, con mensaje ya pensado para el usuario
         setError(
@@ -135,10 +208,25 @@ function CallbackPanel({ onClose }: { onClose: () => void }) {
         setState("form");
         return;
       }
+      clearPending(PENDING_KEY);
+      setPending(null);
+      setSavedOffline(false);
       setState("done");
     } catch {
-      setError({ message: "No hay conexión. Revisa tu red.", retry: true });
+      keepForLater(v);
+    }
+  }
+
+  async function retryPending() {
+    setState("sending");
+    const ok = await resendPendingCallback();
+    if (!ok) {
       setState("form");
+      if (isOffline()) setSavedOffline(true);
+      else {
+        setPending(readPending<CallbackValues>(PENDING_KEY));
+        setError({ message: "No hemos podido enviar tu solicitud.", retry: false });
+      }
     }
   }
 
@@ -200,6 +288,25 @@ function CallbackPanel({ onClose }: { onClose: () => void }) {
           error={errors.consent?.message}
           compact
         />
+        {savedOffline ? (
+          <OfflineNotice compact>{OFFLINE_MESSAGE}</OfflineNotice>
+        ) : pending ? (
+          <OfflineNotice
+            compact
+            action={
+              <button
+                type="button"
+                onClick={() => void retryPending()}
+                className="inline-flex items-center gap-1 font-medium text-electric hover:underline"
+              >
+                <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+                Reintentar ahora
+              </button>
+            }
+          >
+            Tienes una solicitud pendiente de enviar.
+          </OfflineNotice>
+        ) : null}
         {error ? (
           <div role="alert" className="rounded-md border border-danger/40 bg-danger/10 p-3 text-sm">
             {error.message}
@@ -236,6 +343,30 @@ export function FloatingContact() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const matches = useMatches();
   const [open, setOpen] = useState<Panel>(null);
+
+  // Tras recargar con una llamada pendiente: aviso con opción de reintentar
+  useEffect(() => {
+    if (!readPending<CallbackValues>(PENDING_KEY)) return;
+    toast("Tienes una solicitud de llamada pendiente de enviar.", {
+      duration: 10000,
+      action: {
+        label: "Reintentar ahora",
+        onClick: () =>
+          void resendPendingCallback().then((sent) =>
+            sent
+              ? toast.success("Hemos enviado tu solicitud de llamada pendiente.")
+              : toast.error(isOffline() ? OFFLINE_MESSAGE : "No hemos podido enviarla."),
+          ),
+      },
+    });
+  }, []);
+
+  // Reintento automático de la solicitud de llamada guardada sin conexión
+  useOnReconnect(() => {
+    void resendPendingCallback().then((sent) => {
+      if (sent) toast.success("Hemos enviado tu solicitud de llamada pendiente.");
+    });
+  });
   const company = useQuery({
     queryKey: ["company"],
     queryFn: fetchCompany,

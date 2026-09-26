@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,6 +7,19 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Service } from "@/lib/site-data";
 import { ConsentCheckbox } from "./ConsentCheckbox";
 import { CONSENT_ERROR } from "@/lib/consent";
+import { OfflineNotice } from "./OfflineNotice";
+import {
+  OFFLINE_MESSAGE,
+  PENDING_KEYS,
+  clearPending,
+  isNetworkError,
+  isOffline,
+  readPending,
+  savePending,
+  useOnReconnect,
+} from "@/lib/offline";
+
+const PENDING_KEY = PENDING_KEYS.contact;
 
 const PHONE_ES = /^(\+34|0034)?[\s-]?[6-9](?:[\s-]?\d){8}$/;
 
@@ -52,8 +65,17 @@ export function ContactForm({
   defaultServiceId?: string | undefined;
 }) {
   const validDefault = services.some((s) => s.id === defaultServiceId) ? defaultServiceId! : "";
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error" | "offline">(
+    "idle",
+  );
   const [lastValues, setLastValues] = useState<FormValues | null>(null);
+  // Envío guardado sin conexión (sobrevive a una recarga de la página)
+  const [pending, setPending] = useState<FormValues | null>(null);
+  const inFlight = useRef(false);
+
+  useEffect(() => {
+    setPending(readPending<FormValues>(PENDING_KEY));
+  }, []);
 
   const {
     register,
@@ -75,9 +97,27 @@ export function ContactForm({
 
   const messageLength = watch("message")?.length ?? 0;
 
+  // Al volver la conexión se reintenta solo el envío pendiente
+  useOnReconnect(() => {
+    const saved = readPending<FormValues>(PENDING_KEY);
+    if (saved) void send(saved);
+  });
+
+  function keepForLater(values: FormValues) {
+    savePending(PENDING_KEY, values);
+    setPending(values);
+    setStatus("offline");
+  }
+
   async function send(values: FormValues) {
-    setStatus("sending");
+    if (inFlight.current) return;
     setLastValues(values);
+    if (isOffline()) {
+      keepForLater(values);
+      return;
+    }
+    inFlight.current = true;
+    setStatus("sending");
     const args: {
       p_name: string;
       p_email: string;
@@ -93,11 +133,20 @@ export function ContactForm({
     };
     if (values.phone) args.p_phone = values.phone;
     if (values.service_id) args.p_service_id = values.service_id;
-    const { error } = await supabase.rpc("submit_contact_request", args);
+    let error: { message?: string } | null = null;
+    try {
+      ({ error } = await supabase.rpc("submit_contact_request", args));
+    } catch (e) {
+      error = { message: String(e) };
+    }
+    inFlight.current = false;
     if (error) {
-      setStatus("error");
+      if (isNetworkError(error)) keepForLater(values);
+      else setStatus("error");
       return;
     }
+    clearPending(PENDING_KEY);
+    setPending(null);
     setStatus("success");
     reset({ name: "", email: "", phone: "", service_id: "", message: "", consent: false });
   }
@@ -218,6 +267,25 @@ export function ContactForm({
         registration={register("consent")}
         error={errors.consent?.message}
       />
+
+      {status === "offline" ? (
+        <OfflineNotice>{OFFLINE_MESSAGE}</OfflineNotice>
+      ) : pending && status !== "sending" ? (
+        <OfflineNotice
+          action={
+            <button
+              type="button"
+              onClick={() => void send(pending)}
+              className="inline-flex items-center gap-1.5 font-medium text-electric hover:underline"
+            >
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
+              Reintentar ahora
+            </button>
+          }
+        >
+          Tienes una solicitud pendiente de enviar.
+        </OfflineNotice>
+      ) : null}
 
       {status === "error" ? (
         <div

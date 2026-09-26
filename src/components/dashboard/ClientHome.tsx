@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { AppointmentCard } from "@/components/booking/AppointmentCard";
 import { DashboardWelcome } from "./DashboardWelcome";
+import { EmptyState } from "@/components/site/EmptyState";
+import { ListSkeleton } from "@/components/site/Skeletons";
 import {
   cancelMyAppointment,
   isTempId,
@@ -66,17 +68,17 @@ export function ClientHome({ profile }: { profile: SessionProfile }) {
           </h2>
           <div className="mt-5 space-y-3">
             {query.isLoading ? (
-              Array.from({ length: 2 }, (_, i) => (
-                <div key={i} className="h-20 animate-pulse rounded-md bg-surface-elevated" />
-              ))
+              <ListSkeleton />
             ) : query.error ? (
               <p role="alert" className="text-sm text-danger">
                 {query.error.message}
               </p>
             ) : appointments.length === 0 ? (
-              <p className="py-6 text-center text-text-muted">
-                Todavía no tienes citas — reserva la primera con el botón de arriba.
-              </p>
+              <EmptyState
+                compact
+                icon={CalendarPlus}
+                message="Todavía no tienes citas — reserva la primera con el botón de arriba."
+              />
             ) : (
               appointments.map((a) => (
                 <AppointmentCard

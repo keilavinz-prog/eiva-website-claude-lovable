@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CircleCheck, LoaderCircle, MapPin, Video } from "lucide-react";
+import { CircleCheck, LoaderCircle, MapPin, RotateCcw, Video } from "lucide-react";
 import { toast } from "sonner";
 import { Field, inputClass } from "@/components/auth/fields";
 import { AppointmentCard } from "./AppointmentCard";
@@ -22,6 +22,18 @@ import { DASHBOARD_BY_ROLE, type SessionProfile } from "@/lib/auth";
 import type { Service } from "@/lib/site-data";
 import { ConsentCheckbox } from "@/components/site/ConsentCheckbox";
 import { CONSENT_ERROR } from "@/lib/consent";
+import { OfflineNotice } from "@/components/site/OfflineNotice";
+import {
+  OFFLINE_MESSAGE,
+  PENDING_KEYS,
+  clearPending,
+  isOffline,
+  readPending,
+  savePending,
+  useOnReconnect,
+} from "@/lib/offline";
+
+const PENDING_KEY = PENDING_KEYS.booking;
 
 const PHONE = /^[+\d][\d\s-]{6,19}$/;
 
@@ -59,6 +71,19 @@ export function BookingForm({
 }) {
   const qc = useQueryClient();
   const [bookedId, setBookedId] = useState<string | null>(null);
+  // Reserva guardada sin conexión (solo si es de este mismo usuario)
+  const [pending, setPending] = useState<NewAppointment | null>(null);
+  const [savedOffline, setSavedOffline] = useState(false);
+  useEffect(() => {
+    const saved = readPending<NewAppointment>(PENDING_KEY);
+    setPending(saved && saved.client_id === profile.id ? saved : null);
+  }, [profile.id]);
+
+  function keepForLater(payload: NewAppointment) {
+    savePending(PENDING_KEY, payload);
+    setPending(payload);
+    setSavedOffline(true);
+  }
   const key = myAppointmentsKey(profile.id);
   const phone = useQuery({
     queryKey: ["me", profile.id, "phone"],
@@ -112,6 +137,9 @@ export function BookingForm({
       return { prev, tempId: temp.id };
     },
     onSuccess: (real, _payload, ctx) => {
+      clearPending(PENDING_KEY);
+      setPending(null);
+      setSavedOffline(false);
       qc.setQueryData<MyAppointment[]>(key, (rows) =>
         (rows ?? []).map((r) => (r.id === ctx?.tempId ? real : r)),
       );
@@ -120,6 +148,10 @@ export function BookingForm({
     onError: (e: Error, payload, ctx) => {
       qc.setQueryData(key, ctx?.prev);
       setBookedId(null);
+      if (isOffline()) {
+        keepForLater(payload);
+        return;
+      }
       toast.error("No se ha podido guardar la cita", {
         description: e.message,
         action: { label: "Reintentar", onClick: () => book.mutate(payload) },
@@ -127,8 +159,22 @@ export function BookingForm({
     },
   });
 
+  function submitBooking(payload: NewAppointment) {
+    if (isOffline()) {
+      keepForLater(payload);
+      return;
+    }
+    book.mutate(payload);
+  }
+
+  // Al volver la conexión se reintenta sola la reserva pendiente
+  useOnReconnect(() => {
+    const saved = readPending<NewAppointment>(PENDING_KEY);
+    if (saved && saved.client_id === profile.id && !book.isPending) book.mutate(saved);
+  });
+
   const onSubmit = (v: Values) =>
-    book.mutate({
+    submitBooking({
       client_id: profile.id,
       name: v.name,
       email: v.email,
@@ -264,6 +310,25 @@ export function BookingForm({
           })}
         </div>
       </fieldset>
+
+      {savedOffline ? (
+        <OfflineNotice>{OFFLINE_MESSAGE}</OfflineNotice>
+      ) : pending && !book.isPending ? (
+        <OfflineNotice
+          action={
+            <button
+              type="button"
+              onClick={() => submitBooking(pending)}
+              className="inline-flex items-center gap-1.5 font-medium text-electric hover:underline"
+            >
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
+              Reintentar ahora
+            </button>
+          }
+        >
+          Tienes una reserva pendiente de enviar.
+        </OfflineNotice>
+      ) : null}
 
       <ConsentCheckbox
         id="booking-consent"

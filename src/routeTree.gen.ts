@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
 import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as ReservarRouteImport } from './routes/reservar'
@@ -59,6 +61,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactoRoute = ContactoRouteImport.update({
   id: '/contacto',
   path: '/contacto',
@@ -67,6 +74,11 @@ const ContactoRoute = ContactoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
+  id: '/politica-privacidad',
+  path: '/politica-privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
@@ -250,8 +262,10 @@ const AdminTestimoniosIdEditarRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/aviso-legal': typeof AvisoLegalRoute
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
+  '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
   '/reservar': typeof ReservarRoute
@@ -290,8 +304,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
+  '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
   '/reservar': typeof ReservarRoute
@@ -332,8 +348,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/aviso-legal': typeof AvisoLegalRoute
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
+  '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
   '/reservar': typeof ReservarRoute
@@ -375,8 +393,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/aviso-legal'
     | '/contacto'
     | '/login'
+    | '/politica-privacidad'
     | '/recuperar-contrasena'
     | '/registro'
     | '/reservar'
@@ -415,8 +435,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aviso-legal'
     | '/contacto'
     | '/login'
+    | '/politica-privacidad'
     | '/recuperar-contrasena'
     | '/registro'
     | '/reservar'
@@ -456,8 +478,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/aviso-legal'
     | '/contacto'
     | '/login'
+    | '/politica-privacidad'
     | '/recuperar-contrasena'
     | '/registro'
     | '/reservar'
@@ -498,8 +522,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AvisoLegalRoute: typeof AvisoLegalRoute
   ContactoRoute: typeof ContactoRoute
   LoginRoute: typeof LoginRoute
+  PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
   RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
   RegistroRoute: typeof RegistroRoute
   ReservarRoute: typeof ReservarRoute
@@ -533,6 +559,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contacto': {
       id: '/contacto'
       path: '/contacto'
@@ -545,6 +578,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-privacidad': {
+      id: '/politica-privacidad'
+      path: '/politica-privacidad'
+      fullPath: '/politica-privacidad'
+      preLoaderRoute: typeof PoliticaPrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recuperar-contrasena': {
@@ -846,8 +886,10 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AvisoLegalRoute: AvisoLegalRoute,
   ContactoRoute: ContactoRoute,
   LoginRoute: LoginRoute,
+  PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
   RecuperarContrasenaRoute: RecuperarContrasenaRoute,
   RegistroRoute: RegistroRoute,
   ReservarRoute: ReservarRoute,

@@ -5,6 +5,8 @@ import { z } from "zod";
 import { CircleAlert, Check, LoaderCircle, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Service } from "@/lib/site-data";
+import { ConsentCheckbox } from "./ConsentCheckbox";
+import { CONSENT_ERROR } from "@/lib/consent";
 
 const PHONE_ES = /^(\+34|0034)?[\s-]?[6-9](?:[\s-]?\d){8}$/;
 
@@ -25,6 +27,7 @@ const schema = z.object({
     .trim()
     .min(10, "Cuéntanos un poco más (mínimo 10 caracteres).")
     .max(1000, "Máximo 1000 caracteres."),
+  consent: z.boolean().refine((v) => v, CONSENT_ERROR),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -60,7 +63,14 @@ export function ContactForm({
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", email: "", phone: "", service_id: validDefault, message: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      service_id: validDefault,
+      message: "",
+      consent: false,
+    },
   });
 
   const messageLength = watch("message")?.length ?? 0;
@@ -74,7 +84,13 @@ export function ContactForm({
       p_message: string;
       p_phone?: string;
       p_service_id?: string;
-    } = { p_name: values.name, p_email: values.email, p_message: values.message };
+      p_consent: boolean;
+    } = {
+      p_name: values.name,
+      p_email: values.email,
+      p_message: values.message,
+      p_consent: values.consent,
+    };
     if (values.phone) args.p_phone = values.phone;
     if (values.service_id) args.p_service_id = values.service_id;
     const { error } = await supabase.rpc("submit_contact_request", args);
@@ -83,7 +99,7 @@ export function ContactForm({
       return;
     }
     setStatus("success");
-    reset({ name: "", email: "", phone: "", service_id: "", message: "" });
+    reset({ name: "", email: "", phone: "", service_id: "", message: "", consent: false });
   }
 
   if (status === "success") {
@@ -196,6 +212,12 @@ export function ContactForm({
           </p>
         </div>
       </div>
+
+      <ConsentCheckbox
+        id="consent"
+        registration={register("consent")}
+        error={errors.consent?.message}
+      />
 
       {status === "error" ? (
         <div

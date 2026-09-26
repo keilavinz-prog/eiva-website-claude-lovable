@@ -15,6 +15,8 @@ import {
   whatsappUrl,
 } from "@/lib/contact-widgets";
 import { Field, inputClass } from "@/components/auth/fields";
+import { ConsentCheckbox } from "./ConsentCheckbox";
+import { CONSENT_ERROR } from "@/lib/consent";
 
 /** Zonas privadas donde no se muestran los widgets. */
 const PRIVATE_PREFIXES = ["/admin", "/cliente", "/empleado", "/proveedor"];
@@ -85,6 +87,7 @@ const callbackSchema = z.object({
     .min(1, "Escribe tu teléfono.")
     .refine((v) => SPANISH_PHONE.test(cleanPhone(v)), "Introduce un teléfono español válido."),
   slot: z.string().min(1, "Elige un horario."),
+  consent: z.boolean().refine((v) => v, CONSENT_ERROR),
 });
 type CallbackValues = z.infer<typeof callbackSchema>;
 
@@ -98,7 +101,7 @@ function CallbackPanel({ onClose }: { onClose: () => void }) {
     formState: { errors },
   } = useForm<CallbackValues>({
     resolver: zodResolver(callbackSchema),
-    defaultValues: { name: "", phone: "", slot: "" },
+    defaultValues: { name: "", phone: "", slot: "", consent: false },
   });
 
   // Tras el éxito, el panel se cierra solo a los 4 segundos
@@ -120,6 +123,7 @@ function CallbackPanel({ onClose }: { onClose: () => void }) {
         p_name: v.name,
         p_phone: v.phone,
         p_preferred_time: v.slot,
+        p_consent: v.consent,
       });
       if (rpcError) {
         // 22023 = validación del servidor, con mensaje ya pensado para el usuario
@@ -190,6 +194,12 @@ function CallbackPanel({ onClose }: { onClose: () => void }) {
             ))}
           </select>
         </Field>
+        <ConsentCheckbox
+          id="cb-consent"
+          registration={register("consent")}
+          error={errors.consent?.message}
+          compact
+        />
         {error ? (
           <div role="alert" className="rounded-md border border-danger/40 bg-danger/10 p-3 text-sm">
             {error.message}

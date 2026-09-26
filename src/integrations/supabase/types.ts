@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       appointments: {
         Row: {
+          consent_accepted: boolean
           assigned_to: string | null
           calendar_event_id: string | null
           client_id: string | null
@@ -32,6 +33,7 @@ export type Database = {
           status: string
         }
         Insert: {
+          consent_accepted?: boolean
           assigned_to?: string | null
           calendar_event_id?: string | null
           client_id?: string | null
@@ -48,6 +50,7 @@ export type Database = {
           status?: string
         }
         Update: {
+          consent_accepted?: boolean
           assigned_to?: string | null
           calendar_event_id?: string | null
           client_id?: string | null
@@ -176,6 +179,7 @@ export type Database = {
       }
       contact_requests: {
         Row: {
+          consent_accepted: boolean
           assigned_to: string | null
           created_at: string
           email: string
@@ -188,6 +192,7 @@ export type Database = {
           status: string
         }
         Insert: {
+          consent_accepted?: boolean
           assigned_to?: string | null
           created_at?: string
           email: string
@@ -200,6 +205,7 @@ export type Database = {
           status?: string
         }
         Update: {
+          consent_accepted?: boolean
           assigned_to?: string | null
           created_at?: string
           email?: string
@@ -470,7 +476,12 @@ export type Database = {
         Returns: Database["public"]["Tables"]["providers"]["Row"] | null
       }
       request_callback: {
-        Args: { p_name: string; p_phone: string; p_preferred_time: string }
+        Args: {
+          p_consent?: boolean
+          p_name: string
+          p_phone: string
+          p_preferred_time: string
+        }
         Returns: string
       }
       submit_contact_request: {
@@ -480,6 +491,7 @@ export type Database = {
           p_name: string
           p_phone?: string
           p_service_id?: string
+          p_consent?: boolean
         }
         Returns: string
       }

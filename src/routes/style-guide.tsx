@@ -12,6 +12,7 @@ export const Route = createFileRoute("/style-guide")({
 
 const COLORS = [
   { name: "Morado (marca)", token: "--eeiva-purple", hex: "#4430A1" },
+  { name: "Morado de estado", token: "--eeiva-logo-purple", hex: "#8E7EF0" },
   { name: "Gris (marca)", token: "--eeiva-gray", hex: "#5F5F68" },
   { name: "Amarillo (marca)", token: "--eeiva-yellow", hex: "#F2BA02" },
   { name: "Fondo oscuro", token: "--eeiva-bg", hex: "#14122B" },
@@ -21,6 +22,28 @@ const COLORS = [
   { name: "Texto secundario", token: "--eeiva-text-muted", hex: "#B3AFCB" },
   { name: "Éxito", token: "--eeiva-success", hex: "#00C853" },
   { name: "Peligro", token: "--eeiva-danger", hex: "#FF3B5C" },
+];
+
+/** Roles de los acentos en uso real (ver cabecera de src/styles.css). */
+const ACCENTS = [
+  {
+    name: "Morado de marca",
+    token: "--eeiva-purple",
+    hex: "#4430A1",
+    use: "Botones primarios, CTA, botón de llamada y acento de las secciones claras.",
+  },
+  {
+    name: "Morado de estado",
+    token: "--eeiva-logo-purple",
+    hex: "#8E7EF0",
+    use: "Badges «nuevo» y «completada», resaltado en tiempo real, gráficas y foco.",
+  },
+  {
+    name: "Amarillo",
+    token: "--eeiva-yellow",
+    hex: "#F2BA02",
+    use: "Acento del tema oscuro, badges ámbar y estados pendiente / en proceso.",
+  },
 ];
 
 const RADII = [
@@ -61,6 +84,32 @@ function StyleGuide() {
                   <p className="text-sm font-medium">{c.name}</p>
                   <p className="mt-1 font-mono text-xs text-text-muted">{c.hex}</p>
                   <p className="font-mono text-[0.625rem] text-text-muted">{c.token}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Block>
+
+        <Block title="Acentos vigentes">
+          <p className="max-w-3xl text-sm text-text-muted">
+            Formalizado en la Fase 9. El cian <span className="font-mono">#00D9FF</span> de la Fase
+            1 ya no se usa. Fuente única: cabecera de{" "}
+            <span className="font-mono">src/styles.css</span>.
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {ACCENTS.map((a) => (
+              <div key={a.token} className="card-tech flex gap-4 p-4">
+                <span
+                  className="h-12 w-12 shrink-0 rounded-md border border-line"
+                  style={{ background: `var(${a.token})` }}
+                  aria-hidden="true"
+                />
+                <div>
+                  <p className="text-sm font-medium">
+                    {a.name} · <span className="font-mono">{a.hex}</span>
+                  </p>
+                  <p className="font-mono text-[0.625rem] text-text-muted">{a.token}</p>
+                  <p className="mt-1 text-xs text-text-muted">{a.use}</p>
                 </div>
               </div>
             ))}

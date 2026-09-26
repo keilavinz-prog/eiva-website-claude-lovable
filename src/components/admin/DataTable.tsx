@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Inbox } from "lucide-react";
+import { EmptyState } from "@/components/site/EmptyState";
 
 export type Column<T> = {
   key: string;
@@ -35,12 +36,7 @@ export function DataTable<T extends { id: string }>({
   }
 
   if (!isLoading && rows && rows.length === 0) {
-    return (
-      <div className="card-tech flex flex-col items-center gap-3 px-6 py-16 text-center">
-        <Inbox className="h-8 w-8 text-electric" aria-hidden="true" />
-        <div className="text-text-muted">{empty}</div>
-      </div>
-    );
+    return <EmptyState icon={Inbox} message={empty} />;
   }
 
   return (

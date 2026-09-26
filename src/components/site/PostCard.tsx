@@ -40,7 +40,7 @@ export function PostCard({ post, featured = false }: { post: BlogPost; featured?
         {post.cover_url ? (
           <SafeImage
             src={post.cover_url}
-            alt=""
+            alt={post.title}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (

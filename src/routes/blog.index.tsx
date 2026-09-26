@@ -10,22 +10,25 @@ import { PostCard } from "@/components/site/PostCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { Reveal } from "@/components/site/Reveal";
 import { PageSkeleton } from "@/components/site/Skeletons";
+import { breadcrumbLd, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/")({
   loader: async () => {
     const [company, posts] = await Promise.all([fetchCompany(), fetchPosts()]);
     return { company, posts };
   },
-  head: () => ({
-    meta: [
-      { title: "Blog | EEIVA · Electrotecnia e Ingeniería Valencia" },
-      {
-        name: "description",
-        content:
-          "Guías y novedades sobre instalaciones eléctricas, alta tensión, energía solar y mantenimiento, del equipo de EEIVA.",
-      },
-    ],
-  }),
+  head: () => {
+    const title = "Blog | EEIVA · Electrotecnia e Ingeniería Valencia";
+    const description =
+      "Guías y novedades sobre instalaciones eléctricas, alta tensión, energía solar y mantenimiento, del equipo de EEIVA.";
+    const crumbs = [{ label: "Inicio", to: "/" }, { label: "Blog" }];
+    const og = pageMeta({ title, description, path: "/blog" });
+    return {
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+      scripts: [ldScript(breadcrumbLd(crumbs))],
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="grid" />,
   pendingMs: 150,
   component: BlogPage,

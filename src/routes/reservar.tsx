@@ -20,6 +20,7 @@ export const Route = createFileRoute("/reservar")({
   head: () => ({
     meta: [
       { title: "Reservar cita | EEIVA" },
+      { name: "robots", content: "noindex" },
       {
         name: "description",
         content: "Reserva una cita presencial o por videollamada con el equipo técnico de EEIVA.",

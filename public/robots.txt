@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Actualizar si se migra el dominio a eeiva.es
+Sitemap: https://eeiva.lovable.app/sitemap.xml

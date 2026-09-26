@@ -15,6 +15,7 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { PageSkeleton } from "@/components/site/Skeletons";
 import { NotFoundPanel } from "@/components/site/NotFoundPanel";
 import { Header } from "@/components/site/Header";
+import { articleLd, breadcrumbLd, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
@@ -31,20 +32,29 @@ export const Route = createFileRoute("/blog/$slug")({
     );
     return { company, post, related };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.post.title} | Blog EEIVA` },
-          { name: "description", content: loaderData.post.excerpt },
-          { property: "og:title", content: loaderData.post.title },
-          { property: "og:description", content: loaderData.post.excerpt },
-          { property: "og:type", content: "article" },
-          ...(loaderData.post.cover_url
-            ? [{ property: "og:image", content: loaderData.post.cover_url }]
-            : []),
-        ]
-      : [{ title: "Artículo no encontrado | EEIVA" }],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [{ title: "Artículo no encontrado | EEIVA" }] };
+    const { post } = loaderData;
+    const title = `${post.title} | Blog EEIVA`;
+    const path = `/blog/${post.slug}`;
+    const og = pageMeta({
+      title,
+      description: post.excerpt,
+      path,
+      image: post.cover_url,
+      type: "article",
+    });
+    const crumbs = [
+      { label: "Inicio", to: "/" },
+      { label: "Blog", to: "/blog" },
+      { label: post.title },
+    ];
+    return {
+      meta: [{ title }, { name: "description", content: post.excerpt }, ...og.meta],
+      links: og.links,
+      scripts: [ldScript(articleLd(post, path)), ldScript(breadcrumbLd(crumbs))],
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="detail" />,
   pendingMs: 150,
   notFoundComponent: PostNotFound,

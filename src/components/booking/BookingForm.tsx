@@ -20,6 +20,8 @@ import {
 } from "@/lib/booking";
 import { DASHBOARD_BY_ROLE, type SessionProfile } from "@/lib/auth";
 import type { Service } from "@/lib/site-data";
+import { ConsentCheckbox } from "@/components/site/ConsentCheckbox";
+import { CONSENT_ERROR } from "@/lib/consent";
 
 const PHONE = /^[+\d][\d\s-]{6,19}$/;
 
@@ -41,6 +43,7 @@ const schema = z.object({
     .refine((v) => v >= todayISO(), "La fecha no puede ser anterior a hoy."),
   preferred_time: z.enum(TIME_SLOTS, { message: "Elige una franja horaria." }),
   meeting_type: z.enum(MEETING_TYPES),
+  consent: z.boolean().refine((v) => v, CONSENT_ERROR),
 });
 type Values = z.infer<typeof schema>;
 
@@ -80,6 +83,7 @@ export function BookingForm({
       preferred_date: "",
       preferred_time: TIME_SLOTS[0],
       meeting_type: "presencial",
+      consent: false,
     },
   });
 
@@ -133,6 +137,8 @@ export function BookingForm({
       preferred_date: v.preferred_date,
       preferred_time: v.preferred_time,
       meeting_type: v.meeting_type,
+      // Solo se llega aquí con la casilla marcada (validación del formulario)
+      consent_accepted: v.consent,
     });
 
   const cached = qc.getQueryData<MyAppointment[]>(key);
@@ -159,7 +165,7 @@ export function BookingForm({
             type="button"
             onClick={() => {
               setBookedId(null);
-              reset({ ...getValues(), preferred_date: "" });
+              reset({ ...getValues(), preferred_date: "", consent: false });
             }}
             className="btn-secondary px-6 py-3 text-sm"
           >
@@ -171,6 +177,7 @@ export function BookingForm({
   }
 
   const meetingType = watch("meeting_type");
+  const consent = watch("consent");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
@@ -258,9 +265,15 @@ export function BookingForm({
         </div>
       </fieldset>
 
+      <ConsentCheckbox
+        id="booking-consent"
+        registration={register("consent")}
+        error={errors.consent?.message}
+      />
+
       <button
         type="submit"
-        disabled={book.isPending}
+        disabled={book.isPending || !consent}
         className="btn-primary w-full px-6 py-3.5 text-base disabled:cursor-not-allowed disabled:opacity-70"
       >
         {book.isPending ? (

@@ -19,6 +19,7 @@ import { Header } from "@/components/site/Header";
 import { RichText } from "@/components/site/RichText";
 import { SafeImage } from "@/components/site/SafeImage";
 import { serviceImage } from "@/lib/images";
+import { breadcrumbLd, ldScript, pageMeta, serviceLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/servicios/$slug")({
   loader: async ({ params }) => {
@@ -29,14 +30,28 @@ export const Route = createFileRoute("/servicios/$slug")({
     ]);
     return { company, service, related: pickRelatedProjects(service, projects) };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.service.title} | EEIVA` },
-          { name: "description", content: loaderData.service.short_description },
-        ]
-      : [{ title: "Servicio no encontrado | EEIVA" }],
-  }),
+  head: ({ loaderData }) => {
+    if (!loaderData) return { meta: [{ title: "Servicio no encontrado | EEIVA" }] };
+    const { service } = loaderData;
+    const title = `${service.title} | EEIVA`;
+    const path = `/servicios/${service.slug}`;
+    const og = pageMeta({
+      title,
+      description: service.short_description,
+      path,
+      image: serviceImage(service.slug),
+    });
+    const crumbs = [
+      { label: "Inicio", to: "/" },
+      { label: "Servicios", to: "/servicios" },
+      { label: service.title },
+    ];
+    return {
+      meta: [{ title }, { name: "description", content: service.short_description }, ...og.meta],
+      links: og.links,
+      scripts: [ldScript(serviceLd(service, path)), ldScript(breadcrumbLd(crumbs))],
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="detail" />,
   pendingMs: 150,
   notFoundComponent: ServiceNotFound,

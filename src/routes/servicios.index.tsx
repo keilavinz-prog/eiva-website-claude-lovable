@@ -8,22 +8,25 @@ import { FilterChips } from "@/components/site/FilterChips";
 import { ServiceCard } from "@/components/site/ServiceCard";
 import { EmptyState } from "@/components/site/EmptyState";
 import { PageSkeleton } from "@/components/site/Skeletons";
+import { breadcrumbLd, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/servicios/")({
   loader: async () => {
     const [company, services] = await Promise.all([fetchCompany(), fetchServices()]);
     return { company, services };
   },
-  head: () => ({
-    meta: [
-      { title: "Servicios | EEIVA" },
-      {
-        name: "description",
-        content:
-          "Servicios de EEIVA: revisión y mantenimiento de instalaciones eléctricas, ingeniería de automatización y control, y legalización y gestión de proyectos.",
-      },
-    ],
-  }),
+  head: () => {
+    const title = "Servicios | EEIVA";
+    const description =
+      "Servicios de EEIVA: revisión y mantenimiento de instalaciones eléctricas, ingeniería de automatización y control, y legalización y gestión de proyectos.";
+    const crumbs = [{ label: "Inicio", to: "/" }, { label: "Servicios" }];
+    const og = pageMeta({ title, description, path: "/servicios" });
+    return {
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+      scripts: [ldScript(breadcrumbLd(crumbs))],
+    };
+  },
   pendingComponent: () => <PageSkeleton variant="grid" />,
   pendingMs: 150,
   component: ServiciosPage,

@@ -8,21 +8,20 @@ import { FeaturedProjects } from "@/components/site/FeaturedProjects";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FinalCta } from "@/components/site/FinalCta";
 import { Footer } from "@/components/site/Footer";
+import { organizationLd, pageMeta, ldScript } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   loader: () => fetchHomeData(),
   head: ({ loaderData }) => {
-    const name = loaderData?.company.name ?? "Electrotecnia e Ingeniería Valencia S.L.";
+    const company = loaderData?.company;
+    const title = "EEIVA · Instalaciones Eléctricas en Valencia | 24h";
     const description =
-      loaderData?.company.slogan ?? "Soluciones integrales en ingeniería eléctrica en Valencia.";
+      "Instalaciones eléctricas, mantenimiento industrial y domótica en Valencia. Más de 25 años de experiencia. Presupuesto sin compromiso.";
+    const og = pageMeta({ title, description, path: "/" });
     return {
-      meta: [
-        { title: `${name} | Soluciones integrales en ingeniería eléctrica` },
-        { name: "description", content: description },
-        { property: "og:title", content: name },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-      ],
+      meta: [{ title }, { name: "description", content: description }, ...og.meta],
+      links: og.links,
+      scripts: company ? [ldScript(organizationLd(company))] : [],
     };
   },
   component: HomePage,

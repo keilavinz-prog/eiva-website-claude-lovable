@@ -51,6 +51,7 @@ export type NewAppointment = {
   preferred_date: string;
   preferred_time: string;
   meeting_type: MeetingType;
+  consent_accepted: boolean;
 };
 
 /** Crea la cita (estado 'pendiente' por defecto; meet_link y calendar_event_id quedan a null hasta la Fase 6). */

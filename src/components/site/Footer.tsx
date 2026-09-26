@@ -95,7 +95,15 @@ export function Footer({ company }: { company: CompanyInfo }) {
           <p>
             © {year} {company.name}
           </p>
-          {company.cif ? <p>CIF {company.cif}</p> : null}
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link to="/politica-privacidad" className="transition-colors hover:text-text">
+              Política de Privacidad
+            </Link>
+            <Link to="/aviso-legal" className="transition-colors hover:text-text">
+              Aviso Legal
+            </Link>
+            {company.cif ? <span>CIF {company.cif}</span> : null}
+          </nav>
         </div>
       </div>
     </footer>

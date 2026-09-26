@@ -166,7 +166,7 @@ export function DashboardShell({
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-ink/70 backdrop-blur-sm"
           />
-          <aside className="theme-space bg-blueprint absolute inset-y-0 left-0 w-80 max-w-[85%] animate-in border-r border-line duration-300 slide-in-from-left">
+          <aside className="theme-space bg-blueprint absolute inset-y-0 left-0 w-80 max-w-[85%] animate-in border-r border-line pb-[env(safe-area-inset-bottom,0px)] duration-300 slide-in-from-left">
             <button
               type="button"
               onClick={() => setOpen(false)}

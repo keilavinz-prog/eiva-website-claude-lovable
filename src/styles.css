@@ -436,12 +436,31 @@
   animation: glow-breathe 6s ease-in-out infinite;
 }
 
+/* Palabra "EEIVA" del hero: permanece oculta unos segundos y luego aparece una
+   sola vez (sin bucle), quedándose visible a partir de ahí. */
+@keyframes hero-word-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.hero-word-reveal {
+  opacity: 0;
+  animation: hero-word-reveal 1.5s var(--ease-out-soft) 3s forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .energy-pulse,
   .glow-breathe {
+    animation: none;
+  }
+  .hero-word-reveal {
+    opacity: 1;
     animation: none;
   }
   [data-reveal] {

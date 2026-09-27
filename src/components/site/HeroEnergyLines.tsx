@@ -3,12 +3,15 @@
  *
  * 1) Fondo (BG_TRACES/BG_NODES): el MISMO patrón de circuito que usa
  *    EnergyLines.tsx en el resto del sitio, sin recortar — cubre toda la
- *    pantalla, con sus pulsos de energía animados. No se toca EnergyLines.tsx.
- * 2) Palabra (WORD_TRACES/WORD_NODES): trazos de circuito, más gruesos y con
- *    más brillo que el fondo para que destaquen, formando "EEIVA" en la mitad
- *    DERECHA del viewBox (x 760-1150) — fuera de la columna donde cae el texto
- *    del hero (título + subtítulo + botones, que ocupan la mitad izquierda).
- *    Si se centra en medio del viewBox, el texto la tapa casi por completo.
+ *    pantalla, con sus pulsos de energía animados, y NUNCA desaparece.
+ *    No se toca EnergyLines.tsx.
+ * 2) Palabra (WORD_TRACES/WORD_NODES): trazos de circuito gruesos (para que
+ *    se lean bien) pero de tamaño modesto, formando "EEIVA" en la mitad
+ *    DERECHA del viewBox (x 760-1150) — fuera de la columna donde cae el
+ *    texto del hero (título + subtítulo + botones, en la mitad izquierda;
+ *    si se centra en medio del viewBox, el texto la tapa casi por completo).
+ *    Permanece invisible los primeros segundos y luego aparece una sola vez
+ *    (clase .hero-word-reveal, en src/styles.css), quedándose visible.
  */
 const BG_TRACES = [
   "M-20 140 H260 L320 200 H620 L680 140 H1220",
@@ -35,29 +38,29 @@ const BG_NODES: Array<[number, number]> = [
 
 const WORD_TRACES = [
   // E
-  "M760,240 L760,560 M760,240 L815,240 M760,400 L806,400 M760,560 L815,560",
+  "M760,300 L760,500 M760,300 L815,300 M760,400 L806,400 M760,500 L815,500",
   // E
-  "M848,240 L848,560 M848,240 L903,240 M848,400 L894,400 M848,560 L903,560",
+  "M848,300 L848,500 M848,300 L903,300 M848,400 L894,400 M848,500 L903,500",
   // I
-  "M945,240 L945,560 M936,240 L954,240 M936,560 L954,560",
+  "M945,300 L945,500 M936,300 L954,300 M936,500 L954,500",
   // V
-  "M987,240 L1020,560 L1052,240",
+  "M987,300 L1020,500 L1052,300",
   // A
-  "M1085,560 L1118,240 L1150,560 M1098,430 L1137,430",
+  "M1085,500 L1118,300 L1150,500 M1098,420 L1137,420",
 ];
 
 const WORD_NODES: Array<[number, number]> = [
-  [760, 240],
-  [760, 560],
-  [848, 240],
-  [848, 560],
-  [945, 240],
-  [945, 560],
-  [987, 240],
-  [1052, 240],
-  [1020, 560],
-  [1118, 240],
-  [1137, 430],
+  [760, 300],
+  [760, 500],
+  [848, 300],
+  [848, 500],
+  [945, 300],
+  [945, 500],
+  [987, 300],
+  [1052, 300],
+  [1020, 500],
+  [1118, 300],
+  [1137, 420],
 ];
 
 export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
@@ -70,7 +73,7 @@ export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
         preserveAspectRatio="xMidYMid slice"
         fill="none"
       >
-        {/* Fondo: circuito completo por toda la pantalla (igual que en el resto del sitio) */}
+        {/* Fondo: circuito completo por toda la pantalla, siempre presente */}
         <g stroke="var(--eeiva-border)" strokeWidth="1.25" opacity="0.8">
           {BG_TRACES.map((d) => (
             <path key={d} d={d} />
@@ -110,44 +113,46 @@ export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
           ))}
         </g>
 
-        {/* Palabra "EEIVA": trazos y nodos más gruesos, para que destaquen sobre el fondo */}
-        <g stroke="var(--eeiva-text-muted)" strokeWidth="3.5" strokeLinecap="round" opacity="0.6">
-          {WORD_TRACES.map((d) => (
-            <path key={d} d={d} />
-          ))}
-        </g>
-        <g strokeWidth="4" strokeLinecap="round">
-          {WORD_TRACES.map((d, i) => {
-            const color = i % 2 === 0 ? "var(--eeiva-pulse)" : "var(--eeiva-pulse-alt)";
-            return (
-              <path
-                key={`wp-${d}`}
-                d={d}
-                pathLength={1000}
-                stroke={color}
-                className="energy-pulse"
-                style={{
-                  animationDelay: `${i * -1.3}s`,
-                  filter: `drop-shadow(0 0 9px ${color})`,
-                }}
+        {/* Palabra "EEIVA": tamaño modesto, trazo grueso, aparece a los 3 s y se queda */}
+        <g className="hero-word-reveal">
+          <g stroke="var(--eeiva-text-muted)" strokeWidth="2.5" strokeLinecap="round" opacity="0.6">
+            {WORD_TRACES.map((d) => (
+              <path key={d} d={d} />
+            ))}
+          </g>
+          <g strokeWidth="3" strokeLinecap="round">
+            {WORD_TRACES.map((d, i) => {
+              const color = i % 2 === 0 ? "var(--eeiva-pulse)" : "var(--eeiva-pulse-alt)";
+              return (
+                <path
+                  key={`wp-${d}`}
+                  d={d}
+                  pathLength={1000}
+                  stroke={color}
+                  className="energy-pulse"
+                  style={{
+                    animationDelay: `${i * -1.3}s`,
+                    filter: `drop-shadow(0 0 8px ${color})`,
+                  }}
+                />
+              );
+            })}
+          </g>
+          <g>
+            {WORD_NODES.map(([cx, cy], i) => (
+              <circle
+                key={`wn-${cx}-${cy}`}
+                cx={cx}
+                cy={cy}
+                r="4.25"
+                fill="var(--eeiva-bg)"
+                stroke={i % 3 === 0 ? "var(--eeiva-pulse)" : "var(--eeiva-pulse-alt)"}
+                strokeWidth="2"
+                className="glow-breathe"
+                style={{ animationDelay: `${i * -0.7}s` }}
               />
-            );
-          })}
-        </g>
-        <g>
-          {WORD_NODES.map(([cx, cy], i) => (
-            <circle
-              key={`wn-${cx}-${cy}`}
-              cx={cx}
-              cy={cy}
-              r="5"
-              fill="var(--eeiva-bg)"
-              stroke={i % 3 === 0 ? "var(--eeiva-pulse)" : "var(--eeiva-pulse-alt)"}
-              strokeWidth="2.25"
-              className="glow-breathe"
-              style={{ animationDelay: `${i * -0.7}s` }}
-            />
-          ))}
+            ))}
+          </g>
         </g>
       </svg>
       {fade ? (

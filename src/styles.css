@@ -190,14 +190,14 @@
 /* Tema ESPACIAL (secciones con vídeo: hero y métricas) — casi negro, rejilla y líneas de energía */
 .theme-space {
   color-scheme: dark;
-  --eeiva-bg: #0a0e14;
-  --eeiva-surface: #12161f;
-  --eeiva-surface-elevated: #1a1f2b;
-  --eeiva-border: #232936;
+  --eeiva-bg: #12161f;
+  --eeiva-surface: #1a1f2b;
+  --eeiva-surface-elevated: #232936;
+  --eeiva-border: #2c3341;
   --eeiva-accent: #f2ba02;
   --eeiva-text: #f5f7fa;
   --eeiva-text-muted: #94a3b8;
-  --eeiva-grid: #1a1f2b;
+  --eeiva-grid: #232936;
   --eeiva-glow: 122 102 224;
   --eeiva-pulse: #f2ba02;
   --eeiva-pulse-alt: #8e7ef0;

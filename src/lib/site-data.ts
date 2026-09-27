@@ -6,6 +6,7 @@ export type CompanyInfo = Tables<"company_info">;
 export type Service = Tables<"services">;
 export type Project = Tables<"projects">;
 export type TeamMember = Tables<"team_members">;
+export type Testimonial = Tables<"testimonials">;
 
 function fail(error: { message: string }): never {
   throw new Error(`No se pudieron cargar los datos: ${error.message}`);
@@ -62,6 +63,18 @@ export async function fetchTeam(): Promise<TeamMember[]> {
     .from("team_members")
     .select("*")
     .order("order_index", { ascending: true });
+  if (error) fail(error);
+  return data ?? [];
+}
+
+/** Testimonios destacados (prueba social). Vacío hasta que haya reseñas reales cargadas. */
+export async function fetchTestimonials(): Promise<Testimonial[]> {
+  const { data, error } = await supabase
+    .from("testimonials")
+    .select("*")
+    .eq("featured", true)
+    .order("created_at", { ascending: true })
+    .limit(3);
   if (error) fail(error);
   return data ?? [];
 }

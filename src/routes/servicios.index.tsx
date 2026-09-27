@@ -1,24 +1,31 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { fetchCompany, fetchServices } from "@/lib/site-data";
+import { createFileRoute } from "@tanstack/react-router";
+import { fetchCompany, fetchProjects, fetchServices, fetchTestimonials } from "@/lib/site-data";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { FilterChips } from "@/components/site/FilterChips";
 import { ServiceCard } from "@/components/site/ServiceCard";
+import { FeaturedProjects } from "@/components/site/FeaturedProjects";
+import { Testimonials } from "@/components/site/Testimonials";
 import { EmptyState } from "@/components/site/EmptyState";
 import { PageSkeleton } from "@/components/site/Skeletons";
 import { breadcrumbLd, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/servicios/")({
   loader: async () => {
-    const [company, services] = await Promise.all([fetchCompany(), fetchServices()]);
-    return { company, services };
+    const [company, services, projects, testimonials] = await Promise.all([
+      fetchCompany(),
+      fetchServices(),
+      fetchProjects(),
+      fetchTestimonials(),
+    ]);
+    return { company, services, projects, testimonials };
   },
   head: () => {
-    const title = "Servicios | EEIVA";
+    const title = "Servicios de Electricista en Valencia | Presupuesto Gratis";
     const description =
-      "Servicios de EEIVA: revisión y mantenimiento de instalaciones eléctricas, ingeniería de automatización y control, y legalización y gestión de proyectos.";
+      "Instalaciones de baja y alta tensión, automatización, fotovoltaica y mantenimiento en Valencia, con más de 25 años de experiencia. Presupuesto sin compromiso.";
     const crumbs = [{ label: "Inicio", to: "/" }, { label: "Servicios" }];
     const og = pageMeta({ title, description, path: "/servicios" });
     return {
@@ -33,8 +40,9 @@ export const Route = createFileRoute("/servicios/")({
 });
 
 function ServiciosPage() {
-  const { company, services } = Route.useLoaderData();
+  const { company, services, projects, testimonials } = Route.useLoaderData();
   const [filter, setFilter] = useState<string>("Todos");
+  const featuredProjects = projects.filter((p) => p.featured).slice(0, 4);
   const categories = [
     "Todos",
     ...Array.from(new Set(services.map((s) => s.category).filter((c): c is string => Boolean(c)))),
@@ -46,8 +54,8 @@ function ServiciosPage() {
       <PageHero
         breadcrumb={<Breadcrumbs items={[{ label: "Inicio", to: "/" }, { label: "Servicios" }]} />}
         kicker="// servicios"
-        title="Nuestros servicios"
-        subtitle="Soluciones integrales en ingeniería eléctrica: diseño, automatización y seguridad para proyectos eléctricos"
+        title="Instalaciones eléctricas seguras, legalizadas y con garantía"
+        subtitle="Desde baja tensión hasta fotovoltaica: diseño, ejecución y mantenimiento, con más de 25 años de experiencia en Valencia."
       />
       <section className="theme-light bg-canvas py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -75,23 +83,8 @@ function ServiciosPage() {
           ) : null}
         </div>
       </section>
-      <section className="theme-light border-t border-line bg-surface py-16 sm:py-20">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="font-mono text-xs text-electric">// áreas de trabajo</p>
-            <h2 className="mt-3 text-2xl font-bold text-text sm:text-3xl">
-              Baja y alta tensión, renovables, telecomunicaciones, seguridad, climatización y más
-            </h2>
-            <p className="mt-3 text-text-muted">
-              Descubre las 9 áreas en las que trabajamos a nivel provincial, nacional e
-              internacional, con asistencia en averías las 24 horas, los 365 días del año.
-            </p>
-          </div>
-          <Link to="/proyectos" className="btn-primary shrink-0 px-7 py-3.5">
-            Ver áreas de trabajo
-          </Link>
-        </div>
-      </section>
+      {featuredProjects.length > 0 ? <FeaturedProjects projects={featuredProjects} /> : null}
+      {testimonials.length > 0 ? <Testimonials testimonials={testimonials} /> : null}
     </PageShell>
   );
 }

@@ -3,35 +3,43 @@
  * circuito con pulsos de energía, pero trazadas formando la palabra "EEIVA".
  * Contraste del trazo base más alto que en EnergyLines (que es puramente
  * abstracto) para que la palabra se lea como marca de agua tras el titular.
+ *
+ * La palabra se sitúa en la mitad DERECHA del viewBox (x 760-1150), fuera de la
+ * columna donde cae el texto del hero (título + subtítulo + botones, que ocupan
+ * la mitad izquierda): si se centra en medio del viewBox, el texto la tapa casi
+ * por completo y solo se ven fragmentos sueltos, que es lo que pasaba antes.
+ *
  * No se toca EnergyLines.tsx: esa se sigue usando tal cual en el resto de páginas.
  */
 const WORD_TRACES = [
-  // conectores de entrada/salida, a modo de "pistas" que llegan de fuera de plano
-  "M-20,400 H290",
-  "M910,400 H1220",
+  // conector de entrada, a modo de "pista" que llega de fuera de plano hasta la E
+  "M-20,400 H760",
+  // conector de salida, tras la A
+  "M1150,400 H1220",
   // E
-  "M290,240 L290,560 M290,240 L380,240 M290,400 L365,400 M290,560 L380,560",
+  "M760,240 L760,560 M760,240 L815,240 M760,400 L806,400 M760,560 L815,560",
   // E
-  "M420,240 L420,560 M420,240 L510,240 M420,400 L495,400 M420,560 L510,560",
+  "M848,240 L848,560 M848,240 L903,240 M848,400 L894,400 M848,560 L903,560",
   // I
-  "M580,240 L580,560 M550,240 L610,240 M550,560 L610,560",
+  "M945,240 L945,560 M936,240 L954,240 M936,560 L954,560",
   // V
-  "M650,240 L705,560 L760,240",
+  "M987,240 L1020,560 L1052,240",
   // A
-  "M800,560 L855,240 L910,560 M822,430 L888,430",
+  "M1085,560 L1118,240 L1150,560 M1098,430 L1137,430",
 ];
 
 const WORD_NODES: Array<[number, number]> = [
-  [290, 240],
-  [290, 560],
-  [420, 240],
-  [510, 560],
-  [580, 240],
-  [580, 560],
-  [705, 560],
-  [855, 240],
-  [822, 430],
-  [888, 430],
+  [760, 240],
+  [760, 560],
+  [848, 240],
+  [848, 560],
+  [945, 240],
+  [945, 560],
+  [987, 240],
+  [1052, 240],
+  [1020, 560],
+  [1118, 240],
+  [1137, 430],
 ];
 
 export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {

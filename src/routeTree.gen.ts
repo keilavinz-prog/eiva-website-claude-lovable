@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
 import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
 import { Route as RegistroRouteImport } from './routes/registro'
+import { Route as RequisitosLegalesRouteImport } from './routes/requisitos-legales'
 import { Route as ReservarRouteImport } from './routes/reservar'
 import { Route as RestablecerContrasenaRouteImport } from './routes/restablecer-contrasena'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -90,6 +91,11 @@ const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
 const RegistroRoute = RegistroRouteImport.update({
   id: '/registro',
   path: '/registro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequisitosLegalesRoute = RequisitosLegalesRouteImport.update({
+  id: '/requisitos-legales',
+  path: '/requisitos-legales',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReservarRoute = ReservarRouteImport.update({
@@ -274,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
+  '/requisitos-legales': typeof RequisitosLegalesRoute
   '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -317,6 +324,7 @@ export interface FileRoutesByTo {
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
+  '/requisitos-legales': typeof RequisitosLegalesRoute
   '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -362,6 +370,7 @@ export interface FileRoutesById {
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
+  '/requisitos-legales': typeof RequisitosLegalesRoute
   '/reservar': typeof ReservarRoute
   '/restablecer-contrasena': typeof RestablecerContrasenaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -408,6 +417,7 @@ export interface FileRouteTypes {
     | '/politica-privacidad'
     | '/recuperar-contrasena'
     | '/registro'
+    | '/requisitos-legales'
     | '/reservar'
     | '/restablecer-contrasena'
     | '/sitemap.xml'
@@ -451,6 +461,7 @@ export interface FileRouteTypes {
     | '/politica-privacidad'
     | '/recuperar-contrasena'
     | '/registro'
+    | '/requisitos-legales'
     | '/reservar'
     | '/restablecer-contrasena'
     | '/sitemap.xml'
@@ -495,6 +506,7 @@ export interface FileRouteTypes {
     | '/politica-privacidad'
     | '/recuperar-contrasena'
     | '/registro'
+    | '/requisitos-legales'
     | '/reservar'
     | '/restablecer-contrasena'
     | '/sitemap.xml'
@@ -540,6 +552,7 @@ export interface RootRouteChildren {
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
   RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
   RegistroRoute: typeof RegistroRoute
+  RequisitosLegalesRoute: typeof RequisitosLegalesRoute
   ReservarRoute: typeof ReservarRoute
   RestablecerContrasenaRoute: typeof RestablecerContrasenaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -612,6 +625,13 @@ declare module '@tanstack/react-router' {
       path: '/registro'
       fullPath: '/registro'
       preLoaderRoute: typeof RegistroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/requisitos-legales': {
+      id: '/requisitos-legales'
+      path: '/requisitos-legales'
+      fullPath: '/requisitos-legales'
+      preLoaderRoute: typeof RequisitosLegalesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reservar': {
@@ -912,6 +932,7 @@ const rootRouteChildren: RootRouteChildren = {
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
   RecuperarContrasenaRoute: RecuperarContrasenaRoute,
   RegistroRoute: RegistroRoute,
+  RequisitosLegalesRoute: RequisitosLegalesRoute,
   ReservarRoute: ReservarRoute,
   RestablecerContrasenaRoute: RestablecerContrasenaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

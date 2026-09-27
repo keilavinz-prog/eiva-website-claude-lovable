@@ -9,6 +9,7 @@ export const NAV_LINKS = [
   { label: "Servicios", to: "/servicios" },
   { label: "Áreas de trabajo", to: "/proyectos" },
   { label: "Equipo EEIVA", to: "/sobre-nosotros" },
+  { label: "Requisitos legales", to: "/requisitos-legales" },
   { label: "Blog", to: "/blog" },
   { label: "Contacto", to: "/contacto" },
 ] as const;

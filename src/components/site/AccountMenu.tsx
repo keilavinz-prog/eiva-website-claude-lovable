@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, LayoutDashboard, LogOut, UserRound } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSessionProfile } from "@/hooks/use-session-profile";
+import { useShowcaseMode } from "@/lib/showcase";
 import { DASHBOARD_BY_ROLE, initials } from "@/lib/auth";
 import {
   DropdownMenu,
@@ -15,9 +16,10 @@ import {
 /** Zona de cuenta de la cabecera (escritorio). */
 export function AccountMenu() {
   const session = useSessionProfile();
+  const showcase = useShowcaseMode();
   const navigate = useNavigate();
 
-  if (session.status === "loading")
+  if (showcase || session.status === "loading")
     return <span className="hidden w-10 lg:block" aria-hidden="true" />;
 
   if (session.status === "anon") {
@@ -85,8 +87,9 @@ export function AccountMenu() {
 /** Enlaces de cuenta para el menú móvil. */
 export function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
   const session = useSessionProfile();
+  const showcase = useShowcaseMode();
   const navigate = useNavigate();
-  if (session.status === "loading") return null;
+  if (showcase || session.status === "loading") return null;
 
   if (session.status === "anon") {
     return (

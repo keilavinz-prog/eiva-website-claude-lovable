@@ -1,15 +1,18 @@
 import { redirect } from "@tanstack/react-router";
 import { getMyProfile } from "@/lib/auth.functions";
 import { DASHBOARD_BY_ROLE, type Role, type SessionProfile } from "@/lib/auth";
+import { isShowcaseMode } from "@/lib/showcase";
 
 /**
  * Guard de ruta por rol. La decisión la toma el servidor (getMyProfile valida el token
  * y lee profiles.role); el navegador solo aporta el token de su sesión.
+ * - Modo escaparate activo → "/" (ver src/lib/showcase.ts)
  * - Sin sesión → /login
  * - Rol distinto → su propio dashboard (redirección silenciosa)
  */
 export function requireRole(role: Role) {
   return async (): Promise<{ profile: SessionProfile }> => {
+    if (isShowcaseMode()) throw redirect({ to: "/" });
     let profile: SessionProfile | null = null;
     try {
       profile = await getMyProfile();

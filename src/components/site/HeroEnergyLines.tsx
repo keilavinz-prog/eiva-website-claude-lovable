@@ -11,11 +11,20 @@ import { useEffect, useState } from "react";
  * 2) Cinco pistas adicionales (LETTER_MORPHS) que SÍ son parte del mismo
  *    circuito (misma pinta, mismo pulso) pero que, en bucle, viajan desde una
  *    posición dispersa por la pantalla ("circuit") hasta trazar cada letra de
- *    "EEIVA" ("letter"), en la mitad derecha del viewBox — fuera de la columna
- *    del texto del hero. Mientras están formadas (5 s), se ilumina encima un
- *    trazo fijo más grueso con los colores reales del logo (mismas variables
- *    que usa Logo.tsx); después se apaga y la pista original vuelve a viajar
- *    a su posición de circuito disperso. Ciclo de 12 s, en bucle continuo.
+ *    "EEIVA" ("letter"). Mientras están formadas (5 s), se ilumina encima un
+ *    trazo fijo más grueso con los colores reales del logo; después se apaga
+ *    y la pista vuelve a viajar a su posición de circuito disperso. Ciclo de
+ *    12 s, en bucle continuo.
+ *
+ *    Con preserveAspectRatio="xMidYMid slice", en pantallas estrechas (móvil)
+ *    solo se ve una franja central del viewBox de 1200 de ancho — en un
+ *    iPhone SE, por ejemplo, apenas x=420 a x=780. La posición de escritorio
+ *    de la palabra (x 760-1150) casi no entra en esa franja, así que en móvil
+ *    solo asomaba la primera "E". Por eso cada letra tiene también una
+ *    posición "mobileLetter"/"mobileNodes" más compacta (x 440-758, centrada
+ *    en esa franja), que se usa en su lugar por debajo de 640px de ancho, sin
+ *    tocar en absoluto la versión de escritorio.
+ *
  *    Con prefers-reduced-motion, las pistas se quedan fijas en su posición de
  *    circuito y nunca llegan a formar letras (sin movimiento llamativo).
  */
@@ -43,14 +52,18 @@ const BG_NODES: Array<[number, number]> = [
 ];
 
 type LetterMorph = {
-  /** Forma dispersa, indistinguible de una pista de circuito cualquiera. */
+  /** Forma dispersa, indistinguible de una pista de circuito cualquiera (misma en móvil y escritorio). */
   circuit: string;
-  /** Forma final, trazando la letra. */
+  /** Forma final en escritorio, trazando la letra. */
   letter: string;
+  /** Forma final en móvil (<640px): misma letra, más compacta y centrada en la franja visible. */
+  mobileLetter: string;
   /** Color fijo del logo para esta letra (mismas variables que Logo.tsx). */
   color: string;
-  /** Nodos (esquinas) de la letra, solo visibles mientras está formada. */
+  /** Nodos (esquinas) de la letra en escritorio, solo visibles mientras está formada. */
   nodes: Array<[number, number]>;
+  /** Nodos (esquinas) de la letra en móvil. */
+  mobileNodes: Array<[number, number]>;
 };
 
 const LETTER_MORPHS: LetterMorph[] = [
@@ -58,52 +71,79 @@ const LETTER_MORPHS: LetterMorph[] = [
     // E
     circuit: "M50,150 L50,260 M420,40 L500,40 M90,600 L160,600 M1130,140 L1130,230",
     letter: "M760,300 L760,500 M760,300 L815,300 M760,400 L806,400 M760,500 L815,500",
+    mobileLetter: "M440,300 L440,500 M440,300 L482,300 M440,400 L475,400 M440,500 L482,500",
     color: "var(--eeiva-logo-purple)",
     nodes: [
       [760, 300],
       [760, 500],
+    ],
+    mobileNodes: [
+      [440, 300],
+      [440, 500],
     ],
   },
   {
     // E
     circuit: "M20,420 L20,500 M300,700 L380,700 M620,700 L620,760 M1170,480 L1170,560",
     letter: "M848,300 L848,500 M848,300 L903,300 M848,400 L894,400 M848,500 L903,500",
+    mobileLetter: "M512,300 L512,500 M512,300 L554,300 M512,400 L547,400 M512,500 L554,500",
     color: "var(--eeiva-logo-gray)",
     nodes: [
       [848, 300],
       [848, 500],
+    ],
+    mobileNodes: [
+      [512, 300],
+      [512, 500],
     ],
   },
   {
     // I
     circuit: "M250,250 L250,330 M680,60 L700,60 M1180,380 L1180,420",
     letter: "M945,300 L945,500 M936,300 L954,300 M936,500 L954,500",
+    mobileLetter: "M591,300 L591,500 M584,300 L598,300 M584,500 L598,500",
     color: "var(--color-brand-yellow)",
     nodes: [
       [945, 300],
       [945, 500],
+    ],
+    mobileNodes: [
+      [591, 300],
+      [591, 500],
     ],
   },
   {
     // V
     circuit: "M70,480 L150,540 L230,470",
     letter: "M987,300 L1020,500 L1052,300",
+    mobileLetter: "M628,300 L653,500 L678,300",
     color: "var(--eeiva-logo-gray)",
     nodes: [
       [987, 300],
       [1052, 300],
       [1020, 500],
     ],
+    mobileNodes: [
+      [628, 300],
+      [678, 300],
+      [653, 500],
+    ],
   },
   {
     // A
     circuit: "M880,70 L950,130 L1020,70 M40,720 L120,720",
     letter: "M1085,500 L1118,300 L1150,500 M1098,420 L1137,420",
+    mobileLetter: "M708,500 L733,300 L758,500 M718,420 L748,420",
     color: "var(--eeiva-logo-purple)",
     nodes: [
       [1118, 300],
       [1098, 420],
       [1137, 420],
+    ],
+    mobileNodes: [
+      [733, 300],
+      [718, 420],
+      [748, 420],
     ],
   },
 ];
@@ -124,8 +164,22 @@ function usePrefersReducedMotion(): boolean {
   return reduced;
 }
 
+/** Por debajo de 640px (breakpoint "sm" de Tailwind) se usa la posición compacta de la palabra. */
+function useIsMobile(): boolean {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    setMobile(mq.matches);
+    const onChange = () => setMobile(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return mobile;
+}
+
 export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
   const reducedMotion = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
 
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -179,7 +233,9 @@ export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
         {/* Pistas que viajan: son circuito disperso casi siempre, y a ratos forman "EEIVA" */}
         {LETTER_MORPHS.map((m, i) => {
           const pulseColor = i % 2 === 0 ? "var(--eeiva-pulse)" : "var(--eeiva-pulse-alt)";
-          const dValues = `${m.circuit};${m.circuit};${m.letter};${m.letter};${m.circuit}`;
+          const letterTarget = isMobile ? m.mobileLetter : m.letter;
+          const nodesTarget = isMobile ? m.mobileNodes : m.nodes;
+          const dValues = `${m.circuit};${m.circuit};${letterTarget};${letterTarget};${m.circuit}`;
           return (
             <g key={`morph-${i}`}>
               {/* Layer A: el propio hilo del circuito, viajando (o fijo, si hay movimiento reducido) */}
@@ -209,7 +265,7 @@ export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
 
               {/* Layer B: iluminado fijo en el color de marca de esta letra, solo visible al formarse */}
               <path
-                d={m.letter}
+                d={letterTarget}
                 stroke={m.color}
                 strokeWidth="3.5"
                 strokeLinecap="round"
@@ -227,7 +283,7 @@ export function HeroEnergyLines({ fade = true }: { fade?: boolean }) {
                   />
                 ) : null}
               </path>
-              {m.nodes.map(([nx, ny], ni) => (
+              {nodesTarget.map(([nx, ny], ni) => (
                 <circle
                   key={`mn-${i}-${ni}`}
                   cx={nx}

@@ -15,6 +15,7 @@ import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
+import { Route as PresentacionRouteImport } from './routes/presentacion'
 import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as RequisitosLegalesRouteImport } from './routes/requisitos-legales'
@@ -81,6 +82,11 @@ const LoginRoute = LoginRouteImport.update({
 const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
   id: '/politica-privacidad',
   path: '/politica-privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresentacionRoute = PresentacionRouteImport.update({
+  id: '/presentacion',
+  path: '/presentacion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
@@ -278,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/presentacion': typeof PresentacionRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
   '/requisitos-legales': typeof RequisitosLegalesRoute
@@ -322,6 +329,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/presentacion': typeof PresentacionRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
   '/requisitos-legales': typeof RequisitosLegalesRoute
@@ -368,6 +376,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/login': typeof LoginRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/presentacion': typeof PresentacionRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
   '/requisitos-legales': typeof RequisitosLegalesRoute
@@ -415,6 +424,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/login'
     | '/politica-privacidad'
+    | '/presentacion'
     | '/recuperar-contrasena'
     | '/registro'
     | '/requisitos-legales'
@@ -459,6 +469,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/login'
     | '/politica-privacidad'
+    | '/presentacion'
     | '/recuperar-contrasena'
     | '/registro'
     | '/requisitos-legales'
@@ -504,6 +515,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/login'
     | '/politica-privacidad'
+    | '/presentacion'
     | '/recuperar-contrasena'
     | '/registro'
     | '/requisitos-legales'
@@ -550,6 +562,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   LoginRoute: typeof LoginRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
+  PresentacionRoute: typeof PresentacionRoute
   RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
   RegistroRoute: typeof RegistroRoute
   RequisitosLegalesRoute: typeof RequisitosLegalesRoute
@@ -611,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/politica-privacidad'
       fullPath: '/politica-privacidad'
       preLoaderRoute: typeof PoliticaPrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presentacion': {
+      id: '/presentacion'
+      path: '/presentacion'
+      fullPath: '/presentacion'
+      preLoaderRoute: typeof PresentacionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recuperar-contrasena': {
@@ -930,6 +950,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   LoginRoute: LoginRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
+  PresentacionRoute: PresentacionRoute,
   RecuperarContrasenaRoute: RecuperarContrasenaRoute,
   RegistroRoute: RegistroRoute,
   RequisitosLegalesRoute: RequisitosLegalesRoute,

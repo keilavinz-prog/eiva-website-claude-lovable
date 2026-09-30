@@ -7,6 +7,7 @@ import { LoaderCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile } from "@/lib/auth.functions";
 import { DASHBOARD_BY_ROLE, safeRedirect } from "@/lib/auth";
+import { blockInShowcaseMode } from "@/lib/showcase";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { Field, FormAlert, inputClass } from "@/components/auth/fields";
 
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/login")({
     const redirect = safeRedirect(search["redirect"]);
     return redirect ? { redirect } : {};
   },
+  beforeLoad: blockInShowcaseMode,
   head: () => ({
     meta: [{ title: "Iniciar sesión | EEIVA" }, { name: "robots", content: "noindex" }],
   }),

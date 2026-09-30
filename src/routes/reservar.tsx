@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarCheck } from "lucide-react";
 import { fetchCompany, fetchServices } from "@/lib/site-data";
 import { useSessionProfile } from "@/hooks/use-session-profile";
+import { blockInShowcaseMode } from "@/lib/showcase";
 import { PageShell } from "@/components/site/PageShell";
 import { PageHero } from "@/components/site/PageHero";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/reservar")({
     const servicio = search["servicio"];
     return typeof servicio === "string" && servicio ? { servicio } : {};
   },
+  beforeLoad: blockInShowcaseMode,
   loader: async () => {
     const [company, services] = await Promise.all([fetchCompany(), fetchServices()]);
     return { company, services };

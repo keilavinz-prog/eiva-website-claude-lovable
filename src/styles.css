@@ -269,10 +269,12 @@
       box-shadow var(--motion-base) var(--ease-out-soft),
       background-color var(--motion-base) var(--ease-out-soft);
   }
-  .btn-primary:hover {
-    transform: scale(1.02);
-    background: #5238c4;
-    box-shadow: var(--shadow-token-glow-strong);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      transform: scale(1.02);
+      background: #5238c4;
+      box-shadow: var(--shadow-token-glow-strong);
+    }
   }
 
   .btn-accent {
@@ -291,11 +293,13 @@
       transform var(--motion-fast) var(--ease-out-soft),
       box-shadow var(--motion-base) var(--ease-out-soft);
   }
-  .btn-accent:hover {
-    transform: scale(1.02);
-    box-shadow:
-      0 0 0 1px rgb(242 186 2 / 0.6),
-      0 0 40px rgb(242 186 2 / 0.5);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-accent:hover {
+      transform: scale(1.02);
+      box-shadow:
+        0 0 0 1px rgb(242 186 2 / 0.6),
+        0 0 40px rgb(242 186 2 / 0.5);
+    }
   }
 
   .btn-secondary {
@@ -313,10 +317,12 @@
       border-color var(--motion-base) var(--ease-out-soft),
       box-shadow var(--motion-base) var(--ease-out-soft);
   }
-  .btn-secondary:hover {
-    transform: scale(1.02);
-    border-color: var(--eeiva-accent);
-    box-shadow: var(--shadow-token-glow);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+      transform: scale(1.02);
+      border-color: var(--eeiva-accent);
+      box-shadow: var(--shadow-token-glow);
+    }
   }
 
   /* Estado "pulsado" de los botones de acción (Fase 9) */
@@ -347,10 +353,12 @@
       border-color var(--motion-base) var(--ease-out-soft),
       box-shadow var(--motion-base) var(--ease-out-soft);
   }
-  .card-tech-interactive:hover {
-    transform: scale(1.02);
-    border-color: rgb(var(--eeiva-glow) / 0.6);
-    box-shadow: var(--shadow-token-glow);
+  @media (hover: hover) and (pointer: fine) {
+    .card-tech-interactive:hover {
+      transform: scale(1.02);
+      border-color: rgb(var(--eeiva-glow) / 0.6);
+      box-shadow: var(--shadow-token-glow);
+    }
   }
 
   /* Badge amarillo de marca */
@@ -371,10 +379,10 @@
   /* Scroll reveal */
   [data-reveal] {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(10px);
     transition:
-      opacity 600ms var(--ease-out-soft),
-      transform 600ms var(--ease-out-soft);
+      opacity 400ms var(--ease-out-soft),
+      transform 400ms var(--ease-out-soft);
   }
   [data-reveal][data-visible="true"] {
     opacity: 1;
@@ -448,6 +456,9 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .animate-in {
+    animation: none;
   }
   .btn-primary:hover,
   .btn-accent:hover,

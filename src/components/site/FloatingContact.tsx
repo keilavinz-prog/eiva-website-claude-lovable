@@ -82,7 +82,7 @@ function WhatsAppPanel({
         href={whatsappUrl(number, serviceTitle)}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-[#0b2e1a] transition-transform hover:scale-[1.02]"
+        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-[#0b2e1a] transition-transform duration-200 ease-out [@media(hover:hover)]:hover:scale-[1.02] active:scale-[0.98] motion-reduce:transition-none motion-reduce:hover:scale-100"
       >
         <MessageCircle className="h-4 w-4" aria-hidden="true" />
         Escribir por WhatsApp
@@ -405,7 +405,7 @@ export function FloatingContact() {
           aria-expanded={open === "callback"}
           aria-controls="panel-llamada"
           aria-label="Solicitar que te llamemos"
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-brand/40 transition duration-200 hover:scale-105 hover:shadow-brand/70 motion-reduce:transition-none"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-brand/40 transition-[transform,box-shadow] duration-200 ease-out [@media(hover:hover)]:hover:scale-105 [@media(hover:hover)]:hover:shadow-brand/70 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
         >
           {open === "callback" ? <X className="h-6 w-6" /> : <PhoneCall className="h-6 w-6" />}
         </button>
@@ -425,7 +425,7 @@ export function FloatingContact() {
             aria-expanded={open === "whatsapp"}
             aria-controls="panel-whatsapp"
             aria-label="Contactar por WhatsApp"
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition duration-200 hover:scale-105 hover:shadow-[#25D366]/60 motion-reduce:transition-none"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-[transform,box-shadow] duration-200 ease-out [@media(hover:hover)]:hover:scale-105 [@media(hover:hover)]:hover:shadow-[#25D366]/60 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
           >
             {open === "whatsapp" ? (
               <X className="h-6 w-6" />

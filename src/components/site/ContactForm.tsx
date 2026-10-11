@@ -154,7 +154,7 @@ export function ContactForm({
   if (status === "success") {
     return (
       <div className="card-tech flex flex-col items-center px-6 py-16 text-center" role="status">
-        <span className="flex h-16 w-16 animate-in items-center justify-center rounded-full bg-success/15 text-success duration-500 zoom-in-50">
+        <span className="flex h-16 w-16 animate-in items-center justify-center rounded-full bg-success/15 text-success duration-300 ease-out zoom-in-50 motion-reduce:animate-none">
           <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden="true" />
         </span>
         <p className="mt-6 text-2xl font-semibold text-text">

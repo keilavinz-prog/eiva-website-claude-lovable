@@ -64,7 +64,7 @@ export function Gallery({ images, title }: { images: string[]; title: string }) 
             src={current}
             alt={`${title} — imagen ${index + 1} de ${total}`}
             loading="eager"
-            className="h-full w-full animate-in object-cover duration-500 fade-in"
+            className="h-full w-full animate-in object-cover duration-300 ease-out fade-in motion-reduce:animate-none"
           />
           <span className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-ink/60 px-3 py-1.5 font-mono text-xs text-white backdrop-blur">
             <Expand className="h-3.5 w-3.5" aria-hidden="true" />

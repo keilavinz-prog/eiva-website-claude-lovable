@@ -27,7 +27,7 @@ export function StarsInput({ value, onChange }: { value: number; onChange: (v: n
             aria-checked={value === n}
             aria-label={`${n} ${n === 1 ? "estrella" : "estrellas"}`}
             onClick={() => onChange(n)}
-            className="rounded p-1 transition-transform hover:scale-110"
+            className="rounded p-1 transition-transform duration-200 ease-out [@media(hover:hover)]:hover:scale-110 motion-reduce:transition-none motion-reduce:hover:scale-100"
           >
             <Star className={`h-7 w-7 ${n <= value ? "fill-amber text-amber" : "text-line"}`} />
           </button>

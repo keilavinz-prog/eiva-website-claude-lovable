@@ -17,7 +17,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
         <SafeImage
           src={projectCover(project, index)}
           alt={project.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-300 ease-out [@media(hover:hover)]:group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
         <span className="badge-amber absolute top-4 left-4">{project.category}</span>

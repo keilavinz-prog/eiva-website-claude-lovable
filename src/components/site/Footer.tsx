@@ -49,7 +49,7 @@ export function Footer({ company }: { company: CompanyInfo }) {
                   aria-label={label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-text-muted transition-all duration-200 hover:border-electric/60 hover:text-electric hover:shadow-glow"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-text-muted transition-[color,border-color,box-shadow] duration-200 ease-out hover:border-electric/60 hover:text-electric hover:shadow-glow"
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />
                 </a>

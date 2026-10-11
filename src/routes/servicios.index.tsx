@@ -69,8 +69,8 @@ function ServiciosPage() {
             {visible.map((s, i) => (
               <div
                 key={s.id}
-                className="animate-in fill-mode-both duration-500 fade-in zoom-in-95"
-                style={{ animationDelay: `${i * 60}ms` }}
+                className="animate-in fill-mode-both duration-200 ease-out fade-in motion-reduce:animate-none"
+                style={{ animationDelay: `${i * 30}ms` }}
               >
                 <ServiceCard service={s} />
               </div>

@@ -41,7 +41,7 @@ export function PostCard({ post, featured = false }: { post: BlogPost; featured?
           <SafeImage
             src={post.cover_url}
             alt={post.title}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out [@media(hover:hover)]:group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         ) : (
           <div className="bg-blueprint absolute inset-0" />

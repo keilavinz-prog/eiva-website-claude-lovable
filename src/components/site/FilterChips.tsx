@@ -19,7 +19,7 @@ export function FilterChips({
             type="button"
             aria-pressed={active}
             onClick={() => onChange(opt)}
-            className={`rounded-full border px-4 py-2 text-sm transition-all duration-200 ${
+            className={`rounded-full border px-4 py-2 text-sm transition-[color,border-color,background-color,box-shadow] duration-200 ease-out ${
               active
                 ? "border-transparent bg-brand text-white shadow-glow"
                 : "border-line bg-canvas text-text-muted hover:border-electric hover:text-text"
